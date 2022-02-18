@@ -1,6 +1,3 @@
-# raylib-matfabval
-raylib-matfabval created by GitHub Classroom
-
 !!!!!! IMPORTANT
 
 Le main doit toujours marcher, on le push pas dessus.
