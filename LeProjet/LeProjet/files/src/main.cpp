@@ -1,17 +1,25 @@
 /*******************************************************************************************
 *
-*   raylib [text] example - Input Box
+*   raylib [audio] example - Module playing (streaming)
 *
-*   This example has been created using raylib 3.5 (www.raylib.com)
+*   This example has been created using raylib 1.5 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
-*   Copyright (c) 2017 Ramon Santamaria (@raysan5)
+*   Copyright (c) 2016 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
 #include "raylib.h"
 
-#define MAX_INPUT_CHARS     9
+#define MAX_CIRCLES  64
+
+typedef struct {
+    Vector2 position;
+    float radius;
+    float alpha;
+    float speed;
+    Color color;
+} CircleWave;
 
 int main(void)
 {
@@ -20,17 +28,38 @@ int main(void)
     const int screenWidth = 800;
     const int screenHeight = 450;
 
-    InitWindow(screenWidth, screenHeight, "raylib [text] example - input box");
+    SetConfigFlags(FLAG_MSAA_4X_HINT);  // NOTE: Try to enable MSAA 4X
 
-    char name[MAX_INPUT_CHARS + 1] = "\0";      // NOTE: One extra space required for null terminator char '\0'
-    int letterCount = 0;
+    InitWindow(screenWidth, screenHeight, "raylib [audio] example - module playing (streaming)");
 
-    Rectangle textBox = { screenWidth / 2.0f - 100, 180, 225, 50 };
-    bool mouseOnText = false;
+    InitAudioDevice();                  // Initialize audio device
 
-    int framesCounter = 0;
+    Color colors[14] = { ORANGE, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK,
+                         YELLOW, GREEN, SKYBLUE, PURPLE, BEIGE };
 
-    SetTargetFPS(10);               // Set our game to run at 10 frames-per-second
+    // Creates ome circles for visual effect
+    CircleWave circles[MAX_CIRCLES] = { 0 };
+
+    for (int i = MAX_CIRCLES - 1; i >= 0; i--)
+    {
+        circles[i].alpha = 0.0f;
+        circles[i].radius = (float)GetRandomValue(10, 40);
+        circles[i].position.x = (float)GetRandomValue((int)circles[i].radius, (int)(screenWidth - circles[i].radius));
+        circles[i].position.y = (float)GetRandomValue((int)circles[i].radius, (int)(screenHeight - circles[i].radius));
+        circles[i].speed = (float)GetRandomValue(1, 100)/2000.0f;
+        circles[i].color = colors[GetRandomValue(0, 13)];
+    }
+
+    Music music = LoadMusicStream("resources/mini1111.xm");
+    music.looping = false;
+    float pitch = 1.0f;
+
+    PlayMusicStream(music);
+
+    float timePlayed = 0.0f;
+    bool pause = false;
+
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -38,69 +67,67 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
-        else mouseOnText = false;
+        UpdateMusicStream(music);      // Update music buffer with new stream data
 
-        if (mouseOnText)
+        // Restart music playing (stop and play)
+        if (IsKeyPressed(KEY_SPACE))
         {
-            // Set the window's cursor to the I-Beam
-            SetMouseCursor(MOUSE_CURSOR_IBEAM);
+            StopMusicStream(music);
+            PlayMusicStream(music);
+        }
 
-            // Get char pressed (unicode character) on the queue
-            int key = GetCharPressed();
+        // Pause/Resume music playing
+        if (IsKeyPressed(KEY_P))
+        {
+            pause = !pause;
 
-            // Check if more characters have been pressed on the same frame
-            while (key > 0)
+            if (pause) PauseMusicStream(music);
+            else ResumeMusicStream(music);
+        }
+
+        if (IsKeyDown(KEY_DOWN)) pitch -= 0.01f;
+        else if (IsKeyDown(KEY_UP)) pitch += 0.01f;
+
+        SetMusicPitch(music, pitch);
+
+        // Get timePlayed scaled to bar dimensions
+        timePlayed = GetMusicTimePlayed(music)/GetMusicTimeLength(music)*(screenWidth - 40);
+
+        // Color circles animation
+        for (int i = MAX_CIRCLES - 1; (i >= 0) && !pause; i--)
+        {
+            circles[i].alpha += circles[i].speed;
+            circles[i].radius += circles[i].speed*10.0f;
+
+            if (circles[i].alpha > 1.0f) circles[i].speed *= -1;
+
+            if (circles[i].alpha <= 0.0f)
             {
-                // NOTE: Only allow keys in range [32..125]
-                if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
-                {
-                    name[letterCount] = (char)key;
-                    name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
-                    letterCount++;
-                }
-
-                key = GetCharPressed();  // Check next character in the queue
-            }
-
-            if (IsKeyPressed(KEY_BACKSPACE))
-            {
-                letterCount--;
-                if (letterCount < 0) letterCount = 0;
-                name[letterCount] = '\0';
+                circles[i].alpha = 0.0f;
+                circles[i].radius = (float)GetRandomValue(10, 40);
+                circles[i].position.x = (float)GetRandomValue((int)circles[i].radius, (int)(screenWidth - circles[i].radius));
+                circles[i].position.y = (float)GetRandomValue((int)circles[i].radius, (int)(screenHeight - circles[i].radius));
+                circles[i].color = colors[GetRandomValue(0, 13)];
+                circles[i].speed = (float)GetRandomValue(1, 100)/2000.0f;
             }
         }
-        else SetMouseCursor(MOUSE_CURSOR_DEFAULT);
-
-        if (mouseOnText) framesCounter++;
-        else framesCounter = 0;
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+            ClearBackground(RAYWHITE);
 
-        DrawText("PLACE MOUSE OVER INPUT BOX!", 240, 140, 20, GRAY);
-
-        DrawRectangleRec(textBox, LIGHTGRAY);
-        if (mouseOnText) DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, RED);
-        else DrawRectangleLines((int)textBox.x, (int)textBox.y, (int)textBox.width, (int)textBox.height, DARKGRAY);
-
-        DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, MAROON);
-
-        DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 315, 250, 20, DARKGRAY);
-
-        if (mouseOnText)
-        {
-            if (letterCount < MAX_INPUT_CHARS)
+            for (int i = MAX_CIRCLES - 1; i >= 0; i--)
             {
-                // Draw blinking underscore char
-                if (((framesCounter / 20) % 2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
+                DrawCircleV(circles[i].position, circles[i].radius, Fade(circles[i].color, circles[i].alpha));
             }
-            else DrawText("Press BACKSPACE to delete chars...", 230, 300, 20, GRAY);
-        }
+
+            // Draw time bar
+            DrawRectangle(20, screenHeight - 20 - 12, screenWidth - 40, 12, LIGHTGRAY);
+            DrawRectangle(20, screenHeight - 20 - 12, (int)timePlayed, 12, MAROON);
+            DrawRectangleLines(20, screenHeight - 20 - 12, screenWidth - 40, 12, GRAY);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -108,20 +135,12 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
+    UnloadMusicStream(music);          // Unload music stream buffers from RAM
+
+    CloseAudioDevice();     // Close audio device (music streaming is automatically stopped)
+
+    CloseWindow();          // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
     return 0;
-}
-
-// Check if any key is pressed
-// NOTE: We limit keys check to keys between 32 (KEY_SPACE) and 126
-bool IsAnyKeyPressed()
-{
-    bool keyPressed = false;
-    int key = GetKeyPressed();
-
-    if ((key >= 32) && (key <= 126)) keyPressed = true;
-
-    return keyPressed;
 }
