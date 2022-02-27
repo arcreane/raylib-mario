@@ -35,6 +35,8 @@ typedef struct EnvItem {
 } EnvItem;
 
 
+typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU};
+
 void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta);
 
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
@@ -100,46 +102,40 @@ int main(void)
 
     char a;
     SetTargetFPS(60);
-    char etat = *("DEBUT");
+    GameMoment currentScreen = DEBUT;
 
+    int World = 1;
+    int Partie = 1;
     // Main game loop
     while (!WindowShouldClose())
     {
-        switch (etat)
+        switch (currentScreen)
         {
             
-        case *("DEBUT"):
+        case DEBUT:
             BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
             if (IsKeyPressed(KEY_SPACE))
             {
-                etat = *("CHOISIR-PARTIE");
+                currentScreen = CHOISIRPARTIE;
             }
             EndDrawing();
             break;
 
-        case *("CHOISIR-PARTIE"):
-            //
-            // 
-            // 
-            // 
-            // 
-            //introduire l'écran choisir partie
-            //
-            //
-            //
-            //
-            //
+        case CHOISIRPARTIE:
+            BeginDrawing();
+            ClearBackground(RED);
+            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
 
             if (IsKeyPressed(KEY_SPACE))
             {
-                etat = *("EN-JEU");
+                currentScreen = ENJEU;
             }
             EndDrawing();
             break;
 
-        case* ("EN-JEU"):
+        case ENJEU:
             float deltaTime = GetFrameTime();
             UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
             cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
