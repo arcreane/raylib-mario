@@ -14,6 +14,9 @@
 #include "raylib.h"
 #include "raymath.h"
 #include <stdio.h>
+#include <iostream>
+#include <string>
+using namespace std;
 
 #define G 400
 #define PLAYER_JUMP_SPD 250.0f
@@ -94,44 +97,49 @@ int main(void)
     int cameraOption = 0;
     int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
 
-    int noPartie = 1;
+
     char a;
     SetTargetFPS(60);
-    //--------------------------------------------------------------------------------------
-    //informations à set avant tout:
-    bool Etape1nomDuJouer = false;
-    //Page 1 : demander au joueur de cliquer sur jouer
-    //quand il clique, ça set le Etape
-
-    //--------------------
-    //Il faut ensuite set le monde dans lequel il joue
-    int Etape2WorldNo;
-
-    //------
-
-    //puis la partie sur laquelle il à positionné son personnage
-    int Etape3NoPartie;
-
-
-
-
-
+    char etat = *("DEBUT");
 
     // Main game loop
     while (!WindowShouldClose())
     {
-     /* while (!Etape1nomDuJouer) {
-          float deltaTime = GetFrameTime();
-          BeginDrawing();
-          DrawText("LOST", 100, 100, 100, DARKGRAY);
-          EndDrawing();
-          if (IsKeyPressed(KEY_R))
-          {
-              Etape1nomDuJouer = !Etape1nomDuJouer;
-          }
-      }*/
-        if (noPartie==1){
+        switch (etat)
+        {
+            
+        case *("DEBUT"):
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                etat = *("CHOISIR-PARTIE");
+            }
+            EndDrawing();
+            break;
 
+        case *("CHOISIR-PARTIE"):
+            //
+            // 
+            // 
+            // 
+            // 
+            //introduire l'écran choisir partie
+            //
+            //
+            //
+            //
+            //
+
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                etat = *("EN-JEU");
+            }
+            EndDrawing();
+            break;
+
+        case* ("EN-JEU"):
             float deltaTime = GetFrameTime();
             UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
             cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
@@ -139,11 +147,11 @@ int main(void)
             if (IsKeyPressed(KEY_R))
             {
                 camera.zoom = 1.0f;
-                player.position =  { 20, 0 };
-               // if (noPartie == 1) noPartie = 2;
-               // else if (noPartie == 2) noPartie = 1;
+                player.position = { 20, 0 };
+                // if (noPartie == 1) noPartie = 2;
+                // else if (noPartie == 2) noPartie = 1;
             }
-            if (player.position.y>200)
+            if (player.position.y > 200)
             {
                 DrawText("LOST", 100, 100, 100, DARKGRAY);
             }
@@ -152,7 +160,7 @@ int main(void)
             {
                 printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
             }
-            
+
             //----------------------------------------------------------------------------------
             // Draw
             //----------------------------------------------------------------------------------
@@ -168,8 +176,10 @@ int main(void)
             DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
             DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
             EndDrawing();
+
         }
-       
+
+
     }
 
     CloseWindow();        // Close window and OpenGL context
