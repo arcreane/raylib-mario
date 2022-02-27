@@ -38,7 +38,7 @@ typedef struct EnvItem {
 typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU};
 
 void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta);
-
+void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde);
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
@@ -50,7 +50,7 @@ int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
+    const int screenWidth = 1300;
     const int screenHeight = 800;
 
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
@@ -79,8 +79,18 @@ int main(void)
     {{ 650, 300, 100, 10 }, 1, BLUE}
     };
 
+    EnvItem MAP[] = {
+    {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
+    {{ 0,0, 10000, 200 }, 1, DARKBROWN },
+    {{ 0, 0, 40 , 40 }, 1, GREEN },
+    {{ 300, 0, 40 , 40 }, 1, GREEN },
+    {{ 600, 0, 40 , 40 }, 1, GREEN },
+    {{ 900, 0, 40 , 40 }, 1, GREEN },
+    {{ 1200, 0, 40 , 40 }, 1, GREEN },
+    {{ 1500, 0, 40 , 40 }, 1, GREEN }
+    };
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
-
+    int envItemsLengthMAP = sizeof(MAP) / sizeof(MAP[0]);
     Camera2D camera = { 0 };
     camera.target = player.position;
     camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
@@ -102,54 +112,43 @@ int main(void)
 
     char a;
     SetTargetFPS(60);
-    GameMoment currentScreen = DEBUT;
+    GameMoment currentScreen =DEBUT;
 
     int World = 1;
     int Partie = 1;
+    int niveauActuel = 1;
+    int niveauDebloque = 6;
+    int niveauTotalDuMonde = 6;
+
     // Main game loop
     while (!WindowShouldClose())
     {
         switch (currentScreen)
         {
-            
+
         case DEBUT:
-            BeginDrawing();
-            ClearBackground(RAYWHITE);
-            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
-            if (IsKeyPressed(KEY_SPACE))
             {
-                currentScreen = CHOISIRPARTIE;
+                BeginDrawing();
+                ClearBackground(RAYWHITE);
+                DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
+                if (IsKeyPressed(KEY_SPACE))
+                {
+                    currentScreen = CHOISIRPARTIE;
+                }
+                EndDrawing();
             }
-            EndDrawing();
             break;
 
         case CHOISIRPARTIE:
-            BeginDrawing();
-            ClearBackground(RED);
-            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
-
-            if (IsKeyPressed(KEY_SPACE))
             {
-                currentScreen = ENJEU;
-            }
-            EndDrawing();
-            break;
-
-        case ENJEU:
             float deltaTime = GetFrameTime();
-            UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
-            cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+            UpdateMAP(&player, MAP, envItemsLengthMAP, deltaTime, &niveauActuel, niveauDebloque, niveauTotalDuMonde);
+            cameraUpdaters[cameraOption](&camera, &player, MAP, envItemsLengthMAP, deltaTime, screenWidth, screenHeight);
 
             if (IsKeyPressed(KEY_R))
             {
                 camera.zoom = 1.0f;
-                player.position = { 20, 0 };
-                // if (noPartie == 1) noPartie = 2;
-                // else if (noPartie == 2) noPartie = 1;
-            }
-            if (player.position.y > 200)
-            {
-                DrawText("LOST", 100, 100, 100, DARKGRAY);
+                player.position = { 0, 0};
             }
 
             if (IsKeyPressed(KEY_B))
@@ -162,17 +161,63 @@ int main(void)
             //----------------------------------------------------------------------------------
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
+           // for (int j=0;j<envItemsLengthMAP;j++) DrawText("Partie 1",0 +j*300 , 0, 20, GRAY);
+            //DrawTexture('zae', 500, 500, RED);
+            DrawText("Monde : ", 5, 0, 30, BLUE);
+            DrawText("Partie : ", 5, 40, 30, BLUE);
             BeginMode2D(camera);
-            for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
+            for (int i = 0; i < envItemsLengthMAP; i++) DrawRectangleRec(MAP[i].rect, MAP[i].color);
             Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
             DrawRectangleRec(playerRect, RED);
             EndMode2D();
-            DrawText("Controls:", 20, 20, 10, BLACK);
-            DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
-            DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
-            DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
+            if (IsKeyPressed(KEY_ENTER))
+            {
+                currentScreen = ENJEU;
+            }
             EndDrawing();
+            }
+            break;
 
+        case ENJEU:
+            {
+                float deltaTime = GetFrameTime();
+                UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
+                cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+
+                if (IsKeyPressed(KEY_R))
+                {
+                    camera.zoom = 1.0f;
+                    player.position = { 20, 0 };
+                }
+                if (player.position.y > 200)
+                {
+                    DrawText("LOST", 100, 100, 100, DARKGRAY);
+                }
+
+                if (IsKeyPressed(KEY_B))
+                {
+                    printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+                }
+
+                //----------------------------------------------------------------------------------
+                // Draw
+                //----------------------------------------------------------------------------------
+                BeginDrawing();
+                ClearBackground(LIGHTGRAY);
+                BeginMode2D(camera);
+                for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
+                Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+                DrawRectangleRec(playerRect, RED);
+                EndMode2D();
+                DrawText("Controls:", 20, 20, 10, BLACK);
+                DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
+                DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
+                DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
+                EndDrawing();
+
+        
+            }
+            break;
         }
 
 
@@ -184,17 +229,13 @@ int main(void)
 
 void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta)
 {
-    if (IsKeyDown(KEY_LEFT))
-    {
-        player->position.x -= PLAYER_HOR_SPD * delta;
-    }
+    if (IsKeyDown(KEY_LEFT)) player->position.x -= PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_RIGHT)) player->position.x += PLAYER_HOR_SPD * delta;
     if (IsKeyDown(KEY_SPACE) && player->canJump)
     {
         player->speed = -PLAYER_JUMP_SPD;
         player->canJump = false;
     }
-
     int hitObstacle = 0;
     for (int i = 0; i < envItemsLength; i++)
     {
@@ -220,6 +261,39 @@ void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float d
     }
     else player->canJump = true;
 }
+
+
+void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde)
+{
+    int framesCounter = 0;
+   
+
+    if (IsKeyPressed(KEY_LEFT))
+    {
+        if (*niveauActuel > 1)
+        {
+            player->position.x = player->position.x - 300; //20 - 300 => 1
+            *niveauActuel -= 1;
+            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
+        }
+        else printf("tamer");
+    }
+   
+    
+    if (IsKeyPressed(KEY_RIGHT))
+    {
+        if (*niveauActuel < niveauDebloque)
+        {
+            
+            player->position.x = 20 + (*niveauActuel - 1) * 300 +300;
+            *niveauActuel +=1;
+            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
+
+        }
+    }
+}
+
+
 
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
@@ -324,74 +398,3 @@ void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* env
     if (player->position.y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->position.y - bboxWorldMax.y);
 }
 
-
-
-//réglage de caméra
-/*            if (camera.zoom > 3.0f) camera.zoom = 3.0f;
-            else if (camera.zoom < 0.25f) camera.zoom = 0.25f;
-            camera.zoom += ((float)GetMouseWheelMove() * 0.05f);*/
-
-//caméra placement
-/* if (IsKeyPressed(KEY_C)) cameraOption = (cameraOption + 1) % cameraUpdatersLength;
-            // Call update camera function by its pointer
-            cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*******************************************************************************************
-*
-*   raylib [text] example - Input Box
-*
-*   This example has been created using raylib 3.5 (www.raylib.com)
-*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
-*
-*   Copyright (c) 2017 Ramon Santamaria (@raysan5)
-*
-********************************************************************************************/
-/*
-#include "raylib.h"
-
-#define MAX_INPUT_CHARS     9
-
-int main(void)
-{
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
-
-    InitWindow(screenWidth, screenHeight, "écriture vide");
-
-
-
-    SetTargetFPS(10);               // Set our game to run at 10 frames-per-second
-    //--------------------------------------------------------------------------------------
-
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
-        EndDrawing();
-    }
-
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    return 0;
-}
-*/
