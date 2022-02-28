@@ -16,6 +16,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+
+#include "Game.h"
+//include de Class
+
 using namespace std;
 
 #define G 400
@@ -38,9 +42,9 @@ typedef struct EnvItem {
 typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU};
 
 void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta);
-void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde);
+void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1);
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
-void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
+void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
@@ -52,15 +56,14 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 1300;
     const int screenHeight = 800;
-
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
     Player player = { 0 };
-    player.position = { 20   , -100};
+    player.position = {   20 , 0};
     player.speed = 0;
     player.canJump = false;
 
-    //créer la map
+    //créer la MAPmonde1
     EnvItem envItems[] = {
         // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
         // 1 : => + -- vers le bas +
@@ -79,7 +82,7 @@ int main(void)
     {{ 650, 300, 100, 10 }, 1, BLUE}
     };
 
-    EnvItem MAP[] = {
+    EnvItem MAPmonde1[] = {
     {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
     {{ 0,0, 10000, 200 }, 1, DARKBROWN },
     {{ 0, 0, 40 , 40 }, 1, GREEN },
@@ -90,7 +93,7 @@ int main(void)
     {{ 1500, 0, 40 , 40 }, 1, GREEN }
     };
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
-    int envItemsLengthMAP = sizeof(MAP) / sizeof(MAP[0]);
+    int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
     Camera2D camera = { 0 };
     camera.target = player.position;
     camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
@@ -100,7 +103,7 @@ int main(void)
     // Store pointers to the multiple update camera functions
     void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
         UpdateCameraCenter,
-        UpdateCameraCenterInsideMap,
+        UpdateCameraCenterInsideMAPmonde1,
         UpdateCameraCenterSmoothFollow,
         UpdateCameraEvenOutOnLanding,
         UpdateCameraPlayerBoundsPush
@@ -110,15 +113,17 @@ int main(void)
     int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
 
 
-    char a;
+    //char a;
     SetTargetFPS(60);
-    GameMoment currentScreen =DEBUT;
+    GameMoment currentScreen = DEBUT;
 
-    int World = 1;
-    int Partie = 1;
-    int niveauActuel = 1;
-    int niveauDebloque = 6;
-    int niveauTotalDuMonde = 6;
+    Game g1(1,2,6,2);
+    printf("%d", g1.GetTotalLevel());
+    g1.SetWorld(1);
+    g1.SetCurrentLevel(1);
+    g1.SetUnlockLevel(4);
+    
+
 
     // Main game loop
     while (!WindowShouldClose())
@@ -142,9 +147,10 @@ int main(void)
         case CHOISIRPARTIE:
             {
             float deltaTime = GetFrameTime();
-            UpdateMAP(&player, MAP, envItemsLengthMAP, deltaTime, &niveauActuel, niveauDebloque, niveauTotalDuMonde);
-            cameraUpdaters[cameraOption](&camera, &player, MAP, envItemsLengthMAP, deltaTime, screenWidth, screenHeight);
+            UpdateMAPmonde1(&player, MAPmonde1, envItemsLengthMAPmonde1, deltaTime,&g1);
+            cameraUpdaters[cameraOption](&camera, &player, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
+            //printf("\n%d\n", g1.GetCurrentLevel());
             if (IsKeyPressed(KEY_R))
             {
                 camera.zoom = 1.0f;
@@ -161,12 +167,19 @@ int main(void)
             //----------------------------------------------------------------------------------
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
-           // for (int j=0;j<envItemsLengthMAP;j++) DrawText("Partie 1",0 +j*300 , 0, 20, GRAY);
-            //DrawTexture('zae', 500, 500, RED);
-            DrawText("Monde : ", 5, 0, 30, BLUE);
-            DrawText("Partie : ", 5, 40, 30, BLUE);
+
+            std::string DispCurrentWorld = "Monde : " + std::to_string(g1.GetWorld());
+            char const* pchar = DispCurrentWorld.c_str();  //use char const* as target type
+
+            std::string DispCurrentLevel = "Niveau : " + std::to_string(g1.GetCurrentLevel());
+            char const* pchar2 = DispCurrentLevel.c_str();  //use char const* as target type
+
+            //printf("%d", g1.GetTotalLevel());
+            //printf("%d", mondeActuel);
+            DrawText(pchar, 5, 0, 30, BLUE);
+            DrawText(pchar2, 5, 40, 30, BLUE);
             BeginMode2D(camera);
-            for (int i = 0; i < envItemsLengthMAP; i++) DrawRectangleRec(MAP[i].rect, MAP[i].color);
+            for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(MAPmonde1[i].rect, MAPmonde1[i].color);
             Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
             DrawRectangleRec(playerRect, RED);
             EndMode2D();
@@ -263,32 +276,33 @@ void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float d
 }
 
 
-void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde)
+void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1)
 {
     int framesCounter = 0;
    
 
     if (IsKeyPressed(KEY_LEFT))
     {
-        if (*niveauActuel > 1)
+        if (g1->GetCurrentLevel() > 1)
         {
-            player->position.x = player->position.x - 300; //20 - 300 => 1
-            *niveauActuel -= 1;
-            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
+     
+            player->position.x = player->position.x - 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() -1);
+            printf("%d \n", g1->GetCurrentLevel());
         }
-        else printf("tamer");
+        else printf("\n Tamer \n");
     }
    
     
     if (IsKeyPressed(KEY_RIGHT))
     {
-        if (*niveauActuel < niveauDebloque)
+
+        if (std::exp(g1->GetCurrentLevel()) < std::exp(g1->GetUnlockLevel()))
         {
             
-            player->position.x = 20 + (*niveauActuel - 1) * 300 +300;
-            *niveauActuel +=1;
-            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
-
+            player->position.x = 20 + (g1->GetCurrentLevel() - 1) * 300 + 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() + 1);
+            printf("%d \n", g1->GetCurrentLevel());
         }
     }
 }
@@ -301,7 +315,7 @@ void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int
     camera->target = player->position;
 }
 
-void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
+void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->target = player->position;
     camera->offset =  { width / 2.0f, height / 2.0f };
