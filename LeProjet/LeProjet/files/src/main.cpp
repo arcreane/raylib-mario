@@ -135,12 +135,10 @@ int main(void)
     g1.SetUnlockLevel(4);
 
 
-    //test page 1
+    //Gestion de l'écran 1
 
 
-
-    
-    Texture2D button = LoadTexture("\play.png"); // Load button texture
+    Texture2D button = LoadTexture("../LeProjet/LeProjet/files/img/play.png"); // Load button texture
 
     // Define frame rectangle for drawing
     float frameHeight = (float)button.height / NUM_FRAMES;
@@ -149,16 +147,12 @@ int main(void)
     // Define button bounds on screen
     Rectangle btnBounds = { screenWidth / 2.0f - button.width / 2.0f, screenHeight / 2.0f - button.height / NUM_FRAMES / 2.0f, (float)button.width, frameHeight };
 
-    int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
     bool btnAction = false;         // Button action should be activated
 
     Vector2 mousePoint = { 0.0f, 0.0f };
+    btnAction = false;
 
-    SetTargetFPS(60);
-    //---------------------------------------
-
-
-    // Main game loop
+   
     while (!WindowShouldClose())
     {
         //Goal : 3 Screen - mby 4 later about victory 
@@ -168,37 +162,17 @@ int main(void)
         //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
         {
-            // Update
-       //----------------------------------------------------------------------------------
+
             mousePoint = GetMousePosition();
-            btnAction = false;
-
-            // Check button state
-            if (CheckCollisionPointRec(mousePoint, btnBounds))
-            {
-                if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) btnState = 2;
-                else btnState = 1;
-
-                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) btnAction = true;
-            }
-            else btnState = 0;
 
 
-
-            // Calculate button frame rectangle to draw depending on button state
-            sourceRec.y = btnState * frameHeight;
-            //----------------------------------------------------------------------------------
-
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) btnAction = true;
             // Draw
             //----------------------------------------------------------------------------------
             BeginDrawing();
-
-            
             ClearBackground(RAYWHITE);
-            DrawTextureRec(button, sourceRec, { btnBounds.x, btnBounds.y }, WHITE); // Draw button frame
-            //DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
-
-            if (IsKeyPressed(KEY_SPACE))
+            DrawTexture(button, btnBounds.x, btnBounds.y , WHITE); // Draw button frame
+            if (btnAction)
             {
                 currentScreen = CHOISIRPARTIE;
                 cameraMENU.target = playerMENU.position;
@@ -206,9 +180,7 @@ int main(void)
                 cameraMENU.rotation = 0.0f;
                 cameraMENU.zoom = 1.0f;
             }
-
             EndDrawing();
-
         }
         break;
         //Page that ask user to cloose a LEVEL
