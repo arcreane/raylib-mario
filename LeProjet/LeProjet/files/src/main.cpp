@@ -58,10 +58,17 @@ int main(void)
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
+    //s'occupe du cube dans ENJEU
     Player player = { 0 };
     player.position = { 20 , 0 };
     player.speed = 0;
     player.canJump = false;
+
+    //s'occupe du cube dans CHOISIRPARTIE
+    Player playerMENU = { 0 };
+    playerMENU.position = { 20 , 0 };
+    playerMENU.speed = 0;
+    playerMENU.canJump = false;
 
     //créer la MAPmonde1
     EnvItem envItems[] = {
@@ -94,11 +101,14 @@ int main(void)
     };
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
     int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
+
+
     Camera2D camera = { 0 };
-    camera.target = player.position;
-    camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+
+
+    Camera2D cameraMENU = { 0 };
+
+
 
     // Store pointers to the multiple update camera functions
     void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
@@ -128,38 +138,40 @@ int main(void)
     // Main game loop
     while (!WindowShouldClose())
     {
+        //Goal : 3 Screen - mby 4 later about victory 
+        
         switch (currentScreen)
         {
-
+        //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
         {
             BeginDrawing();
             ClearBackground(RAYWHITE);
             DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
+
             if (IsKeyPressed(KEY_SPACE))
             {
                 currentScreen = CHOISIRPARTIE;
+                cameraMENU.target = playerMENU.position;
+                cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                cameraMENU.rotation = 0.0f;
+                cameraMENU.zoom = 1.0f;
             }
             EndDrawing();
         }
         break;
-
+        //Page that ask user to cloose a LEVEL
         case CHOISIRPARTIE:
         {
-            float deltaTime = GetFrameTime();
-            UpdateMAPmonde1(&player, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &g1);
-            cameraUpdaters[cameraOption](&camera, &player, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
-            //printf("\n%d\n", g1.GetCurrentLevel());
-            if (IsKeyPressed(KEY_R))
-            {
-                camera.zoom = 1.0f;
-                player.position = { 0, 0 };
-            }
+
+            float deltaTime = GetFrameTime();
+            UpdateMAPmonde1(&playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &g1);
+            cameraUpdaters[cameraOption](&cameraMENU, &playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
             if (IsKeyPressed(KEY_B))
             {
-                printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+                printf("Position de X: %f \nPosition de Y: %f \n ", playerMENU.position.x, playerMENU.position.y);
             }
 
             //----------------------------------------------------------------------------------
@@ -168,29 +180,33 @@ int main(void)
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
 
+            //Affichage des données sur l'écran ( chiant car *char )
             std::string DispCurrentWorld = "Monde : " + std::to_string(g1.GetWorld());
-            char const* pchar = DispCurrentWorld.c_str();  //use char const* as target type
-
+            char const* pchar = DispCurrentWorld.c_str();  //use char const* as target 
             std::string DispCurrentLevel = "Niveau : " + std::to_string(g1.GetCurrentLevel());
             char const* pchar2 = DispCurrentLevel.c_str();  //use char const* as target type
 
-            //printf("%d", g1.GetTotalLevel());
-            //printf("%d", mondeActuel);
+            //printf("%d", g1.GetTotalLevel
             DrawText(pchar, 5, 0, 30, BLUE);
             DrawText(pchar2, 5, 40, 30, BLUE);
-            BeginMode2D(camera);
+
+            BeginMode2D(cameraMENU);
             for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(MAPmonde1[i].rect, MAPmonde1[i].color);
-            Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+            Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
             DrawRectangleRec(playerRect, RED);
             EndMode2D();
             if (IsKeyPressed(KEY_ENTER))
             {
                 currentScreen = ENJEU;
+                camera.target = playerMENU.position;
+                camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                camera.rotation = 0.0f;
+                camera.zoom = 1.0f;
             }
             EndDrawing();
         }
         break;
-
+        //PLAY the choosen level
         case ENJEU:
         {
             float deltaTime = GetFrameTime();
@@ -211,7 +227,14 @@ int main(void)
             {
                 printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
             }
-
+            if (IsKeyPressed(KEY_N))
+            {
+                currentScreen = CHOISIRPARTIE;
+                cameraMENU.target = playerMENU.position;
+                cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                cameraMENU.rotation = 0.0f;
+                cameraMENU.zoom = 1.0f;
+            }
             //----------------------------------------------------------------------------------
             // Draw
             //----------------------------------------------------------------------------------
