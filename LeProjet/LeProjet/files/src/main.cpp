@@ -1,4 +1,3 @@
-
 /*******************************************************************************************
 *
 *   raylib [core] example - 2d camera platformer
@@ -17,6 +16,10 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+
+#include "Game.h"
+//include de Class
+
 using namespace std;
 
 #define G 400
@@ -36,12 +39,12 @@ typedef struct EnvItem {
 } EnvItem;
 
 
-typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU};
+typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU };
 
 void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta);
-void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde);
+void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1);
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
-void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
+void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
@@ -53,15 +56,21 @@ int main(void)
     //--------------------------------------------------------------------------------------
     const int screenWidth = 1300;
     const int screenHeight = 800;
-
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
+    //s'occupe du cube dans ENJEU
     Player player = { 0 };
-    player.position = { 20   , -100};
+    player.position = { 20 , 0 };
     player.speed = 0;
     player.canJump = false;
 
-    //créer la map
+    //s'occupe du cube dans CHOISIRPARTIE
+    Player playerMENU = { 0 };
+    playerMENU.position = { 20 , 0 };
+    playerMENU.speed = 0;
+    playerMENU.canJump = false;
+
+    //créer la MAPmonde1
     EnvItem envItems[] = {
         // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
         // 1 : => + -- vers le bas +
@@ -80,7 +89,7 @@ int main(void)
     {{ 650, 300, 100, 10 }, 1, BLUE}
     };
 
-    EnvItem MAP[] = {
+    EnvItem MAPmonde1[] = {
     {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
     {{ 0,0, 10000, 200 }, 1, DARKBROWN },
     {{ 0, 0, 40 , 40 }, 1, GREEN },
@@ -91,17 +100,20 @@ int main(void)
     {{ 1500, 0, 40 , 40 }, 1, GREEN }
     };
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
-    int envItemsLengthMAP = sizeof(MAP) / sizeof(MAP[0]);
+    int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
+
+
     Camera2D camera = { 0 };
-    camera.target = player.position;
-    camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+
+
+    Camera2D cameraMENU = { 0 };
+
+
 
     // Store pointers to the multiple update camera functions
     void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
         UpdateCameraCenter,
-        UpdateCameraCenterInsideMap,
+        UpdateCameraCenterInsideMAPmonde1,
         UpdateCameraCenterSmoothFollow,
         UpdateCameraEvenOutOnLanding,
         UpdateCameraPlayerBoundsPush
@@ -111,50 +123,55 @@ int main(void)
     int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
 
 
-    char a;
+    //char a;
     SetTargetFPS(60);
-    GameMoment currentScreen =DEBUT;
+    GameMoment currentScreen = DEBUT;
 
-    int World = 1;
-    int Partie = 1;
-    int niveauActuel = 1;
-    int niveauDebloque = 6;
-    int niveauTotalDuMonde = 6;
+    Game g1(1, 2, 6, 2);
+    printf("%d", g1.GetTotalLevel());
+    g1.SetWorld(1);
+    g1.SetCurrentLevel(1);
+    g1.SetUnlockLevel(4);
+
+
 
     // Main game loop
     while (!WindowShouldClose())
     {
+        //Goal : 3 Screen - mby 4 later about victory 
+        
         switch (currentScreen)
         {
-
+        //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
-            {
-                BeginDrawing();
-                ClearBackground(RAYWHITE);
-                DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
-                if (IsKeyPressed(KEY_SPACE))
-                {
-                    currentScreen = CHOISIRPARTIE;
-                }
-                EndDrawing();
-            }
-            break;
+        {
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
 
+            if (IsKeyPressed(KEY_SPACE))
+            {
+                currentScreen = CHOISIRPARTIE;
+                cameraMENU.target = playerMENU.position;
+                cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                cameraMENU.rotation = 0.0f;
+                cameraMENU.zoom = 1.0f;
+            }
+            EndDrawing();
+        }
+        break;
+        //Page that ask user to cloose a LEVEL
         case CHOISIRPARTIE:
-            {
-            float deltaTime = GetFrameTime();
-            UpdateMAP(&player, MAP, envItemsLengthMAP, deltaTime, &niveauActuel, niveauDebloque, niveauTotalDuMonde);
-            cameraUpdaters[cameraOption](&camera, &player, MAP, envItemsLengthMAP, deltaTime, screenWidth, screenHeight);
+        {
 
-            if (IsKeyPressed(KEY_R))
-            {
-                camera.zoom = 1.0f;
-                player.position = { 0, 0};
-            }
+
+            float deltaTime = GetFrameTime();
+            UpdateMAPmonde1(&playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &g1);
+            cameraUpdaters[cameraOption](&cameraMENU, &playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
             if (IsKeyPressed(KEY_B))
             {
-                printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+                printf("Position de X: %f \nPosition de Y: %f \n ", playerMENU.position.x, playerMENU.position.y);
             }
 
             //----------------------------------------------------------------------------------
@@ -162,63 +179,81 @@ int main(void)
             //----------------------------------------------------------------------------------
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
-           // for (int j=0;j<envItemsLengthMAP;j++) DrawText("Partie 1",0 +j*300 , 0, 20, GRAY);
-            //DrawTexture('zae', 500, 500, RED);
-            DrawText("Monde : ", 5, 0, 30, BLUE);
-            DrawText("Partie : ", 5, 40, 30, BLUE);
-            BeginMode2D(camera);
-            for (int i = 0; i < envItemsLengthMAP; i++) DrawRectangleRec(MAP[i].rect, MAP[i].color);
-            Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+
+            //Affichage des données sur l'écran ( chiant car *char )
+            std::string DispCurrentWorld = "Monde : " + std::to_string(g1.GetWorld());
+            char const* pchar = DispCurrentWorld.c_str();  //use char const* as target 
+            std::string DispCurrentLevel = "Niveau : " + std::to_string(g1.GetCurrentLevel());
+            char const* pchar2 = DispCurrentLevel.c_str();  //use char const* as target type
+
+            //printf("%d", g1.GetTotalLevel
+            DrawText(pchar, 5, 0, 30, BLUE);
+            DrawText(pchar2, 5, 40, 30, BLUE);
+
+            BeginMode2D(cameraMENU);
+            for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(MAPmonde1[i].rect, MAPmonde1[i].color);
+            Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
             DrawRectangleRec(playerRect, RED);
             EndMode2D();
             if (IsKeyPressed(KEY_ENTER))
             {
                 currentScreen = ENJEU;
+                camera.target = playerMENU.position;
+                camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                camera.rotation = 0.0f;
+                camera.zoom = 1.0f;
             }
             EndDrawing();
-            }
-            break;
-
+        }
+        break;
+        //PLAY the choosen level
         case ENJEU:
+        {
+            float deltaTime = GetFrameTime();
+            UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
+            cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+
+            if (IsKeyPressed(KEY_R))
             {
-                float deltaTime = GetFrameTime();
-                UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
-                cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
-
-                if (IsKeyPressed(KEY_R))
-                {
-                    camera.zoom = 1.0f;
-                    player.position = { 20, 0 };
-                }
-                if (player.position.y > 200)
-                {
-                    DrawText("LOST", 100, 100, 100, DARKGRAY);
-                }
-
-                if (IsKeyPressed(KEY_B))
-                {
-                    printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
-                }
-
-                //----------------------------------------------------------------------------------
-                // Draw
-                //----------------------------------------------------------------------------------
-                BeginDrawing();
-                ClearBackground(LIGHTGRAY);
-                BeginMode2D(camera);
-                for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
-                Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
-                DrawRectangleRec(playerRect, RED);
-                EndMode2D();
-                DrawText("Controls:", 20, 20, 10, BLACK);
-                DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
-                DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
-                DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
-                EndDrawing();
-
-        
+                camera.zoom = 1.0f;
+                player.position = { 20, 0 };
             }
-            break;
+            if (player.position.y > 200)
+            {
+                DrawText("LOST", 100, 100, 100, DARKGRAY);
+            }
+
+            if (IsKeyPressed(KEY_B))
+            {
+                printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+            }
+            if (IsKeyPressed(KEY_N))
+            {
+                currentScreen = CHOISIRPARTIE;
+                cameraMENU.target = playerMENU.position;
+                cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                cameraMENU.rotation = 0.0f;
+                cameraMENU.zoom = 1.0f;
+            }
+            //----------------------------------------------------------------------------------
+            // Draw
+            //----------------------------------------------------------------------------------
+            BeginDrawing();
+            ClearBackground(LIGHTGRAY);
+            BeginMode2D(camera);
+            for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
+            Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+            DrawRectangleRec(playerRect, RED);
+            EndMode2D();
+            DrawText("Controls:", 20, 20, 10, BLACK);
+            DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
+            DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
+            DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
+            EndDrawing();
+
+
+        }
+        break;
         }
 
 
@@ -264,32 +299,33 @@ void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float d
 }
 
 
-void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* niveauActuel, int niveauDebloque, int niveauTotalDuMonde)
+void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1)
 {
     int framesCounter = 0;
-   
+
 
     if (IsKeyPressed(KEY_LEFT))
     {
-        if (*niveauActuel > 1)
+        if (g1->GetCurrentLevel() > 1)
         {
-            player->position.x = player->position.x - 300; //20 - 300 => 1
-            *niveauActuel -= 1;
-            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
+
+            player->position.x = player->position.x - 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() - 1);
+            printf("%d \n", g1->GetCurrentLevel());
         }
-        else printf("tamer");
+        else printf("\n Tamer \n");
     }
-   
-    
+
+
     if (IsKeyPressed(KEY_RIGHT))
     {
-        if (*niveauActuel < niveauDebloque)
-        {
-            
-            player->position.x = 20 + (*niveauActuel - 1) * 300 +300;
-            *niveauActuel +=1;
-            printf("\n Partie Selectionnee : %d\n", *niveauActuel);
 
+        if (std::exp(g1->GetCurrentLevel()) < std::exp(g1->GetUnlockLevel()))
+        {
+
+            player->position.x = 20 + (g1->GetCurrentLevel() - 1) * 300 + 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() + 1);
+            printf("%d \n", g1->GetCurrentLevel());
         }
     }
 }
@@ -298,14 +334,14 @@ void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delt
 
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
-    camera->offset =  { width / 2.0f, height / 2.0f };
+    camera->offset = { width / 2.0f, height / 2.0f };
     camera->target = player->position;
 }
 
-void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
+void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->target = player->position;
-    camera->offset =  { width / 2.0f, height / 2.0f };
+    camera->offset = { width / 2.0f, height / 2.0f };
     float minX = 1000, minY = 1000, maxX = -1000, maxY = -1000;
 
     for (int i = 0; i < envItemsLength; i++)
@@ -317,8 +353,8 @@ void UpdateCameraCenterInsideMap(Camera2D* camera, Player* player, EnvItem* envI
         maxY = fmaxf(ei->rect.y + ei->rect.height, maxY);
     }
 
-    Vector2 max = GetWorldToScreen2D(  { maxX, maxY }, * camera);
-    Vector2 min = GetWorldToScreen2D(  { minX, minY }, * camera);
+    Vector2 max = GetWorldToScreen2D({ maxX, maxY }, *camera);
+    Vector2 min = GetWorldToScreen2D({ minX, minY }, *camera);
 
     if (max.x < width) camera->offset.x = width - (max.x - width / 2);
     if (max.y < height) camera->offset.y = height - (max.y - height / 2);
@@ -332,7 +368,7 @@ void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* e
     static float minEffectLength = 10;
     static float fractionSpeed = 0.8f;
 
-    camera->offset =  { width / 2.0f, height / 2.0f };
+    camera->offset = { width / 2.0f, height / 2.0f };
     Vector2 diff = Vector2Subtract(player->position, camera->target);
     float length = Vector2Length(diff);
 
@@ -349,7 +385,7 @@ void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* env
     static int eveningOut = false;
     static float evenOutTarget;
 
-    camera->offset =  { width / 2.0f, height / 2.0f };
+    camera->offset = { width / 2.0f, height / 2.0f };
     camera->target.x = player->position.x;
 
     if (eveningOut)
@@ -389,9 +425,9 @@ void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* env
 {
     static Vector2 bbox = { 0.2f, 0.2f };
 
-    Vector2 bboxWorldMin = GetScreenToWorld2D(  { (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height }, * camera);
-    Vector2 bboxWorldMax = GetScreenToWorld2D(  { (1 + bbox.x) * 0.5f * width, (1 + bbox.y) * 0.5f * height }, * camera);
-    camera->offset =  { (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height };
+    Vector2 bboxWorldMin = GetScreenToWorld2D({ (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height }, *camera);
+    Vector2 bboxWorldMax = GetScreenToWorld2D({ (1 + bbox.x) * 0.5f * width, (1 + bbox.y) * 0.5f * height }, *camera);
+    camera->offset = { (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height };
 
     if (player->position.x < bboxWorldMin.x) camera->target.x = player->position.x;
     if (player->position.y < bboxWorldMin.y) camera->target.y = player->position.y;
