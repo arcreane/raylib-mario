@@ -26,6 +26,7 @@ using namespace std;
 #define PLAYER_JUMP_SPD 250.0f
 #define PLAYER_HOR_SPD 2000.0f
 
+#define NUM_FRAMES  3       // Number of frames (rectangles) for the button sprite texture
 typedef struct Player {
     Vector2 position;
     float speed;
@@ -134,6 +135,28 @@ int main(void)
     g1.SetUnlockLevel(4);
 
 
+    //test page 1
+
+
+
+    
+    Texture2D button = LoadTexture("\play.png"); // Load button texture
+
+    // Define frame rectangle for drawing
+    float frameHeight = (float)button.height / NUM_FRAMES;
+    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
+
+    // Define button bounds on screen
+    Rectangle btnBounds = { screenWidth / 2.0f - button.width / 2.0f, screenHeight / 2.0f - button.height / NUM_FRAMES / 2.0f, (float)button.width, frameHeight };
+
+    int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
+    bool btnAction = false;         // Button action should be activated
+
+    Vector2 mousePoint = { 0.0f, 0.0f };
+
+    SetTargetFPS(60);
+    //---------------------------------------
+
 
     // Main game loop
     while (!WindowShouldClose())
@@ -145,9 +168,35 @@ int main(void)
         //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
         {
+            // Update
+       //----------------------------------------------------------------------------------
+            mousePoint = GetMousePosition();
+            btnAction = false;
+
+            // Check button state
+            if (CheckCollisionPointRec(mousePoint, btnBounds))
+            {
+                if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) btnState = 2;
+                else btnState = 1;
+
+                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) btnAction = true;
+            }
+            else btnState = 0;
+
+
+
+            // Calculate button frame rectangle to draw depending on button state
+            sourceRec.y = btnState * frameHeight;
+            //----------------------------------------------------------------------------------
+
+            // Draw
+            //----------------------------------------------------------------------------------
             BeginDrawing();
+
+            
             ClearBackground(RAYWHITE);
-            DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
+            DrawTextureRec(button, sourceRec, { btnBounds.x, btnBounds.y }, WHITE); // Draw button frame
+            //DrawText("Tapez sur espace pour quitter cette fenetre", 240, 140, 20, GRAY);
 
             if (IsKeyPressed(KEY_SPACE))
             {
@@ -157,7 +206,9 @@ int main(void)
                 cameraMENU.rotation = 0.0f;
                 cameraMENU.zoom = 1.0f;
             }
+
             EndDrawing();
+
         }
         break;
         //Page that ask user to cloose a LEVEL
