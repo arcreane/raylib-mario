@@ -269,6 +269,7 @@
   <ItemGroup>
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
+    <ClCompile Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
