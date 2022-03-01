@@ -1,14 +1,18 @@
 #include "Game.h"
 #include <cstring>
+#include "structures.h"
 
+//création de base
 Game::Game()
 {
 	this->currentLevel = 1;
 	this->world = 1;
 	this->totalLevel = 6;
-	this->unlockLevel = 2;
+	this->unlockLevel = 1;
+
 }
 
+//pour faire nos test
 Game::Game(int world, int currentLevel, int totalLevel, int unlockLevel)
 {
 	this->currentLevel = currentLevel;
@@ -18,6 +22,24 @@ Game::Game(int world, int currentLevel, int totalLevel, int unlockLevel)
 
 }
 
+void Game::start()
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//--------------------
+//
+//--------------------
 int Game::GetWorld()
 {
 	return world;
@@ -32,10 +54,6 @@ const int Game::GetCurrentLevel() const
 {
 	return currentLevel;
 }
-
-
-
-//return 
 
 void Game::SetCurrentLevel(int c_level)
 {

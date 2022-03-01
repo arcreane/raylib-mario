@@ -19,7 +19,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LeProjet\files\src\Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="structures.h">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
