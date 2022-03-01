@@ -1,10 +1,5 @@
-!!!!!! IMPORTANT
-
-Le main doit toujours marcher, on ne balance pas de la merde
-
-----------
-
 Utilisation de Raylib (ou d’une autre librairie intéressante)
+
 
 Programmer en orienté objet (seuls les appels à Raylib se feront sous forme d’appels de fonction)
 
