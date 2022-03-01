@@ -38,11 +38,11 @@ void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem
 void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
 void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height);
-
+void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int);
 
 int main(void)
 {
-    Game g1;
+    Game g1(1,3,6,5);
     g1.start();
 
 
@@ -53,7 +53,8 @@ int main(void)
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
-    //s'occupe du cube dans ENJEU
+    //à stocker dans une autre classe prochainement quand on sera d'accord sur ce qu'il faudra créer
+        //s'occupe du cube dans ENJEU
     Player player = { 0 };
     player.position = { 20 , 0 };
     player.speed = 0;
@@ -64,62 +65,51 @@ int main(void)
     playerMENU.position = { 20 , 0 };
     playerMENU.speed = 0;
     playerMENU.canJump = false;
+    //fin stockage
 
-    //créer la MAPmonde1
-    EnvItem envItems[] = {
-        // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
-        // 1 : => + -- vers le bas +
-        {{ -1000, -1000, 2000, 0 }, 0, LIGHTGRAY },
-        {{ 0, 0, 10000, 200 }, 1, GRAY },
-        {{ 300, 200, 400, 10 }, 1, GRAY },
-        {{ 250, 300, 100, 10 }, 1, GRAY },
-        {{ 650, 300, 100, 10 }, 1, GRAY }
-    };
+    //on devra stocker ça aussi
+    
+        //créer la MAPmonde1
+        EnvItem envItems[] = {
+            // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
+            // 1 : => + -- vers le bas +
+            {{ -1000, -1000, 2000, 0 }, 0, LIGHTGRAY },
+            {{ 0, 0, 10000, 200 }, 1, GRAY },
+            {{ 300, 200, 400, 10 }, 1, GRAY },
+            {{ 250, 300, 100, 10 }, 1, GRAY },
+            {{ 650, 300, 100, 10 }, 1, GRAY }
+        };
 
-    EnvItem envItems2[] = {
-    {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
-    {{ 0, 400, 10000, 200 }, 1, BLUE },
-    {{ 300, 200, 400, 10 }, 1, BLUE},
-    {{ 250, 300, 100, 10 }, 1, BLUE},
-    {{ 650, 300, 100, 10 }, 1, BLUE}
-    };
+        EnvItem envItems2[] = {
+        {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
+        {{ 0, 400, 10000, 200 }, 1, BLUE },
+        {{ 300, 200, 400, 10 }, 1, BLUE},
+        {{ 250, 300, 100, 10 }, 1, BLUE},
+        {{ 650, 300, 100, 10 }, 1, BLUE}
+        };
 
-    EnvItem MAPmonde1[] = {
-    {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
-    {{ 0,0, 10000, 200 }, 1, DARKBROWN },
-    {{ 0, 0, 40 , 40 }, 1, GREEN },
-    {{ 300, 0, 40 , 40 }, 1, GREEN },
-    {{ 600, 0, 40 , 40 }, 1, GREEN },
-    {{ 900, 0, 40 , 40 }, 1, GREEN },
-    {{ 1200, 0, 40 , 40 }, 1, GREEN },
-    {{ 1500, 0, 40 , 40 }, 1, GREEN }
-    };
+        EnvItem MAPmonde1[] = {
+        {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
+        {{ 0,0, 10000, 200 }, 1, DARKBROWN },
+        {{ 0, 0, 40 , 40 }, 1, GREEN },
+        {{ 300, 0, 40 , 40 }, 1, GREEN },
+        {{ 600, 0, 40 , 40 }, 1, GREEN },
+        {{ 900, 0, 40 , 40 }, 1, GREEN },
+        {{ 1200, 0, 40 , 40 }, 1, GREEN },
+        {{ 1500, 0, 40 , 40 }, 1, GREEN }
+        };
+    //fin des données à stocker
+
 
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
     int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
 
 
     Camera2D camera = { 0 };
-
-
     Camera2D cameraMENU = { 0 };
 
-
-
-    // Store pointers to the multiple update camera functions
-    void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
-        UpdateCameraCenter,
-        UpdateCameraCenterInsideMAPmonde1,
-        UpdateCameraCenterSmoothFollow,
-        UpdateCameraEvenOutOnLanding,
-        UpdateCameraPlayerBoundsPush
-    };
-
     int cameraOption = 0;
-    int cameraUpdatersLength = sizeof(cameraUpdaters) / sizeof(cameraUpdaters[0]);
 
-
-    //char a;
     SetTargetFPS(60);
     GameMoment currentScreen = DEBUT;
 
@@ -131,22 +121,17 @@ int main(void)
     */
 
     //Gestion de l'écran 1
+        Texture2D button = LoadTexture("../LeProjet/LeProjet/files/img/play.png"); // Load button texture
+        // Define frame rectangle for drawing
+        float frameHeight = (float)button.height;
+        Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
+        // Define button bounds on screen
+        Rectangle btnBounds = { screenWidth / 2.0f - button.width / 2.0f, screenHeight / 2.0f - button.height / 2.0f, (float)button.width, frameHeight };
+        bool btnAction = false;         // Button action should be activated
+        Vector2 mousePoint = { 0.0f, 0.0f };
+        btnAction = false;
 
-
-    Texture2D button = LoadTexture("../LeProjet/LeProjet/files/img/play.png"); // Load button texture
-
-    // Define frame rectangle for drawing
-    float frameHeight = (float)button.height;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
-
-    // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth / 2.0f - button.width / 2.0f, screenHeight / 2.0f - button.height  / 2.0f, (float)button.width, frameHeight };
-
-    bool btnAction = false;         // Button action should be activated
-
-    Vector2 mousePoint = { 0.0f, 0.0f };
-    btnAction = false;
-
+   
    
     while (!WindowShouldClose())
     {
@@ -157,6 +142,7 @@ int main(void)
         //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
         {
+
 
             mousePoint = GetMousePosition();
 
@@ -213,6 +199,7 @@ int main(void)
             Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
             DrawRectangleRec(playerRect, RED);
             EndMode2D();
+
             if (IsKeyPressed(KEY_ENTER))
             {
                 currentScreen = ENJEU;

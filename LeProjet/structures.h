@@ -1,14 +1,14 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-
+    //include
     #include "raylib.h"
     #include "raymath.h"
     #include <stdio.h>
     #include <iostream>
     #include <string>
 
-
+   // #include "Game.h"
 
     //define
     #define G 400
@@ -178,3 +178,12 @@ void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* env
     if (player->position.y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->position.y - bboxWorldMax.y);
 }
 
+
+// Store pointers to the multiple update camera functions
+void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
+    UpdateCameraCenter,
+    UpdateCameraCenterInsideMAPmonde1,
+    UpdateCameraCenterSmoothFollow,
+    UpdateCameraEvenOutOnLanding,
+    UpdateCameraPlayerBoundsPush
+};
