@@ -64,21 +64,12 @@ void Game::start()
     {{ 650, 300, 100, 10 }, 1, BLUE}
     };
 
-    EnvItem MAPmonde1[] = {
-    {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
-    {{ 0,0, 10000, 200 }, 1, DARKBROWN },
-    {{ 0, 0, 40 , 40 }, 1, GREEN },
-    {{ 300, 0, 40 , 40 }, 1, GREEN },
-    {{ 600, 0, 40 , 40 }, 1, GREEN },
-    {{ 900, 0, 40 , 40 }, 1, GREEN },
-    {{ 1200, 0, 40 , 40 }, 1, GREEN },
-    {{ 1500, 0, 40 , 40 }, 1, GREEN }
-    };
+
     //fin des données à stocker
 
 
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
-    int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
+    
 
 
     Camera2D camera = { 0 };
@@ -100,7 +91,8 @@ void Game::start()
     Vector2 mousePoint = { 0.0f, 0.0f };
     btnAction = false;
 
-
+    Texture2D mario = LoadTexture("../LeProjet/LeProjet/files/img/mario.png"); // Load button texture
+    Texture2D youAreHere = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png"); // Load button texture
 
     while (!WindowShouldClose())
     {
@@ -121,7 +113,7 @@ void Game::start()
             //----------------------------------------------------------------------------------
             BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawTexture(button, btnBounds.x, btnBounds.y, WHITE); // Draw button frame
+            DrawTexture(button, (int)btnBounds.x, (int) btnBounds.y, WHITE); // Draw button frame
             if (btnAction)
             {
                 currentScreen = CHOISIRPARTIE;
@@ -136,7 +128,18 @@ void Game::start()
         //Page that ask user to cloose a LEVEL
         case CHOISIRPARTIE:
         {
-
+            
+            EnvItem MAPmonde1[] = {
+            {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
+            {{ 0,0, 10000, 200 }, 1, DARKBROWN },
+            {{ 0, 0, 40 , 40 }, 1, returnColorToPrint(1,&this->unlockLevel,&this->currentLevel)},
+            {{ 300, 0, 40 , 40 }, 1, returnColorToPrint(2,&this->unlockLevel,&this->currentLevel)},
+            {{ 600, 0, 40 , 40 }, 1, returnColorToPrint(3,&this->unlockLevel,&this->currentLevel)},
+            {{ 900, 0, 40 , 40 }, 1, returnColorToPrint(4,&this->unlockLevel,&this->currentLevel)},
+            {{ 1200, 0, 40 , 40 }, 1, returnColorToPrint(5,&this->unlockLevel,&this->currentLevel)},
+            {{ 1500, 0, 40 , 40 }, 1, returnColorToPrint(6,&this->unlockLevel,&this->currentLevel)}
+            };
+            int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
             float deltaTime = GetFrameTime();
 
             UpdateMAP(&playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &this->currentLevel, &this->unlockLevel);
@@ -158,15 +161,15 @@ void Game::start()
             char const* pchar = DispCurrentWorld.c_str();  //use char const* as target 
             std::string DispCurrentLevel = "Niveau : " + std::to_string(this->currentLevel);
             char const* pchar2 = DispCurrentLevel.c_str();  //use char const* as target type
-
             //printf("%d", g1.GetTotalLevel
             DrawText(pchar, 5, 0, 30, BLUE);
             DrawText(pchar2, 5, 40, 30, BLUE);
 
             BeginMode2D(cameraMENU);
             for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(MAPmonde1[i].rect, MAPmonde1[i].color);
-            Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
-            DrawRectangleRec(playerRect, RED);
+           //Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
+           //DrawRectangleRec(playerRect, DARKBLUE);
+            DrawTexture(youAreHere, playerMENU.position.x - 50, playerMENU.position.y - 105, LIGHTGRAY);
             EndMode2D();
 
             if (IsKeyPressed(KEY_ENTER))
@@ -216,8 +219,10 @@ void Game::start()
             ClearBackground(LIGHTGRAY);
             BeginMode2D(camera);
             for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
-            Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
-            DrawRectangleRec(playerRect, RED);
+            //Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+
+            
+            DrawTexture(mario, player.position.x -20, player.position.y -32, LIGHTGRAY); // Draw button frame
             EndMode2D();
             DrawText("Controls:", 20, 20, 10, BLACK);
             DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
