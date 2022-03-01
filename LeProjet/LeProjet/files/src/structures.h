@@ -14,7 +14,7 @@
     //define
     #define G 400
     #define PLAYER_JUMP_SPD 250.0f
-    #define PLAYER_HOR_SPD 2000.0f
+    #define PLAYER_HOR_SPD 200.0f
     #define NUM_FRAMES  3       // Number of frames (rectangles) for the button sprite texture
 
 #endif
@@ -264,4 +264,11 @@ void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delt
             printf("%d \n", g1->GetCurrentLevel());
         }
     }*/
+}
+
+Color returnColorToPrint(int i, int* unlockLevel, int* actuelLevel) {
+    
+    if (i == *actuelLevel) return YELLOW;
+    if (i <= *unlockLevel)return GREEN;
+    else return RED;
 }
