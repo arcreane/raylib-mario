@@ -269,7 +269,6 @@
   <ItemGroup>
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
-    <ClCompile Include="structures.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
@@ -280,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h" />
+    <ClInclude Include="LeProjet\files\src\structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

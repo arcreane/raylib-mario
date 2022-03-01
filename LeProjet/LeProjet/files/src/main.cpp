@@ -11,26 +11,8 @@
 *
 ********************************************************************************************/
 
-#include "raylib.h"
-#include "raymath.h"
-#include <stdio.h>
-#include <iostream>
-#include <string>
-
-//include de Class
 
 #include "Game.h"
-
-//include structures & fonctions
-#include "structures.h"
-
-
-
-using namespace std;
-
-
-
-
 
 int main(void)
 {
@@ -40,11 +22,6 @@ int main(void)
     // world : 1 - current world : 1 - maxlevel ; 6 - unlocklevel : 5
     Game g1(1,1,6,3);
     g1.start();
-
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    
-    
     return 0;
 }
 
