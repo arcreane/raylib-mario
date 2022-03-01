@@ -10,8 +10,8 @@ public:
     int currentLevel;
     int totalLevel;
     int unlockLevel;
-    Player player;
-    Player player2;
+   /* Player player;
+    Player player2;*/
 public:
     //Init
     Game();

@@ -269,33 +269,3 @@ int main(void)
 }
 
 
-void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1)
-{
-    int framesCounter = 0;
-
-
-    if (IsKeyPressed(KEY_LEFT))
-    {
-        if (g1->GetCurrentLevel() > 1)
-        {
-
-            player->position.x = player->position.x - 300;
-            g1->SetCurrentLevel(g1->GetCurrentLevel() - 1);
-            printf("%d \n", g1->GetCurrentLevel());
-        }
-        else printf("\n Tamer \n");
-    }
-
-
-    if (IsKeyPressed(KEY_RIGHT))
-    {
-
-        if (std::exp(g1->GetCurrentLevel()) < std::exp(g1->GetUnlockLevel()))
-        {
-
-            player->position.x = 20 + (g1->GetCurrentLevel() - 1) * 300 + 300;
-            g1->SetCurrentLevel(g1->GetCurrentLevel() + 1);
-            printf("%d \n", g1->GetCurrentLevel());
-        }
-    }
-}
