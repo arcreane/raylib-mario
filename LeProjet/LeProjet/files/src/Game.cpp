@@ -71,7 +71,8 @@ void Game::start()
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
     
 
-
+    int framesCounter = 0;
+    int framesMax = 300 * 60;
     Camera2D camera = { 0 };
     Camera2D cameraMENU = { 0 };
 
@@ -189,6 +190,7 @@ void Game::start()
             float deltaTime = GetFrameTime();
             UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
             cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+            framesCounter++;
 
             if (IsKeyPressed(KEY_R))
             {
@@ -224,10 +226,15 @@ void Game::start()
             
             DrawTexture(mario, player.position.x -20, player.position.y -32, LIGHTGRAY); // Draw button frame
             EndMode2D();
-            DrawText("Controls:", 20, 20, 10, BLACK);
-            DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
-            DrawText("- Space to jump", 40, 60, 10, DARKGRAY);
-            DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
+           // DrawText("Controls:", 20, 20, 10, BLACK);
+           DrawText("NOTE DEV: ", 40, 40, 10, DARKGRAY);
+           DrawText("left - right - space | pour les déplacements", 40, 60, 10, DARKGRAY);
+           DrawText("R : restart - B : affiche les coordonnees dans le terminal - N: retourne ecran 2", 40, 80, 10, DARKGRAY);
+
+            std::string DispCurrentLevel = "Temps restant: " + std::to_string((framesMax/60) - (framesCounter/60));
+            char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
+
+            DrawText(Game3_time, 5, 0, 30, BLUE);
             EndDrawing();
 
 

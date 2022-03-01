@@ -62,7 +62,7 @@ void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float d
             p->y = ei->rect.y;
         }
     }
-
+    
     if (!hitObstacle)
     {
         player->position.y += player->speed * delta;
