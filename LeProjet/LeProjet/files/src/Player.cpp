@@ -1,49 +1,40 @@
 #include "Player.h"
 
-
-void Player::move(Direction d)
-{
-}
-
-void Player::jump()
-{
-}
-
 void Player::attack()
 {
 }
 
-void Player::UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta)
+void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
 {
-    if (IsKeyDown(KEY_LEFT)) player->position.x -= playerHorSpeed * delta;
-    if (IsKeyDown(KEY_RIGHT)) player->position.x += playerHorSpeed * delta;
-    if (IsKeyDown(KEY_SPACE) && player->canJump)
+    if (IsKeyDown(KEY_LEFT)) this->position.x -= playerHorSpeed * delta;
+    if (IsKeyDown(KEY_RIGHT)) this->position.x += playerHorSpeed * delta;
+    if (IsKeyDown(KEY_SPACE) && this->canJump)
     {
-        player->speed = -playerJumpSpeed;
-        player->canJump = false;
+        this->speed = -playerJumpSpeed;
+        this->canJump = false;
     }
     int hitObstacle = 0;
     for (int i = 0; i < envItemsLength; i++)
     {
         EnvItem* ei = envItems + i;
-        Vector2* p = &(player->position);
+        Vector2* p = &(this->position);
         if (ei->blocking &&
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y >= p->y &&
-            ei->rect.y < p->y + player->speed * delta)
+            ei->rect.y < p->y + this->speed * delta)
         {
             hitObstacle = 1;
-            player->speed = 0.0f;
+            this->speed = 0.0f;
             p->y = ei->rect.y;
         }
     }
 
     if (!hitObstacle)
     {
-        player->position.y += player->speed * delta;
-        player->speed += G * delta;
-        player->canJump = false;
+        this->position.y += this->speed * delta;
+        this->speed += G * delta;
+        this->canJump = false;
     }
-    else player->canJump = true;
+    else this->canJump = true;
 }

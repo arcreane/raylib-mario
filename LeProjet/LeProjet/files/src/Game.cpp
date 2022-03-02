@@ -198,10 +198,7 @@ void Game::start()
         case ENJEU:
         {
             float deltaTime = GetFrameTime();
-            Player *player2 = new Player();
-            player2->UpdatePlayer(player, envItems, envItemsLength, deltaTime);
-
-            player->UpdatePlayer(player, envItems, envItemsLength, deltaTime);
+            player->UpdatePlayer(envItems, envItemsLength, deltaTime);
             cameraUpdaters[cameraOption](&camera, player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
             
             //// Load the character texture

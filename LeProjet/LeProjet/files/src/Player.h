@@ -9,16 +9,13 @@ enum class Direction { right, left, up, down };
 
 class Player
 {
-public:
-	int range;
-	int dmg;
+private:
 	float playerJumpSpeed = 250.0f;
-	float playerHorSpeed = 2000.0f;
+	float playerHorSpeed = 1000.0f;
+public:
 	Vector2 position;
 	float speed;
 	bool canJump;
-	void move(Direction d);
-	void jump();
 	void attack();
-	void UpdatePlayer(Player* player, EnvItem* envItems, int envItemsLength, float delta);
+	void UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta);
 };
