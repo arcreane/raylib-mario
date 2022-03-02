@@ -19,14 +19,32 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LeProjet\files\src\Game.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="structures.h">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="LeProjet\files\src\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Player.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\structures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

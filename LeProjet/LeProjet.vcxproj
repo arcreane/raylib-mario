@@ -267,9 +267,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LeProjet\files\src\Camera.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
-    <ClCompile Include="structures.h" />
+    <ClCompile Include="LeProjet\files\src\Map.cpp" />
+    <ClCompile Include="LeProjet\files\src\Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
@@ -279,7 +281,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LeProjet\files\src\Camera.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
+    <ClInclude Include="LeProjet\files\src\Map.h" />
+    <ClInclude Include="LeProjet\files\src\Player.h" />
+    <ClInclude Include="LeProjet\files\src\structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,10 @@
 #pragma once
+#include "Map.h"
+#include "Player.h"
+
+//define
+
+#define NUM_FRAMES  3       // Number of frames (rectangles) for the button sprite texture
 
 class Game
 {
@@ -10,12 +16,14 @@ public:
     int currentLevel;
     int totalLevel;
     int unlockLevel;
+    Map* gameMap;
    /* Player player;
     Player player2;*/
 public:
     //Init
     Game();
     Game(int world, int currentLevel, int totalLevel, int unlockLevel );
+    ~Game();
 
     //Start 
     void start();
@@ -28,5 +36,7 @@ public:
     void SetTotalLevel();
     int GetUnlockLevel();
     void SetUnlockLevel(int c_unlocklevel);
+
+    void UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1);
 };
 
