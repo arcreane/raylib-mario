@@ -1,15 +1,21 @@
 #include "Game.h"
 #include <cstring>
 #include "structures.h"
+#include "Menu.h"
+#include "Player.h"
+#include "Camera.h"
+#include <iostream>
+#include <string>
 
+//crï¿½ation de base
 
-//création de base
 Game::Game()
 {
 	this->currentLevel = 1;
 	this->world = 1;
 	this->totalLevel = 6;
 	this->unlockLevel = 1;
+    this->gameMap = new Map();
 
 }
 
@@ -20,7 +26,13 @@ Game::Game(int world, int currentLevel, int totalLevel, int unlockLevel)
 	this->world = world;
 	this->totalLevel = totalLevel;
 	this->unlockLevel = unlockLevel;
+    this->gameMap = new Map();
 
+}
+
+Game::~Game()
+{
+    delete gameMap;
 }
 
 void Game::start()
@@ -30,22 +42,25 @@ void Game::start()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
+    // Create player
+    Player *player = new Player();
+    // Create player to choose the level in the menu
+    Player *playerMENU = new Player();
+
     //s'occupe du cube dans ENJEU
-    Player player = { 0 };
-    player.position = { 20 , 0 };
-    player.speed = 0;
-    player.canJump = false;
+    player->position = { 20 , 0 };
+    player->speed = 0;
+    player->canJump = false;
 
     //s'occupe du cube dans CHOISIRPARTIE
-    Player playerMENU = { 0 };
-    playerMENU.position = { 20 , 0 };
-    playerMENU.speed = 0;
-    playerMENU.canJump = false;
+    playerMENU->position = { 20 , 0 };
+    playerMENU->speed = 0;
+    playerMENU->canJump = false;
 
 
-    //on devra stocker ça aussi
+    //on devra stocker ï¿½a aussi
 
-        //créer la MAPmonde1
+        //crï¿½er la MAPmonde1
     EnvItem envItems[] = {
         // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
         // 1 : => + -- vers le bas +
@@ -65,7 +80,7 @@ void Game::start()
     };
 
 
-    //fin des données à stocker
+    //fin des donnï¿½es ï¿½ stocker
 
 
     int envItemsLength = sizeof(envItems) / sizeof(envItems[0]);
@@ -80,7 +95,7 @@ void Game::start()
     SetTargetFPS(60);
     GameMoment currentScreen = DEBUT;
 
-     //Gestion de l'écran 1
+     //Gestion de l'ï¿½cran 1
     Texture2D button = LoadTexture("../LeProjet/LeProjet/files/img/play.png"); // Load button texture
     // Define frame rectangle for drawing
     float frameHeight = (float)button.height;
@@ -117,7 +132,7 @@ void Game::start()
             if (btnAction)
             {
                 currentScreen = CHOISIRPARTIE;
-                cameraMENU.target = playerMENU.position;
+                cameraMENU.target = playerMENU->position;
                 cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
                 cameraMENU.rotation = 0.0f;
                 cameraMENU.zoom = 1.0f;
@@ -142,12 +157,12 @@ void Game::start()
             int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
             float deltaTime = GetFrameTime();
 
-            UpdateMAP(&playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &this->currentLevel, &this->unlockLevel);
-            cameraUpdaters[cameraOption](&cameraMENU, &playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
+            gameMap->UpdateMAP(playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &this->currentLevel, &this->unlockLevel);
+            cameraUpdaters[cameraOption](&cameraMENU, playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
             if (IsKeyPressed(KEY_B))
             {
-                printf("Position de X: %f \nPosition de Y: %f \n ", playerMENU.position.x, playerMENU.position.y);
+                printf("Position de X: %f \nPosition de Y: %f \n ", playerMENU->position.x, playerMENU->position.y);
             }
 
             //----------------------------------------------------------------------------------
@@ -156,7 +171,7 @@ void Game::start()
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
 
-            //Affichage des données sur l'écran ( chiant car *char )
+            //Affichage des donnï¿½es sur l'ï¿½cran ( chiant car *char )
             std::string DispCurrentWorld = "Monde : " + std::to_string(this->world);
             char const* pchar = DispCurrentWorld.c_str();  //use char const* as target 
             std::string DispCurrentLevel = "Niveau : " + std::to_string(this->currentLevel);
@@ -169,13 +184,13 @@ void Game::start()
             for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(MAPmonde1[i].rect, MAPmonde1[i].color);
            //Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
            //DrawRectangleRec(playerRect, DARKBLUE);
-            DrawTexture(youAreHere, playerMENU.position.x - 50, playerMENU.position.y - 105, LIGHTGRAY);
+            DrawTexture(youAreHere, playerMENU->position.x - 50, playerMENU->position.y - 105, LIGHTGRAY);
             EndMode2D();
 
             if (IsKeyPressed(KEY_ENTER))
             {
                 currentScreen = ENJEU;
-                camera.target = playerMENU.position;
+                camera.target = playerMENU->position;
                 camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
                 camera.rotation = 0.0f;
                 camera.zoom = 1.0f;
@@ -187,27 +202,55 @@ void Game::start()
         case ENJEU:
         {
             float deltaTime = GetFrameTime();
-            UpdatePlayer(&player, envItems, envItemsLength, deltaTime);
-            cameraUpdaters[cameraOption](&camera, &player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+            player->UpdatePlayer(envItems, envItemsLength, deltaTime);
+            cameraUpdaters[cameraOption](&camera, player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
+            
+            //// Load the character texture
+            //Texture2D scarfy = LoadTexture("../LeProjet/LeProjet/files/img/scarfy.png");        // Texture loading
+            //Rectangle frameRec = { 0.0f, 0.0f, (float)scarfy.width / 6, (float)scarfy.height };
+            //int currentFrame = 0;
+            //int framesCounter = 0;
+            //int framesSpeed = 8;            // Number of spritesheet frames shown by second
 
             if (IsKeyPressed(KEY_R))
             {
                 camera.zoom = 1.0f;
-                player.position = { 20, 0 };
+                player->position = { 20, 0 };
+                //while (IsKeyPressed(KEY_R))    // Animation of scarfy texture
+                //{
+                //    framesCounter++;
+                //    DrawText("LOST", 100, 100, 100, DARKGRAY);
+                //    if (framesCounter >= (60 / framesSpeed))
+                //    {
+                //        framesCounter = 0;
+                //        currentFrame++;
+
+                //        if (currentFrame > 5) currentFrame = 0;
+
+                //        frameRec.x = (float)currentFrame * (float)scarfy.width / 6;
+                //        //----------------------------------------------------------------------------------
+                //        // Draw Scarfy Animation
+                //        //----------------------------------------------------------------------------------
+                //        BeginDrawing();
+                //        ClearBackground(LIGHTGRAY);
+                //        DrawTextureRec(scarfy, frameRec, player.position, WHITE);  // Draw part of the texture
+                //        EndDrawing();
+                //    }
+                //}
             }
-            if (player.position.y > 200)
+            if (player->position.y > 200)
             {
                 DrawText("LOST", 100, 100, 100, DARKGRAY);
             }
 
             if (IsKeyPressed(KEY_B))
             {
-                printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+                printf("Position de X: %f \nPosition de Y: %f \n ", player->position.x, player->position.y);
             }
             if (IsKeyPressed(KEY_N))
             {
                 currentScreen = CHOISIRPARTIE;
-                cameraMENU.target = playerMENU.position;
+                cameraMENU.target = playerMENU->position;
                 cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
                 cameraMENU.rotation = 0.0f;
                 cameraMENU.zoom = 1.0f;
@@ -222,7 +265,9 @@ void Game::start()
             //Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
 
             
-            DrawTexture(mario, player.position.x -20, player.position.y -32, LIGHTGRAY); // Draw button frame
+            DrawTexture(mario, player->position.x -20, player->position.y -32, LIGHTGRAY); // Draw button frame
+            //ClearBackground(LIGHTGRAY);
+            //DrawTextureRec(scarfy, frameRec, player.position, WHITE);  // Draw part of the texture
             EndMode2D();
             DrawText("Controls:", 20, 20, 10, BLACK);
             DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
@@ -293,3 +338,33 @@ void Game::SetUnlockLevel(int c_unlocklevel)
 	this->unlockLevel = c_unlocklevel;
 }
 
+void Game::UpdateMAPmonde1(Player* player, EnvItem* envItems, int envItemsLength, float delta, Game* g1)
+{
+    int framesCounter = 0;
+
+
+    if (IsKeyPressed(KEY_LEFT))
+    {
+        if (g1->GetCurrentLevel() > 1)
+        {
+
+            player->position.x = player->position.x - 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() - 1);
+            printf("%d \n", g1->GetCurrentLevel());
+        }
+        else printf("\n Tamer \n");
+    }
+
+
+    if (IsKeyPressed(KEY_RIGHT))
+    {
+
+        if (std::exp(g1->GetCurrentLevel()) < std::exp(g1->GetUnlockLevel()))
+        {
+
+            player->position.x = 20 + (g1->GetCurrentLevel() - 1) * 300 + 300;
+            g1->SetCurrentLevel(g1->GetCurrentLevel() + 1);
+            printf("%d \n", g1->GetCurrentLevel());
+        }
+    }
+}
