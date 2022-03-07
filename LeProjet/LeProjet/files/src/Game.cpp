@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+#define Enemy_Amount 1
+
 //cr�ation de base
 
 Game::Game()
@@ -42,6 +44,17 @@ void Game::start()
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
+    //ENEMY à classer
+    double previousTime = 0.0;
+    double currentTime = GetTime();
+    float deltaTime = 0.0f;
+    double previousTime2 = 0.0;
+    double currentTime2 = GetTime();
+    float deltaTime2 = 0.0f;
+    std::string direction = "goings";
+    std::string direction2 = "goings";
+    std::string tampon;
+
     // Create player
     Player *player = new Player();
     // Create player to choose the level in the menu
@@ -56,7 +69,29 @@ void Game::start()
     playerMENU->position = { 20 , 0 };
     playerMENU->speed = 0;
     playerMENU->canJump = false;
+    
+    //ENEMY à classer
+    static Enemy goomba[Enemy_Amount] = { 0 };
 
+    static Enemy koopa[Enemy_Amount] = { 0 };
+
+    for (int i = 0; i < Enemy_Amount; i++)
+    {
+        goomba[i].rec.width = 70;
+        goomba[i].rec.height = 70;
+        goomba[i].active = true;
+        goomba[i].color = BLUE;
+        goomba[i].position = { 80 , -15 };
+    }
+
+    for (int i = 0; i < Enemy_Amount; i++)
+    {
+        koopa[i].rec.width = 70;
+        koopa[i].rec.height = 70;
+        koopa[i].active = true;
+        koopa[i].color = BLUE;
+        koopa[i].position = { 100 , -15 };
+    }
 
     //on devra stocker �a aussi
 
@@ -108,6 +143,10 @@ void Game::start()
 
     Texture2D mario = LoadTexture("../LeProjet/LeProjet/files/img/mario.png"); // Load button texture
     Texture2D youAreHere = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png"); // Load button texture
+    Texture2D goombaText = LoadTexture("../LeProjet/LeProjet/files/img/goomba_retour.png");
+    Texture2D goombaText2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
+    Texture2D koopaText = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
+    Texture2D koopaText2 = LoadTexture("../LeProjet/LeProjet/files/img/koopa_retour.png");
 
     while (!WindowShouldClose())
     {
@@ -264,6 +303,62 @@ void Game::start()
             for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
             //Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
 
+            //ENEMY à classer
+            for (int i = 0; i < Enemy_Amount; i++)
+            {
+                if (goomba[i].active)
+                {
+                    currentTime = GetTime();
+                    deltaTime = currentTime - previousTime;
+                    if (goomba[i].position.x <= 70)
+                        direction = "goings";
+                    if (goomba[i].position.x >= 500)
+                        direction = "comings";
+                    if (direction == "goings")
+                        goomba[i].position.x += 30 * deltaTime;
+                    if (direction == "comings")
+                        goomba[i].position.x -= 30 * deltaTime;
+                    previousTime = currentTime;
+                }
+            }
+
+            for (int i = 0; i < Enemy_Amount; i++)
+            {
+                if (koopa[i].active)
+                {
+                    currentTime2 = GetTime();
+                    deltaTime2 = currentTime2 - previousTime2;
+                    if (koopa[i].position.x <= 80)
+                        direction2 = "goings";
+                    if (koopa[i].position.x >= 400)
+                        direction2 = "comings";
+                    if (direction2 == "goings")
+                        koopa[i].position.x += 40 * deltaTime2;
+                    if (direction2 == "comings")
+                        koopa[i].position.x -= 40 * deltaTime2;
+                    previousTime2 = currentTime2;
+                }
+            }
+
+            for (int i = 0; i < Enemy_Amount; i++)
+            {
+                if (goomba[i].active) {
+                    if (direction == "goings")
+                        DrawTexture(goombaText2, goomba[i].position.x - 20, goomba[i].position.y - 32, LIGHTGRAY);
+                    if (direction == "comings")
+                        DrawTexture(goombaText, goomba[i].position.x - 20, goomba[i].position.y - 32, LIGHTGRAY);
+                }
+            }
+
+            for (int i = 0; i < Enemy_Amount; i++)
+            {
+                if (koopa[i].active) {
+                    if (direction2 == "goings")
+                        DrawTexture(koopaText, koopa[i].position.x - 20, koopa[i].position.y - 32, LIGHTGRAY);
+                    if (direction2 == "comings")
+                        DrawTexture(koopaText2, koopa[i].position.x - 20, koopa[i].position.y - 32, LIGHTGRAY);
+                }
+            }
             
             DrawTexture(mario, player->position.x -20, player->position.y -32, LIGHTGRAY); // Draw button frame
             //ClearBackground(LIGHTGRAY);
