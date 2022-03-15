@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Map.h"
 #include "Player.h"
 
@@ -11,7 +11,7 @@ class Game
 public:
     //Cleaning du main
     
-    //variable utilitaire, mais qu'on pourra d�placer comme vous voulez
+    //variable utilitaire, mais qu'on pourra déplacer comme vous voulez
     int world;
     int currentLevel;
     int totalLevel;
