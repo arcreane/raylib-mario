@@ -1,9 +1,22 @@
 #include "Camera.h"
 
-void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
+void UpdateCameraCenterGame2(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->offset = { width / 2.0f, height / 2.0f };
     camera->target = player->position;
+}
+
+void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
+{
+    camera->offset = { width / 2.0f, height / 2.0f };
+    if (player->position.x < 650) 
+    {
+        camera->target = { 650, player->position.y - 250 };
+    }else
+    {
+        camera->target = { player->position.x, player->position.y - 250 };
+    }
+   
 }
 
 void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
@@ -107,6 +120,7 @@ void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* env
 // Store pointers to the multiple update camera functions
 void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
     UpdateCameraCenter,
+    UpdateCameraCenterGame2,
     UpdateCameraCenterInsideMAPmonde1,
     UpdateCameraCenterSmoothFollow,
     UpdateCameraEvenOutOnLanding,

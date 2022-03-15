@@ -119,7 +119,7 @@ void Game::start()
     Player* playerMENU = new Player();
 
     //s'occupe du cube dans ENJEU
-    player->position = { 20 , 0 };
+    player->position = { 20 , -10 };
     player->speed = 0;
     player->canJump = false;
 
@@ -207,7 +207,10 @@ void Game::start()
     Texture2D koopaText2 = LoadTexture("../LeProjet/LeProjet/files/img/koopa_retour.png");
 
     Texture2D BlocTerre = LoadTexture("../LeProjet/LeProjet/files/img/BlocTerre100-100.png");
-    Texture2D BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/BlocInconnue.png");
+    Texture2D BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
+
+    int framesCounter = 0;
+    int framesMax = 300 * 60;
     while (!WindowShouldClose())
     {
         //Goal : 3 Screen - mby 4 later about victory 
@@ -257,7 +260,7 @@ void Game::start()
             float deltaTime = GetFrameTime();
 
             gameMap->UpdateMAP(playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, &this->currentLevel, &this->unlockLevel);
-            cameraUpdaters[cameraOption](&cameraMENU, playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
+            cameraUpdaters[2](&cameraMENU, playerMENU, MAPmonde1, envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
             if (IsKeyPressed(KEY_B))
             {
@@ -268,6 +271,7 @@ void Game::start()
             // Draw
             //----------------------------------------------------------------------------------
             BeginDrawing();
+ 
             ClearBackground(LIGHTGRAY);
 
             //Affichage des donn�es sur l'�cran ( chiant car *char )
@@ -284,6 +288,18 @@ void Game::start()
             //Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
             //DrawRectangleRec(playerRect, DARKBLUE);
             DrawTexture(youAreHere, playerMENU->position.x - 50, playerMENU->position.y - 105, LIGHTGRAY);
+
+
+            for (size_t i = 0; i < this->totalLevel; i++)
+            {
+                std::string Dispniveauactuel = "Niveau: " + std::to_string(i+1);
+                char const* NiveauActuel = Dispniveauactuel.c_str();  //use char const* as target type
+
+                DrawText(NiveauActuel, -30 + i * 300, 50 , 40, BLUE);
+            }
+           
+
+
             EndMode2D();
 
             if (IsKeyPressed(KEY_ENTER))
@@ -294,17 +310,27 @@ void Game::start()
                 camera.rotation = 0.0f;
                 camera.zoom = 1.0f;
             }
+           
             EndDrawing();
         }
         break;
         //PLAY the choosen level
         case ENJEU:
         {
+            framesCounter++;
             float deltaTime = GetFrameTime();
             player->UpdatePlayer(envItems, envItemsLength, deltaTime);
             cameraUpdaters[cameraOption](&camera, player, envItems, envItemsLength, deltaTime, screenWidth, screenHeight);
 
-            //// Load the character texture
+            if (IsKeyPressed(KEY_I))
+            {
+                cameraOption++;
+                if (cameraOption == 6)
+                    cameraOption = 0;
+            }
+                    
+                    
+                    //// Load the character texture
             //Texture2D scarfy = LoadTexture("../LeProjet/LeProjet/files/img/scarfy.png");        // Texture loading
             //Rectangle frameRec = { 0.0f, 0.0f, (float)scarfy.width / 6, (float)scarfy.height };
             //int currentFrame = 0;
@@ -360,8 +386,35 @@ void Game::start()
             BeginDrawing();
             ClearBackground(LIGHTGRAY);
             BeginMode2D(camera);
+
+            countAff = 0;
+            int countAffTotal = 0;
+            //DrawTexture(BlocTerre, 0,-400, LIGHTGRAY);
             for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
             //Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (char& c : arr[i]) {
+                    if (c != *" ")
+                    {
+                        if (c != *"a")
+                        {
+                            DrawTexture(BlocInconnue, 0 + (countAff * 100  ), -800 + (i * 100 ), LIGHTGRAY);
+                            countAff = countAff + 1;
+                        }
+                        else {
+                            DrawTexture(BlocTerre, (countAff * 100 ), -800 + (i * 100 ), LIGHTGRAY);
+                            //ToDo : fonction qui prend le "c" en argument et retourne l'information demmandée afin d'afficher la chose!
+                            countAff = countAff + 1;
+                        }  
+                    }
+                }
+                countAff = 0;
+                countAffTotal++;
+            }
+
+          
 
             //ENEMY à classer
             for (int i = 0; i < Enemy_Amount; i++)
@@ -420,23 +473,25 @@ void Game::start()
                 }
             }
 
-            countAff = 0;
 
-            for (size_t i = 0; i < 10; i++)
-            {
-                for (char& c : arr[i]) {
+
+
+           // for (int i = 0; i < 10; i++)
+           // {
+           /*     for (char& c : arr[i]) {
                     //printf("--");
                     //printf("%c\n", c);
                     if (c != *" ")
                     {
                        if (c != *"a")
                         {
-                            DrawTexture(BlocTerre, -500 + ( countAff * 100 + 1 * countAff), 500 - i * 100, LIGHTGRAY);
+                           DrawTexture(BlocInconnue, -390 + (countAff * 100 + 1 * countAff), i * 100, LIGHTGRAY);
+                           
                             //ToDo : fonction qui prend le "c" en argument et retourne l'information demmandée afin d'afficher la chose!
                             countAff = countAff + 1;
                         }
                         else {
-                            DrawTexture(BlocInconnue, -500 + ( countAff * 100 + 1 * countAff), 500 - i * 100, LIGHTGRAY);
+                           DrawTexture(BlocTerre, 390 + (countAff * 100 + 1 * countAff), i * 100, LIGHTGRAY);
                             //ToDo : fonction qui prend le "c" en argument et retourne l'information demmandée afin d'afficher la chose!
                             countAff = countAff + 1;
                         }
@@ -444,8 +499,8 @@ void Game::start()
                     }
                     
                 }
-                countAff = 0;
-            }
+            //    countAff = 0;*/
+           // }
             
             /*
             std::size_t found = arr[0].find("a");
@@ -461,7 +516,12 @@ void Game::start()
             DrawTexture(mario, player->position.x - 20, player->position.y - 32, LIGHTGRAY); // Draw button frame
             //ClearBackground(LIGHTGRAY);
             //DrawTextureRec(scarfy, frameRec, player.position, WHITE);  // Draw part of the texture
+ 
             EndMode2D();
+            std::string DispCurrentLevel = "Temps restant: " + std::to_string((framesMax / 60) - (framesCounter / 60));
+            char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
+
+            DrawText(Game3_time, 5, 0, 30, RED);
             DrawText("Controls:", 20, 20, 10, BLACK);
             DrawText("- Right/Left to move", 40, 40, 10, DARKGRAY);
             DrawText("- Space to jump", 40, 60, 10, DARKGRAY);

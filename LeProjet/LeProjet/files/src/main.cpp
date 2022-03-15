@@ -23,7 +23,7 @@ using namespace std;
 
 
 
-#define MAX_FRAME_SPEED     15
+#define MAX_FRAME_SPEED     10
 #define MIN_FRAME_SPEED      1
 
 int main(void)
@@ -32,7 +32,7 @@ int main(void)
     //SINON 
     //Game g1
     // world : 1 - current world : 1 - maxlevel ; 6 - unlocklevel : 5
-    Game g1(1,1,6,3);
+    Game g1(1,1,6,6);
     g1.start();
     return 0;
     
