@@ -6,7 +6,11 @@ void Player::attack()
 
 void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
 {
-    if (IsKeyDown(KEY_LEFT)) this->position.x -= playerHorSpeed * delta;
+    if (IsKeyDown(KEY_LEFT))
+    {
+        if(this->position.x > 20)
+        this->position.x -= playerHorSpeed * delta;
+    }
     if (IsKeyDown(KEY_RIGHT)) this->position.x += playerHorSpeed * delta;
     if (IsKeyDown(KEY_SPACE) && this->canJump)
     {
