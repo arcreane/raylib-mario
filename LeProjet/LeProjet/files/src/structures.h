@@ -6,7 +6,7 @@ enum class ItemType { ground, sky };
 
 typedef struct EnvItem {
     Rectangle rect;
-    int blocking[4];
+    int blocking[4]; // {top, right, bottom, left}
     Color color;
     ItemType type;
 } EnvItem;

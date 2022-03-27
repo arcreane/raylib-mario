@@ -10,8 +10,8 @@ enum class Direction { right, left, up, down };
 class Player
 {
 private:
-	float playerJumpSpeed = 250.0f;
-	float playerHorSpeed = 1000.0f;
+	float playerJumpSpeed = 350.0f;
+	float playerHorSpeed = 400.0f;
 public:
 	Vector2 position;
 	float speed;
