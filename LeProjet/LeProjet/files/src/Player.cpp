@@ -22,7 +22,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
     {
         EnvItem* ei = envItems + i;
         Vector2* p = &(this->position);
-        if (ei->blocking &&
+        if (ei->blocking[0] &&
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y >= p->y &&

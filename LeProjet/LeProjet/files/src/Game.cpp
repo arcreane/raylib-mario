@@ -65,33 +65,9 @@ void Game::start()
     printf("\n\nbonjour\n\n");
 
     */
-
-    string filename = "../LeProjet/LeProjet/files/map1.txt";   // Name of the file
-
-    string line;   // To read each line from code
-    int i = 0;    // Variable to keep count of each line
-    string arr[500];  // array to store each line
-    ifstream mFile(filename);
-    if (mFile.is_open())
-    {
-        while (!mFile.eof())
-        {
-            getline(mFile, line);
-            arr[i] = line;
-            i++;
-        }
-        mFile.close();
-    }
-    else
-        cout << "Couldn't open the file\n";
-
-    for (int j = 0; j < i; j++)
-    {
-        cout << arr[0] << endl;
-    }
-
-
-
+    // Store the map from a file
+    gameMap->CreateMap("../LeProjet/LeProjet/files/map1.txt");
+    
 
     int  countAff = 0;
 
@@ -119,7 +95,7 @@ void Game::start()
     Player* playerMENU = new Player();
 
     //s'occupe du cube dans ENJEU
-    player->position = { 20 , -10 };
+    player->position = { 120 , -10 };
     player->speed = 0;
     player->canJump = false;
 
@@ -157,19 +133,19 @@ void Game::start()
     EnvItem envItems[] = {
         // 1 :X    -- 2:Y    --- 3:Distance    --- 4 : Hauteur
         // 1 : => + -- vers le bas +
-        {{ -1000, -1000, 2000, 0 }, 0, LIGHTGRAY },
-        {{ 0, 0, 10000, 200 }, 1, GRAY },
-        {{ 300, 200, 400, 10 }, 1, GRAY },
-        {{ 250, 300, 100, 10 }, 1, GRAY },
-        {{ 650, 300, 100, 10 }, 1, GRAY }
+        {{ -1000, -1000, 2000, 0 }, {0,0,0,0}, LIGHTGRAY, ItemType::sky},
+        {{ 0, 0, 10000, 200 }, {1,1,1,1}, GRAY, ItemType::sky},
+        {{ 300, 200, 400, 10 }, {1,1,1,1}, GRAY, ItemType::sky },
+        {{ 250, 300, 100, 10 }, {1,1,1,1}, GRAY,ItemType::sky },
+        {{ 650, 300, 100, 10 }, {1,1,1,1}, GRAY, ItemType::sky }
     };
 
     EnvItem envItems2[] = {
-    {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
-    {{ 0, 400, 10000, 200 }, 1, BLUE },
-    {{ 300, 200, 400, 10 }, 1, BLUE},
-    {{ 250, 300, 100, 10 }, 1, BLUE},
-    {{ 650, 300, 100, 10 }, 1, BLUE}
+    {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY,ItemType::sky },
+    {{ 0, 400, 10000, 200 }, {1,1,1,1}, BLUE, ItemType::sky },
+    {{ 300, 200, 400, 10 }, {1,1,1,1}, BLUE, ItemType::sky},
+    {{ 250, 300, 100, 10 }, {1,1,1,1}, BLUE, ItemType::sky},
+    {{ 650, 300, 100, 10 }, {1,1,1,1}, BLUE, ItemType::sky}
     };
 
 
@@ -247,14 +223,14 @@ void Game::start()
         {
 
             EnvItem MAPmonde1[] = {
-            {{ -1000, -1000, 2000, 400 }, 0, LIGHTGRAY },
-            {{ 0,0, 10000, 200 }, 1, DARKBROWN },
-            {{ 0, 0, 40 , 40 }, 1, returnColorToPrint(1,&this->unlockLevel,&this->currentLevel)},
-            {{ 300, 0, 40 , 40 }, 1, returnColorToPrint(2,&this->unlockLevel,&this->currentLevel)},
-            {{ 600, 0, 40 , 40 }, 1, returnColorToPrint(3,&this->unlockLevel,&this->currentLevel)},
-            {{ 900, 0, 40 , 40 }, 1, returnColorToPrint(4,&this->unlockLevel,&this->currentLevel)},
-            {{ 1200, 0, 40 , 40 }, 1, returnColorToPrint(5,&this->unlockLevel,&this->currentLevel)},
-            {{ 1500, 0, 40 , 40 }, 1, returnColorToPrint(6,&this->unlockLevel,&this->currentLevel)}
+            {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, ItemType::sky},
+            {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, ItemType::sky },
+            {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,&this->unlockLevel,&this->currentLevel),ItemType::sky},
+            {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,&this->unlockLevel,&this->currentLevel),ItemType::sky},
+            {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,&this->unlockLevel,&this->currentLevel),ItemType::sky},
+            {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,&this->unlockLevel,&this->currentLevel),ItemType::sky},
+            {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,&this->unlockLevel,&this->currentLevel),ItemType::sky},
+            {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,&this->unlockLevel,&this->currentLevel),ItemType::sky}
             };
             int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
             float deltaTime = GetFrameTime();
@@ -384,35 +360,36 @@ void Game::start()
             // Draw
             //----------------------------------------------------------------------------------
             BeginDrawing();
-            ClearBackground(LIGHTGRAY);
             BeginMode2D(camera);
 
-            countAff = 0;
-            int countAffTotal = 0;
-            //DrawTexture(BlocTerre, 0,-400, LIGHTGRAY);
-            for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
-            //Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+            gameMap->DrawMap();
 
-            for (int i = 0; i < 10; i++)
-            {
-                for (char& c : arr[i]) {
-                    if (c != *" ")
-                    {
-                        if (c != *"a")
-                        {
-                            DrawTexture(BlocInconnue, 0 + (countAff * 100  ), -800 + (i * 100 ), LIGHTGRAY);
-                            countAff = countAff + 1;
-                        }
-                        else {
-                            DrawTexture(BlocTerre, (countAff * 100 ), -800 + (i * 100 ), LIGHTGRAY);
-                            //ToDo : fonction qui prend le "c" en argument et retourne l'information demmandée afin d'afficher la chose!
-                            countAff = countAff + 1;
-                        }  
-                    }
-                }
-                countAff = 0;
-                countAffTotal++;
-            }
+            //countAff = 0;
+            //int countAffTotal = 0;
+            ////DrawTexture(BlocTerre, 0,-400, LIGHTGRAY);
+            //for (int i = 0; i < envItemsLength; i++) DrawRectangleRec(envItems[i].rect, envItems[i].color);
+            ////Rectangle playerRect = { player.position.x - 20, player.position.y - 40, 40, 40 };
+
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    for (char& c : gameMap->mapVector[i]) {
+            //        if (c != *" ")
+            //        {
+            //            if (c != *"a")
+            //            {
+            //                DrawTexture(BlocInconnue, 0 + (countAff * 100  ), -800 + (i * 100 ), LIGHTGRAY);
+            //                countAff = countAff + 1;
+            //            }
+            //            else {
+            //                DrawTexture(BlocTerre, (countAff * 100 ), -800 + (i * 100 ), LIGHTGRAY);
+            //                //ToDo : fonction qui prend le "c" en argument et retourne l'information demmandée afin d'afficher la chose!
+            //                countAff = countAff + 1;
+            //            }  
+            //        }
+            //    }
+            //    countAff = 0;
+            //    countAffTotal++;
+            //}
 
           
 
