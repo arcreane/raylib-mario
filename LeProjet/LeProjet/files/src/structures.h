@@ -1,12 +1,14 @@
 #pragma once
 #include "raylib.h"
 #include "raymath.h"
-#include <string>
+
+enum class ItemType { ground, sky };
 
 typedef struct EnvItem {
     Rectangle rect;
-    int blocking;
+    int blocking[4]; // {top, right, bottom, left}
     Color color;
+    ItemType type;
 } EnvItem;
 
 //ENEMY à classer
