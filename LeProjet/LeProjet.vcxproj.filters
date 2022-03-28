@@ -33,6 +33,12 @@
     <ClCompile Include="LeProjet\files\src\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeProjet\files\src\LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h">
@@ -51,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeProjet\files\src\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\LevelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

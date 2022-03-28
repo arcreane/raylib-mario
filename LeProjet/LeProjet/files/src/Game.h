@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Map.h"
 #include "Player.h"
+#include "LevelManager.h"
 
 //define
 
@@ -17,6 +18,7 @@ public:
     int totalLevel;
     int unlockLevel;
     Map* gameMap;
+    LevelManager* levelManager;
    /* Player player;
     Player player2;*/
 public:

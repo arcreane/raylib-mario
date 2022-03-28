@@ -21,6 +21,7 @@ Game::Game()
     this->totalLevel = 6;
     this->unlockLevel = 1;
     this->gameMap = new Map();
+    //this->levelManager = new LevelManager();
 
 }
 
@@ -32,16 +33,20 @@ Game::Game(int world, int currentLevel, int totalLevel, int unlockLevel)
     this->totalLevel = totalLevel;
     this->unlockLevel = unlockLevel;
     this->gameMap = new Map();
-
+    //this->levelManager = new LevelManager();
 }
 
 Game::~Game()
 {
     delete gameMap;
+    //delete levelManager;
 }
 
 void Game::start()
 {
+    // Load the menu with the levelManager
+    //levelManager->LoadLevel(LevelName::menu);
+    
     // Store the map from a file
     gameMap->CreateMap("../LeProjet/LeProjet/files/map1.txt");
 
