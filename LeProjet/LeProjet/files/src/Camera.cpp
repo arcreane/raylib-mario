@@ -9,12 +9,21 @@ void UpdateCameraCenterGame2(Camera2D* camera, Player* player, EnvItem* envItems
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->offset = { width / 2.0f, height / 2.0f };
-    if (player->position.x < 650) 
+    if (player->position.x < 650)
     {
-        camera->target = { 650, player->position.y - 250 };
-    }else
+        
+        if (player->position.y > -100) {
+            camera->target = { 650, player->position.y - 250 };
+        }
+        else
+            camera->target = { 650, player->position.y};
+    }
+    else
     {
-        camera->target = { player->position.x, player->position.y - 250 };
+        if(player->position.y > -100){
+            camera->target = { player->position.x, player->position.y - 250 };
+        }
+        else camera->target = { player->position.x, player->position.y };
     }
    
 }
