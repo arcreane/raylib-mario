@@ -49,8 +49,11 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
         case 'a':
             newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::ground };
             break;
-        case 'z':
-            newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, RED, ItemType::sky };
+        case 's':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::start };
+            break;
+        case 'f':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::finish };
             break;
         default:
             newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, GREEN, ItemType::sky };
@@ -62,13 +65,27 @@ void Map::DrawMap()
 {
     ClearBackground(backgroundColor);
     Texture2D Ground = LoadTexture("../LeProjet/LeProjet/files/img/BlocTerre100-100.png");
+    Texture2D Start = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+    Texture2D Finish = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+
+    
 
     for (int i = 0; i < mapVector.size(); i++)
     {
         DrawRectangleRec(mapVector[i].rect, mapVector[i].color);
-        if (mapVector[i].type == ItemType::ground)
+        switch (mapVector[i].type)
         {
-            DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            case ItemType::ground:
+                DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+                break;
+            case ItemType::start:
+                DrawTexture(Start, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+                break;
+            case ItemType::finish:
+                DrawTexture(Finish, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+                break;
+            default:
+                DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
         }
     }
 }

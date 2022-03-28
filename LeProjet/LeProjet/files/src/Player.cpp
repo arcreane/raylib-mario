@@ -10,6 +10,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
     int hitRightSide = 0;
     int hitLeftSide = 0;
     int hitBottomSide = 0;
+    int hitAnySide = 0;
     for (int i = 0; i < envItemsLength; i++)
     {
         EnvItem* ei = envItems + i;
@@ -23,6 +24,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
             ei->rect.y < p->y + this->speed * delta)
         {
             hitTopSide = 1;
+            hitAnySide = 1;
             this->speed = 0.0f;
             p->y = ei->rect.y;
         }
@@ -36,6 +38,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
             ei->rect.x + ei->rect.width > p->x - this->playerHorSpeed * delta)
         {
             hitRightSide = 1;
+            hitAnySide = 1;
             p->x = ei->rect.x + ei->rect.width;
         }
 
@@ -47,6 +50,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
             ei->rect.y + ei->rect.height > p->y + this->speed * delta)
         {
             hitBottomSide = 1;
+            hitAnySide = 1;
             this->speed = 0.0f;
             p->y = ei->rect.y + ei->rect.height;
             
@@ -61,7 +65,12 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
             ei->rect.x < p->x + this->playerHorSpeed * delta)
         {
             hitLeftSide = 1;
+            hitAnySide = 1;
             p->x = ei->rect.x;
+        }
+        if (hitAnySide && ei->type== ItemType::finish)
+        {
+            //finishMap(); (in map.cpp)
         }
         
     }

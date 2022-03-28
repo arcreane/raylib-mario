@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
-enum class ItemType { ground, sky };
+enum class ItemType { ground, sky, start, finish };
 
 typedef struct EnvItem {
     Rectangle rect;
