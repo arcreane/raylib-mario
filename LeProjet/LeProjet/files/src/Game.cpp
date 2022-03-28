@@ -252,7 +252,7 @@ void Game::start()
             if (IsKeyPressed(KEY_R))
             {
                 camera.zoom = 1.0f;
-                player->position = { 20, 0 };
+                player->position = { 120, 0 };
             }
             if (player->position.y > 200)
             {
