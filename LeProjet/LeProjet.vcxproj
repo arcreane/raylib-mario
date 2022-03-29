@@ -268,6 +268,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LeProjet\files\src\Camera.cpp" />
+    <ClCompile Include="LeProjet\files\src\Enemy.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
     <ClCompile Include="LeProjet\files\src\Map.cpp" />
@@ -283,6 +284,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Camera.h" />
+    <ClInclude Include="LeProjet\files\src\Enemy.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
     <ClInclude Include="LeProjet\files\src\Menu.h" />
     <ClInclude Include="LeProjet\files\src\Map.h" />

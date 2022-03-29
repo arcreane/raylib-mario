@@ -4,6 +4,7 @@
 #include "Menu.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Enemy.h"
 #include <iostream>
 #include <string>
 #include <fstream>
