@@ -268,12 +268,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="LeProjet\files\src\Camera.cpp" />
+    <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\Item.cpp" />
+    <ClCompile Include="LeProjet\files\src\Level.cpp" />
+    <ClCompile Include="LeProjet\files\src\LevelManager.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
     <ClCompile Include="LeProjet\files\src\Map.cpp" />
     <ClCompile Include="LeProjet\files\src\Player.cpp" />
     <ClCompile Include="LeProjet\files\src\Menu.cpp" />
+    <ClCompile Include="LeProjet\files\src\StartScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
@@ -284,11 +288,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Camera.h" />
+    <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
     <ClInclude Include="LeProjet\files\src\Item.h" />
+    <ClInclude Include="LeProjet\files\src\Level.h" />
+    <ClInclude Include="LeProjet\files\src\LevelManager.h" />
     <ClInclude Include="LeProjet\files\src\Menu.h" />
     <ClInclude Include="LeProjet\files\src\Map.h" />
     <ClInclude Include="LeProjet\files\src\Player.h" />
+    <ClInclude Include="LeProjet\files\src\StartScreen.h" />
     <ClInclude Include="LeProjet\files\src\structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
