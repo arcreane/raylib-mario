@@ -33,6 +33,9 @@
     <ClCompile Include="LeProjet\files\src\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeProjet\files\src\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

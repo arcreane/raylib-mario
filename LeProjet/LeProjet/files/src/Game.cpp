@@ -44,6 +44,8 @@ void Game::start()
 {
     // Store the map from a file
     gameMap->CreateMap("../LeProjet/LeProjet/files/map1.txt");
+    gameMap->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+
 
     typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU };
     const int screenWidth = 1300;
@@ -132,6 +134,7 @@ void Game::start()
 
     int framesCounter = 0;
     int framesMax = 300 * 60;
+
     while (!WindowShouldClose())
     {
         //Goal : 3 Screen - mby 4 later about victory 
@@ -168,14 +171,14 @@ void Game::start()
         {
 
             EnvItem MAPmonde1[] = {
-            {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, ItemType::sky},
-            {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, ItemType::sky },
-            {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,&this->unlockLevel,&this->currentLevel),ItemType::sky},
-            {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,&this->unlockLevel,&this->currentLevel),ItemType::sky},
-            {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,&this->unlockLevel,&this->currentLevel),ItemType::sky},
-            {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,&this->unlockLevel,&this->currentLevel),ItemType::sky},
-            {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,&this->unlockLevel,&this->currentLevel),ItemType::sky},
-            {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,&this->unlockLevel,&this->currentLevel),ItemType::sky}
+            {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
+            {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, EnvItemType::sky },
+            {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,&this->unlockLevel,&this->currentLevel),EnvItemType::sky},
+            {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,&this->unlockLevel,&this->currentLevel),EnvItemType::sky},
+            {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,&this->unlockLevel,&this->currentLevel),EnvItemType::sky},
+            {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,&this->unlockLevel,&this->currentLevel),EnvItemType::sky},
+            {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,&this->unlockLevel,&this->currentLevel),EnvItemType::sky},
+            {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,&this->unlockLevel,&this->currentLevel),EnvItemType::sky}
             };
             int envItemsLengthMAPmonde1 = sizeof(MAPmonde1) / sizeof(MAPmonde1[0]);
             float deltaTime = GetFrameTime();
@@ -278,6 +281,7 @@ void Game::start()
             BeginMode2D(camera);
 
             gameMap->DrawMap();
+            gameMap->DrawItem();
 
             //ENEMY à classer
             for (int i = 0; i < Enemy_Amount; i++)

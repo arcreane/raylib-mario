@@ -68,7 +68,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
             hitAnySide = 1;
             p->x = ei->rect.x;
         }
-        if (hitAnySide && ei->type== ItemType::finish)
+        if (hitAnySide && ei->type== EnvItemType::finish)
         {
             //finishMap(); (in map.cpp)
         }

@@ -9,6 +9,72 @@
 using namespace std;
 
 
+void Map::ReadItems(std::string filename)
+{
+    char c;   // To read each character from file
+    std::vector<char> charVector;
+    float line = 0;    // Variable to keep count of each line
+    float col = 0;    // Variable to keep count of each colone
+    ifstream mFile(filename);
+    if (mFile.is_open())
+    {
+        while (!mFile.eof())
+        {
+            mFile.get(c);  // read character
+            if (c == '\n')
+            {
+                line++;
+                col = 0;
+            }
+            else if (c != 'z')
+            {
+                Item item = CreateItem(c, line, col);
+                itemVector.push_back(item);
+            }
+            col++;
+        }
+        mFile.close();
+    }
+    else
+        cout << "Couldn't open the file\n";
+}
+
+Item Map::CreateItem(char c, float line, float col)
+{
+    Item newItem;
+    switch (c)
+    {
+    case 'c':
+        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::coin };
+        break;
+    default:
+        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, GREEN, ItemType::shroom };
+    }
+    return newItem;
+}
+
+void Map::DrawItem()
+{
+    Texture2D Coin = LoadTexture("../LeProjet/LeProjet/files/img/Coin100-100.png");
+    Texture2D Shroom = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+
+    for (int i = 0; i < itemVector.size(); i++)
+    {
+        DrawRectangleRec(itemVector[i].rect, itemVector[i].color);
+        switch (itemVector[i].type)
+        {
+        case ItemType::coin:
+            DrawTexture(Coin, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            break;
+        case ItemType::shroom:
+            DrawTexture(Shroom, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            break;
+        default:
+            DrawTexture(Shroom, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+        }
+    }
+}
+
 void Map::CreateMap(string filename)
 {
     backgroundColor = SKYBLUE;
@@ -47,16 +113,16 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
     switch (c)
     {
         case 'a':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::ground };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::ground };
             break;
         case 's':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::start };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::start };
             break;
         case 'f':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::finish };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::finish };
             break;
         default:
-            newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, GREEN, ItemType::sky };
+            newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, GREEN, EnvItemType::sky };
     }
     return newEnvItem;
 }
@@ -75,13 +141,13 @@ void Map::DrawMap()
         DrawRectangleRec(mapVector[i].rect, mapVector[i].color);
         switch (mapVector[i].type)
         {
-            case ItemType::ground:
+            case EnvItemType::ground:
                 DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
                 break;
-            case ItemType::start:
+            case EnvItemType::start:
                 DrawTexture(Start, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
                 break;
-            case ItemType::finish:
+            case EnvItemType::finish:
                 DrawTexture(Finish, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
                 break;
             default:

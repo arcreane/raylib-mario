@@ -2,13 +2,13 @@
 #include "raylib.h"
 #include "raymath.h"
 
-enum class ItemType { ground, sky, start, finish };
+enum class EnvItemType { ground, sky, start, finish };
 
 typedef struct EnvItem {
     Rectangle rect;
     int blocking[4]; // {top, right, bottom, left}
     Color color;
-    ItemType type;
+    EnvItemType type;
 } EnvItem;
 
 //ENEMY à classer
