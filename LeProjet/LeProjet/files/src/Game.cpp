@@ -46,8 +46,7 @@ void Game::start()
     gameMap->CreateMap("../LeProjet/LeProjet/files/map1.txt");
     gameMap->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 
-
-    typedef enum GameMoment { DEBUT, CHOISIRPARTIE, ENJEU };
+    typedef enum GameMoment { DEBUT, CREERREPRENDRE, CREERJOUEUR, CHOISIRPARTIE, ENJEU };
     const int screenWidth = 1300;
     const int screenHeight = 800;
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
@@ -131,9 +130,16 @@ void Game::start()
 
     Texture2D BlocTerre = LoadTexture("../LeProjet/LeProjet/files/img/BlocTerre100-100.png");
     Texture2D BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
+    Texture2D Ecran1 = LoadTexture("../LeProjet/LeProjet/files/img/ecran11.png");
+    Texture2D valid = LoadTexture("../LeProjet/LeProjet/files/img/valider.png");
 
     int framesCounter = 0;
     int framesMax = 300 * 60;
+
+
+
+    Vector2 positionClick = { 0.0f, 0.0f };
+    bool active = false;
 
     while (!WindowShouldClose())
     {
@@ -144,29 +150,73 @@ void Game::start()
             //Page that ask user to press SPACE bar in ordre to go in screen 2
         case DEBUT:
         {
-
-
-            mousePoint = GetMousePosition();
-
+          
+             mousePoint = GetMousePosition();
+            DrawTexture(mario, player->position.x - 20, player->position.y - 32, LIGHTGRAY);
 
             if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || IsKeyPressed(KEY_ENTER)) btnAction = true;
             // Draw
             //----------------------------------------------------------------------------------
             BeginDrawing();
             ClearBackground(RAYWHITE);
-            DrawTexture(button, (int)btnBounds.x, (int)btnBounds.y, WHITE); // Draw button frame
+            DrawTexture(Ecran1, 0, 0, LIGHTGRAY);
+            DrawTexturePro(button, { 0,0, (float)button.width, (float)button.height }, { 200,200, 150,50 }, { 0,0 },0.f, WHITE); // Draw button frame
             if (btnAction)
             {
-                currentScreen = CHOISIRPARTIE;
-                cameraMENU.target = playerMENU->position;
-                cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-                cameraMENU.rotation = 0.0f;
-                cameraMENU.zoom = 1.0f;
+                currentScreen = CREERREPRENDRE;
+
             }
             EndDrawing();
         }
         break;
+
+        case CREERREPRENDRE:
+        {
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+            {
+                positionClick = GetMousePosition();
+                if (positionClick.x < 650)
+                {
+                    printf("\n L'utilisateur veut charger une partie");
+                    currentScreen = CHOISIRPARTIE;
+                    cameraMENU.target = playerMENU->position;
+                    cameraMENU.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+                    cameraMENU.rotation = 0.0f;
+                    cameraMENU.zoom = 1.0f;
+                }
+                else
+                {
+                    printf("\n L'utilisateur veut creer une partie");
+                    currentScreen = CREERJOUEUR;
+                }
+              
+            }
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawRectangle(0, 0,650, 1000, RED);
+            DrawRectangle(650, 0, 650, 1000, BLUE);
+            DrawText("Charger une Partie", 20, 300, 50, BLACK);
+            DrawText("Créer une Partie", 700, 300, 50, BLACK);
+            EndDrawing();
+
+        }
+        break;
         //Page that ask user to cloose a LEVEL
+
+        case CREERJOUEUR:
+        {
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            DrawText("Nom du joueur :", 100, 100, 40, BLACK);
+            DrawRectangle(400, 400, 50, 50, RED);
+            DrawRectangle(700, 400, 50, 50, RED);
+            DrawText("Mario", 380, 300, 40, BLACK);
+            DrawText("DK", 700, 300, 40, BLACK);
+            DrawTexture(valid, 550, 550, WHITE); // Draw button fram
+            EndDrawing();
+        }
+        break;
+
         case CHOISIRPARTIE:
         {
 
