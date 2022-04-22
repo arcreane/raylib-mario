@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include "Camera.h"
+#include "LevelManager.h"
 
 Menu::Menu(LevelManager& levelManager)
     :Level(LevelName::menu, levelManager)
