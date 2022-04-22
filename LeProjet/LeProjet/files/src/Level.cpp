@@ -35,7 +35,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
     koopaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/koopa_retour.png");
     
     // Item Texture 
-    CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin100-100.png");
+    CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
     ShroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
 }
 
@@ -252,7 +252,7 @@ Item Level::CreateItem(char c, float line, float col)
     switch (c)
     {
     case 'c':
-        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::coin };
+        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLANK, ItemType::coin };
         break;
     default:
         newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, GREEN, ItemType::shroom };
@@ -268,13 +268,13 @@ void Level::DrawItem()
         switch (itemVector[i].type)
         {
         case ItemType::coin:
-            DrawTexture(CoinTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(CoinTexture, itemVector[i].rect.x + 25, itemVector[i].rect.y + 25, LIGHTGRAY);
             break;
         case ItemType::shroom:
-            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(ShroomTexture, itemVector[i].rect.x + 25, itemVector[i].rect.y + 25, LIGHTGRAY);
             break;
         default:
-            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(ShroomTexture, itemVector[i].rect.x + 25, itemVector[i].rect.y + 25, LIGHTGRAY);
         }
     }
 }
