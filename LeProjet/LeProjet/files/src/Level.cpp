@@ -1,5 +1,8 @@
 #include "Level.h"
 #include "camera.h"
+#include <iostream>
+#include <fstream>
+
 
 Level::Level(LevelName name, LevelManager& levelManager)
 {
@@ -30,6 +33,10 @@ Level::Level(LevelName name, LevelManager& levelManager)
     goombaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
     koopaTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
     koopaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/koopa_retour.png");
+    
+    // Item Texture 
+    CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin100-100.png");
+    ShroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
 }
 
 void Level::InitLevel()
@@ -38,7 +45,7 @@ void Level::InitLevel()
 	{
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        map.ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		camera.target = player.position;
 		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
 		camera.rotation = 0.0f;
@@ -133,7 +140,7 @@ void Level::DrawLevel()
     BeginMode2D(camera);
 
     map.DrawMap();
-    map.DrawItem();
+    this->DrawItem();
 
     //ENEMY à classer
     for (int i = 0; i < enemyAmount; i++)
@@ -207,4 +214,67 @@ void Level::DrawLevel()
     DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 80, 10, DARKGRAY);
 
     EndDrawing();
+}
+
+void Level::ReadItems(std::string filename)
+{
+    char c;   // To read each character from file
+    std::vector<char> charVector;
+    float line = 0;    // Variable to keep count of each line
+    float col = 0;    // Variable to keep count of each colone
+    std::ifstream mFile(filename);
+    if (mFile.is_open())
+    {
+        while (!mFile.eof())
+        {
+            mFile.get(c);  // read character
+            if (c == '\n')
+            {
+                line++;
+                col = 0;
+            }
+            else if (c != 'z')
+            {
+                Item item = CreateItem(c, line, col);
+                itemVector.push_back(item);
+            }
+            col++;
+        }
+        mFile.close();
+    }
+    else
+        std::cout << "Couldn't open the file\n";
+}
+
+Item Level::CreateItem(char c, float line, float col)
+{
+    Item newItem;
+    switch (c)
+    {
+    case 'c':
+        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, ItemType::coin };
+        break;
+    default:
+        newItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, GREEN, ItemType::shroom };
+    }
+    return newItem;
+}
+
+void Level::DrawItem()
+{
+    for (int i = 0; i < itemVector.size(); i++)
+    {
+        DrawRectangleRec(itemVector[i].rect, itemVector[i].color);
+        switch (itemVector[i].type)
+        {
+        case ItemType::coin:
+            DrawTexture(CoinTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            break;
+        case ItemType::shroom:
+            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            break;
+        default:
+            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+        }
+    }
 }
