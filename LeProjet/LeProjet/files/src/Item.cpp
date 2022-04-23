@@ -22,7 +22,9 @@ void Item::UseItem(Level *l)
 
 bool Item::operator==(const Item& i) const
 {
-    if (i.rect.x == this->rect.x &&
+    if (i.type == this->type &&
+        i.blocking == this->blocking &&
+        i.rect.x == this->rect.x &&
         i.rect.y == this->rect.y &&
         i.rect.width == this->rect.width &&
         i.rect.height == this->rect.height
