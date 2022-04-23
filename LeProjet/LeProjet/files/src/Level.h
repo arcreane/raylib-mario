@@ -5,6 +5,7 @@
 
 enum class LevelName { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
 class LevelManager;
+class Item;
 
 class Level
 {
@@ -14,6 +15,7 @@ public:
 	Map map;
 	std::vector<Item> itemVector; // vector to store each item of the level
 	Player player;
+	int score;
 
 	// Item textures
 	Texture2D CoinTexture;
@@ -56,5 +58,6 @@ public:
 	void ReadItems(std::string filename);
 	Item CreateItem(char c, float line, float col);
 	void DrawItem();
+	void RemoveItem(Item *item);
 };
 
