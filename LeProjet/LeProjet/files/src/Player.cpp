@@ -4,7 +4,7 @@ void Player::attack()
 {
 }
 
-void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
+void Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
 {   
     int hitTopSide = 0;
     int hitRightSide = 0;

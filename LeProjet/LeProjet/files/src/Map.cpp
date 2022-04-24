@@ -18,6 +18,7 @@ Map::Map()
 void Map::CreateMap(string filename)
 {
     backgroundColor = SKYBLUE;
+    mapVector.clear();
 
     char c;   // To read each character from file
     std::vector<char> charVector;
@@ -115,7 +116,6 @@ void Map::DrawMap()
         }
     }
 }
-
 
 EnvItem Map::CreateEnvItem(char c, float line,float col)
 {
