@@ -1,6 +1,20 @@
 #include "Item.h"
 #include <vector>
 
+Item::Item(ItemType t)
+{
+    rect = { 0 + 25, -800 + 25, 100, 100 };
+    for (int i = 0; i<4; i++)
+        blocking[i] = 1;
+    color = BLANK;
+    type = t;
+}
+
+void Item::SetRectangle(Rectangle rec)
+{
+    rect = rec;
+}
+
 void Item::UpdateItem(Player *p, Level *l)
 {
     // Check if the item is in contact with the player
@@ -14,11 +28,6 @@ void Item::UpdateItem(Player *p, Level *l)
     }
 }
 
-void Item::UseItem(Level *l)
-{
-    l->score+=1;
-    l->RemoveItem(this);
-}
 
 bool Item::operator==(const Item& i) const
 {

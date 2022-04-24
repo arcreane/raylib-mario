@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Level.h"
 
-enum class ItemType { coin, shroom };
+enum class ItemType { coin, upMushroom };
 class Level;
 
 class Item
@@ -14,8 +14,10 @@ public:
     Color color;
     ItemType type;
 
+    Item(ItemType t);
+    void SetRectangle(Rectangle rec);
     void UpdateItem(Player *p, Level *l);
-    void UseItem(Level *l);
+    virtual void UseItem(Level *l) = 0;  // pure virtual function
     bool operator==(const Item &i) const;
 };
 

@@ -13,13 +13,14 @@ public:
 	LevelName name;
 	LevelManager *levelManager;
 	Map map;
-	std::vector<Item> itemVector; // vector to store each item of the level
+	std::vector<Item*> itemVector; // vector to store each item of the level
 	Player player;
 	int score;
+	int lives;
 
 	// Item textures
 	Texture2D CoinTexture;
-	Texture2D ShroomTexture;
+	Texture2D UpMushroomTexture;
 
 	Camera2D camera;
 	int cameraOption;
@@ -49,6 +50,7 @@ public:
 	Texture2D koopaTexture2;
 
 	Level(LevelName name, LevelManager &levelManager);
+	~Level();
 
 	virtual void InitLevel();
 	virtual void UpdateLevel();
@@ -56,8 +58,9 @@ public:
 
 	// Item functions
 	void ReadItems(std::string filename);
-	Item CreateItem(char c, float line, float col);
+	Item* CreateItem(char c, float line, float col);
 	void DrawItem();
 	void RemoveItem(Item *item);
+	void ClearItems();
 };
 

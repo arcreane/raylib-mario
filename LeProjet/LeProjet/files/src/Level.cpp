@@ -1,5 +1,7 @@
 #include "Level.h"
 #include "camera.h"
+#include "Coin.h"
+#include "UpMushroom.h"
 #include <iostream>
 #include <fstream>
 
@@ -9,6 +11,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
 	this->name = name;
 	this->levelManager = &levelManager;
     this->score = 0;
+    this->lives = 2;
 
 	camera = { 0 };
 	camera.rotation = 0.0f;
@@ -37,7 +40,12 @@ Level::Level(LevelName name, LevelManager& levelManager)
     
     // Item Texture
     CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
-    ShroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+    UpMushroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
+}
+
+Level::~Level()
+{
+    ClearItems();
 }
 
 void Level::InitLevel()
@@ -46,8 +54,13 @@ void Level::InitLevel()
 	{
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        
+        // Empty the vector of items then fill it again
+        ClearItems();
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
         score = 0;
+        lives = 2;
+
 		camera.target = player.position;
 		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
 		camera.rotation = 0.0f;
@@ -112,7 +125,7 @@ void Level::UpdateLevel()
     // Update items in the level
     for (int i =0;i<itemVector.size(); i++)
     {
-        itemVector[i].UpdateItem(&player, this);
+        itemVector[i]->UpdateItem(&player, this);
     }
 
     if (IsKeyPressed(KEY_I))
@@ -216,9 +229,12 @@ void Level::DrawLevel()
     char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
+    std::string tmp_lives = "Lives: " + std::to_string(this->lives);
+    char const* Level_lives = tmp_lives.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
-    DrawText(Level_score, 5, 40, 30, RED);
+    DrawText(Level_lives, 5, 40, 30, RED);
+    DrawText(Level_score, 630, 0, 30, RED);
     DrawText("Controls:", 20, 70, 10, BLACK);
     DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
     DrawText("- Space to jump", 40, 110, 10, DARKGRAY);
@@ -246,7 +262,7 @@ void Level::ReadItems(std::string filename)
             }
             else if (c != 'z')
             {
-                Item item = CreateItem(c, line, col);
+                Item* item = CreateItem(c, line, col);
                 itemVector.push_back(item);
             }
             col++;
@@ -257,17 +273,22 @@ void Level::ReadItems(std::string filename)
         std::cout << "Couldn't open the file\n";
 }
 
-Item Level::CreateItem(char c, float line, float col)
+Item* Level::CreateItem(char c, float line, float col)
 {
-    Item newItem;
+    Item* newItem;
+    Rectangle newRect = { col * 100 + 25, -800 + (line * 100) + 25, 100, 100 };
     switch (c)
     {
     case 'c':
-        newItem = { { col * 100 + 25, -800 + (line * 100) + 25, 100, 100 }, {1,1,1,1}, BLANK, ItemType::coin };
+        newItem = new Coin();
+        break;
+    case 's':
+        newItem = new UpMushroom();
         break;
     default:
-        newItem = { { col * 100 + 25, -800 + (line * 100) + 25, 100, 100 }, {1,1,1,1}, BLANK, ItemType::shroom };
+        newItem = new Coin();
     }
+    newItem->SetRectangle(newRect);
     return newItem;
 }
 
@@ -275,17 +296,17 @@ void Level::DrawItem()
 {
     for (int i = 0; i < itemVector.size(); i++)
     {
-        DrawRectangleRec(itemVector[i].rect, itemVector[i].color);
-        switch (itemVector[i].type)
+        DrawRectangleRec(itemVector[i]->rect, itemVector[i]->color);
+        switch (itemVector[i]->type)
         {
         case ItemType::coin:
-            DrawTexture(CoinTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(CoinTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
             break;
-        case ItemType::shroom:
-            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+        case ItemType::upMushroom:
+            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
             break;
         default:
-            DrawTexture(ShroomTexture, itemVector[i].rect.x, itemVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
         }
     }
 }
@@ -295,7 +316,16 @@ void Level::RemoveItem(Item *item)
     // Delete the item from the vector of items in the Level
     for (int i = 0; i < itemVector.size(); i++)
     {
-        if (item == &itemVector[i]) // surcharge de l'opérateur == dans item.cpp
+        if (item == itemVector[i]) // surcharge de l'opérateur == dans item.cpp
             itemVector.erase(itemVector.begin() + i);
     }
+}
+
+void Level::ClearItems()
+{
+    for (int i = 0; i < itemVector.size(); i++)
+    {
+        delete itemVector[i];
+    }
+    itemVector.clear();
 }

@@ -15,7 +15,7 @@ private:
 public:
 	Vector2 position;
 	float speed;
-	bool canJump;
+	bool canJump = false;
 	void attack();
-	void UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta);
+	void UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
 };

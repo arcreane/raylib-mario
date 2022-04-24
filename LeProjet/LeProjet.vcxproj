@@ -269,6 +269,7 @@
   <ItemGroup>
     <ClCompile Include="LeProjet\files\src\Camera.cpp" />
     <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
+    <ClCompile Include="LeProjet\files\src\Coin.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\Item.cpp" />
     <ClCompile Include="LeProjet\files\src\Level.cpp" />
@@ -278,6 +279,7 @@
     <ClCompile Include="LeProjet\files\src\Player.cpp" />
     <ClCompile Include="LeProjet\files\src\Menu.cpp" />
     <ClCompile Include="LeProjet\files\src\StartScreen.cpp" />
+    <ClCompile Include="LeProjet\files\src\UpMushroom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
@@ -289,6 +291,7 @@
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Camera.h" />
     <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
+    <ClInclude Include="LeProjet\files\src\Coin.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
     <ClInclude Include="LeProjet\files\src\Item.h" />
     <ClInclude Include="LeProjet\files\src\Level.h" />
@@ -298,6 +301,7 @@
     <ClInclude Include="LeProjet\files\src\Player.h" />
     <ClInclude Include="LeProjet\files\src\StartScreen.h" />
     <ClInclude Include="LeProjet\files\src\structures.h" />
+    <ClInclude Include="LeProjet\files\src\UpMushroom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
