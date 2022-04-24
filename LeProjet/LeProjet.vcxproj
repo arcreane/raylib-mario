@@ -279,6 +279,7 @@
     <ClCompile Include="LeProjet\files\src\Player.cpp" />
     <ClCompile Include="LeProjet\files\src\Menu.cpp" />
     <ClCompile Include="LeProjet\files\src\StartScreen.cpp" />
+    <ClCompile Include="LeProjet\files\src\UpMushroom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\raylib\raylib.vcxproj">
@@ -300,6 +301,7 @@
     <ClInclude Include="LeProjet\files\src\Player.h" />
     <ClInclude Include="LeProjet\files\src\StartScreen.h" />
     <ClInclude Include="LeProjet\files\src\structures.h" />
+    <ClInclude Include="LeProjet\files\src\UpMushroom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

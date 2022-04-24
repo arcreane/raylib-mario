@@ -3,7 +3,7 @@
 
 class Coin : public Item
 {
-protected:
+private:
 	void UseItem(Level *l) override;
 public:
 	Coin();

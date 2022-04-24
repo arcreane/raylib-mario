@@ -16,10 +16,11 @@ public:
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	Player player;
 	int score;
+	int lives;
 
 	// Item textures
 	Texture2D CoinTexture;
-	Texture2D ShroomTexture;
+	Texture2D UpMushroomTexture;
 
 	Camera2D camera;
 	int cameraOption;

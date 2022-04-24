@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "camera.h"
 #include "Coin.h"
+#include "UpMushroom.h"
 #include <iostream>
 #include <fstream>
 
@@ -10,6 +11,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
 	this->name = name;
 	this->levelManager = &levelManager;
     this->score = 0;
+    this->lives = 2;
 
 	camera = { 0 };
 	camera.rotation = 0.0f;
@@ -38,7 +40,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
     
     // Item Texture
     CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
-    ShroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+    UpMushroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
 }
 
 Level::~Level()
@@ -57,6 +59,8 @@ void Level::InitLevel()
         ClearItems();
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
         score = 0;
+        lives = 2;
+
 		camera.target = player.position;
 		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
 		camera.rotation = 0.0f;
@@ -225,9 +229,12 @@ void Level::DrawLevel()
     char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
+    std::string tmp_lives = "Lives: " + std::to_string(this->lives);
+    char const* Level_lives = tmp_lives.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
-    DrawText(Level_score, 5, 40, 30, RED);
+    DrawText(Level_lives, 5, 40, 30, RED);
+    DrawText(Level_score, 630, 0, 30, RED);
     DrawText("Controls:", 20, 70, 10, BLACK);
     DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
     DrawText("- Space to jump", 40, 110, 10, DARKGRAY);
@@ -275,6 +282,9 @@ Item* Level::CreateItem(char c, float line, float col)
     case 'c':
         newItem = new Coin();
         break;
+    case 's':
+        newItem = new UpMushroom();
+        break;
     default:
         newItem = new Coin();
     }
@@ -293,10 +303,10 @@ void Level::DrawItem()
             DrawTexture(CoinTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
             break;
         case ItemType::upMushroom:
-            DrawTexture(ShroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
+            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
             break;
         default:
-            DrawTexture(ShroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
+            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
         }
     }
 }
