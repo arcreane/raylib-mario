@@ -6,9 +6,10 @@
 #include <fstream>
 
 
-Level::Level(LevelName name, LevelManager& levelManager)
+Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager)
 {
 	this->name = name;
+    this->nextLevelName = nextLevelName;
 	this->levelManager = &levelManager;
     this->score = 0;
     this->lives = 2;
@@ -22,7 +23,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
 	screenHeight = GetScreenHeight();
 
     //ENEMY à classer
-    enemyAmount = 1;
+    enemyAmount = 0;
     previousTime = 0.0;
     currentTime = GetTime();
     deltaTime = 0.0f;
@@ -54,24 +55,6 @@ void Level::InitLevel()
 	{
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        
-        // Empty the vector of items then fill it again
-        ClearItems();
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
-        score = 0;
-        lives = 2;
-
-		camera.target = player.position;
-		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-		camera.rotation = 0.0f;
-		camera.zoom = 1.0f;
-
-        player.position = { 120 , -10 };
-        player.speed = 0;
-        player.canJump = false;
-
-        framesCounter = 0;
-        framesMax = 300 * 60;
 
         //ENEMY à classer
         for (int i = 0; i < enemyAmount; i++)
@@ -113,13 +96,33 @@ void Level::InitLevel()
 	default:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
 	}
+
+    // Empty the vector of items then fill it again
+    ClearItems();
+    this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+    score = 0;
+    lives = 2;
+
+    camera.target = player.position;
+    camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+    player.position = map.startPosition;
+    player.speed = 0;
+    player.canJump = false;
+
+    framesCounter = 0;
+    framesMax = 300 * 60;
 }
 
 void Level::UpdateLevel()
 {
     framesCounter++;
     float deltaTime = GetFrameTime();
-    player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    if (levelFinished == 1) NextLevel();
+
     cameraUpdaters[cameraOption](&camera, &player, map.mapVector.data(), map.mapVector.size(), deltaTime, screenWidth, screenHeight);
 
     // Update items in the level
@@ -229,7 +232,7 @@ void Level::DrawLevel()
     char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
-    std::string tmp_lives = "Lives: " + std::to_string(this->lives);
+    std::string tmp_lives = "Vies: " + std::to_string(this->lives);
     char const* Level_lives = tmp_lives.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
@@ -328,4 +331,9 @@ void Level::ClearItems()
         delete itemVector[i];
     }
     itemVector.clear();
+}
+
+void Level::NextLevel()
+{
+    this->levelManager->LoadLevel(this->nextLevelName);
 }

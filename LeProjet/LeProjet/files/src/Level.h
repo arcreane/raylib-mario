@@ -1,9 +1,13 @@
 #pragma once
+#include <string>
+#include "Player.h"
 #include "LevelManager.h"
 #include "Map.h"
 #include "Item.h"
 
+
 enum class LevelName { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
+class Player;
 class LevelManager;
 class Item;
 
@@ -11,6 +15,7 @@ class Level
 {
 public:
 	LevelName name;
+	LevelName nextLevelName;
 	LevelManager *levelManager;
 	Map map;
 	std::vector<Item*> itemVector; // vector to store each item of the level
@@ -49,7 +54,7 @@ public:
 	Texture2D koopaTexture;
 	Texture2D koopaTexture2;
 
-	Level(LevelName name, LevelManager &levelManager);
+	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager);
 	~Level();
 
 	virtual void InitLevel();
@@ -62,5 +67,7 @@ public:
 	void DrawItem();
 	void RemoveItem(Item *item);
 	void ClearItems();
+
+	void NextLevel();
 };
 

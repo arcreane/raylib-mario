@@ -18,10 +18,22 @@ Level* LevelManager::CreateLevel(LevelName name)
 		newLevel = new Menu(*this);
 		break;
 	case LevelName::lvl1:
-		newLevel = new Level(name, *this);
+		newLevel = new Level(name, LevelName::lvl2, *this);
+		break;
+	case LevelName::lvl2:
+		newLevel = new Level(name, LevelName::lvl3, *this);
+		break;
+	case LevelName::lvl3:
+		newLevel = new Level(name, LevelName::lvl4, *this);
+		break;
+	case LevelName::lvl4:
+		newLevel = new Level(name, LevelName::lvl5, *this);
+		break;
+	case LevelName::lvl5:
+		newLevel = new Level(name, LevelName::lvl6, *this);
 		break;
 	default:
-		newLevel = new Level(name, *this);
+		newLevel = new Level(name, LevelName::menu, *this);
 	}
 
 	return newLevel;

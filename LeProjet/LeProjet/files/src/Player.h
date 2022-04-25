@@ -6,6 +6,7 @@
 #define G 400
 
 enum class Direction { right, left, up, down };
+//class Level;
 
 class Player
 {
@@ -16,6 +17,6 @@ public:
 	Vector2 position;
 	float speed;
 	bool canJump = false;
-	void attack();
-	void UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
+	//int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta, void (Level::*NextLevel)(), Level& level);
+	int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
 };
