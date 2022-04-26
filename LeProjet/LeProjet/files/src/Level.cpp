@@ -271,7 +271,7 @@ void Level::DrawLevel()
 
     if (gameOver)
     {
-        DrawText("GAME OVER", 100, 100, 100, DARKGRAY);
+        DrawText("GAME OVER", 300, 200, 100, RED);
     }
 
     EndDrawing();
