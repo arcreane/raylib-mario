@@ -1,11 +1,12 @@
+#pragma once
+#include "raylib.h"
+#include "raymath.h"
+
 class Enemy {
 
 public : 
-	Enemy();
-	
-	void bump();
+	Rectangle hitbox;
+	Vector2 position;
 
-	void stomp();
-
-
+	void Kill();
 };

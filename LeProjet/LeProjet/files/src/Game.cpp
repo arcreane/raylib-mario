@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Enemy.h"
+#include "Goomba.h"
+#include "Koopa.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -104,16 +106,16 @@ void Game::start()
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
 
     //ENEMY à classer
-    double previousTime = 0.0;
-    double currentTime = GetTime();
-    float deltaTime = 0.0f;
-    double previousTime2 = 0.0;
-    double currentTime2 = GetTime();
-    float deltaTime2 = 0.0f;
-    std::string direction = "goings";
-    std::string direction2 = "goings";
-    std::string tampon;
-
+    //double previousTime = 0.0;
+    //double currentTime = GetTime();
+    //float deltaTime = 0.0f;
+    //double previousTime2 = 0.0;
+    //double currentTime2 = GetTime();
+    //float deltaTime2 = 0.0f;
+    //std::string direction = "goings";
+    //std::string direction2 = "goings";
+    //std::string tampon;
+    
     // Create player
     Player* player = new Player();
     // Create player to choose the level in the menu
@@ -130,11 +132,11 @@ void Game::start()
     playerMENU->canJump = false;
 
     //ENEMY à classer
-    static Enemy goomba[Enemy_Amount] = { 0 };
+    //static Enemy goomba[Enemy_Amount] = { 0 };
 
-    static Enemy koopa[Enemy_Amount] = { 0 };
+    //static Enemy koopa[Enemy_Amount] = { 0 };
 
-    for (int i = 0; i < Enemy_Amount; i++)
+    /*for (int i = 0; i < Enemy_Amount; i++)
     {
         goomba[i].rec.width = 70;
         goomba[i].rec.height = 70;
@@ -142,15 +144,21 @@ void Game::start()
         goomba[i].color = BLUE;
         goomba[i].position = { 80 , -15 };
     }
+    */
 
-    for (int i = 0; i < Enemy_Amount; i++)
+    Goomba *g1 = new Goomba(70, -15);
+    Goomba *g2 = new Goomba(700, -15);
+    Koopa* k1 = new Koopa(100, -15);
+    Koopa* k2 = new Koopa(500, -15);
+    
+   /* for (int i = 0; i < Enemy_Amount; i++)
     {
         koopa[i].rec.width = 70;
         koopa[i].rec.height = 70;
         koopa[i].active = true;
         koopa[i].color = BLUE;
         koopa[i].position = { 100 , -15 };
-    }
+    }*/
 
     //on devra stocker �a aussi
 
@@ -418,7 +426,7 @@ void Game::start()
           
 
             //ENEMY à classer
-            for (int i = 0; i < Enemy_Amount; i++)
+           /* for (int i = 0; i < Enemy_Amount; i++)
             {
                 if (goomba[i].active)
                 {
@@ -452,9 +460,9 @@ void Game::start()
                         koopa[i].position.x -= 40 * deltaTime2;
                     previousTime2 = currentTime2;
                 }
-            }
+            }*/
 
-            for (int i = 0; i < Enemy_Amount; i++)
+           /* for (int i = 0; i < Enemy_Amount; i++)
             {
                 if (goomba[i].active) {
                     if (direction == "goings")
@@ -462,9 +470,15 @@ void Game::start()
                     if (direction == "comings")
                         DrawTexture(goombaText, goomba[i].position.x - 20, goomba[i].position.y - 32, LIGHTGRAY);
                 }
-            }
+            }*/
 
-            for (int i = 0; i < Enemy_Amount; i++)
+            g1->Walk(70,500);
+            g2->Walk(700, 900);
+            k1->Walk(80, 400);
+            k2->Walk(500, 700);
+
+
+            /*for (int i = 0; i < Enemy_Amount; i++)
             {
                 if (koopa[i].active) {
                     if (direction2 == "goings")
@@ -472,7 +486,7 @@ void Game::start()
                     if (direction2 == "comings")
                         DrawTexture(koopaText2, koopa[i].position.x - 20, koopa[i].position.y - 32, LIGHTGRAY);
                 }
-            }
+            }*/
 
 
 
