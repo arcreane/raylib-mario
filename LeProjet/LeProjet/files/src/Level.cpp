@@ -4,16 +4,20 @@
 #include "UpMushroom.h"
 #include <iostream>
 #include <fstream>
-
+#include <chrono>
+#include <thread>
 
 Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager, std::string nameDisplayed)
 {
 	this->name = name;
     this->nextLevelName = nextLevelName;
 	this->levelManager = &levelManager;
+    this->nameDisplayed = nameDisplayed;
     this->score = 0;
     this->lives = 2;
-    this->nameDisplayed = nameDisplayed;
+    this->has_fallen = false;
+    this->gameOver = false;
+    
 
 	camera = { 0 };
 	camera.rotation = 0.0f;
@@ -109,6 +113,8 @@ void Level::InitLevel()
 
     score = 0;
     lives = 2;
+    has_fallen = false;
+    gameOver = false;
 
     camera.target = player.position;
     camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
@@ -128,7 +134,22 @@ void Level::UpdateLevel()
     framesCounter++;
     float deltaTime = GetFrameTime();
     int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    
+    // Check conditions to end level or reduce lives
     if (levelFinished == 1) NextLevel();
+    if (gameOver)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        levelManager->LoadLevel(LevelName::menu);
+    }
+    if (player.position.y > 200) // Player fall from the map 
+    {
+        lives -= 1;
+        has_fallen = true;
+        camera.zoom = 1.0f;
+        player.position = map.startPosition;
+    }
+    if (lives < 0) gameOver = true;
 
     cameraUpdaters[cameraOption](&camera, &player, map.mapVector.data(), map.mapVector.size(), deltaTime, screenWidth, screenHeight);
 
@@ -138,22 +159,18 @@ void Level::UpdateLevel()
         itemVector[i]->UpdateItem(&player, this);
     }
 
+    // Check key pressed by user
     if (IsKeyPressed(KEY_I))
     {
         cameraOption++;
         if (cameraOption == 6)
             cameraOption = 0;
     }
-    if (IsKeyPressed(KEY_R))
+    if (IsKeyPressed(KEY_R)) // Respawn at start of Level
     {
         camera.zoom = 1.0f;
         player.position = map.startPosition;
     }
-    if (player.position.y > 200)
-    {
-        DrawText("LOST", 100, 100, 100, DARKGRAY);
-    }
-
     if (IsKeyPressed(KEY_B))
     {
         printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
@@ -251,6 +268,11 @@ void Level::DrawLevel()
     DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
     DrawText("- Space to jump", 40, 110, 10, DARKGRAY);
     DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 130, 10, DARKGRAY);
+
+    if (gameOver)
+    {
+        DrawText("GAME OVER", 100, 100, 100, DARKGRAY);
+    }
 
     EndDrawing();
 }

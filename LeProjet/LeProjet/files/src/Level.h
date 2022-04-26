@@ -20,9 +20,11 @@ public:
 	Map map;
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	Player player;
+	std::string nameDisplayed;
 	int score;
 	int lives;
-	std::string nameDisplayed;
+	bool has_fallen;
+	bool gameOver;
 
 	// Item textures
 	Texture2D CoinTexture;
