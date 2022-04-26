@@ -1,12 +1,11 @@
 #pragma once
 #include "raylib.h"
 #include "raymath.h"
+#include "Player.h"
 
-class Enemy {
+class Enemy : public Player {
 
 public : 
 	Rectangle hitbox;
-	Vector2 position;
-
 	void Kill();
 };

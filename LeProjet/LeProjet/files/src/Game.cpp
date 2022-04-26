@@ -146,8 +146,8 @@ void Game::start()
     }
     */
 
-    Goomba *g1 = new Goomba(70, -15);
-    Goomba *g2 = new Goomba(700, -15);
+    Goomba* g1 = new Goomba(70, -15);
+    Goomba* g2 = new Goomba(700, -15);
     Koopa* k1 = new Koopa(100, -15);
     Koopa* k2 = new Koopa(500, -15);
     
