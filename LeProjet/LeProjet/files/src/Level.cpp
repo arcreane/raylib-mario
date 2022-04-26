@@ -6,13 +6,14 @@
 #include <fstream>
 
 
-Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager)
+Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager, std::string nameDisplayed)
 {
 	this->name = name;
     this->nextLevelName = nextLevelName;
 	this->levelManager = &levelManager;
     this->score = 0;
     this->lives = 2;
+    this->nameDisplayed = nameDisplayed;
 
 	camera = { 0 };
 	camera.rotation = 0.0f;
@@ -234,10 +235,12 @@ void Level::DrawLevel()
     char const* Level_score = tmp_score.c_str();
     std::string tmp_lives = "Vies: " + std::to_string(this->lives);
     char const* Level_lives = tmp_lives.c_str();
+    char const* Level_name = this->nameDisplayed.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
     DrawText(Level_lives, 5, 40, 30, RED);
-    DrawText(Level_score, 630, 0, 30, RED);
+    DrawText(Level_name, 630, 0, 30, RED);
+    DrawText(Level_score, 630, 40, 30, RED);
     DrawText("Controls:", 20, 70, 10, BLACK);
     DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
     DrawText("- Space to jump", 40, 110, 10, DARKGRAY);

@@ -22,6 +22,7 @@ public:
 	Player player;
 	int score;
 	int lives;
+	std::string nameDisplayed;
 
 	// Item textures
 	Texture2D CoinTexture;
@@ -54,7 +55,7 @@ public:
 	Texture2D koopaTexture;
 	Texture2D koopaTexture2;
 
-	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager);
+	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager, std::string nameDisplayed);
 	~Level();
 
 	virtual void InitLevel();
