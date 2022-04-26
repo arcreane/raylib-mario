@@ -66,6 +66,30 @@ void LevelManager::LoadLevel(LevelName name)
 	(*levels[indexCurrentLevel]).InitLevel();
 }
 
+/*void LevelManager::LoadMenuFromLvl(LevelName name, char* playerName)
+{
+	bool levelFound = false;
+
+	for (int i = 0; i < levels.size(); i++)
+	{
+		if ((*levels[i]).name == name)
+		{
+			indexCurrentLevel = i;
+			levelFound = true;
+			break;
+		}
+	}
+
+	if (!levelFound)
+	{
+		Level* newLevel = new Menu(*this, playerName);
+		levels.push_back(newLevel);
+		indexCurrentLevel = levels.size() - 1;
+	}
+
+	(*levels[indexCurrentLevel]).InitLevel();
+}*/
+
 void LevelManager::UpdateCurrentLevel()
 {
 	(*levels[indexCurrentLevel]).UpdateLevel();

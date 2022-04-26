@@ -4,6 +4,7 @@
 #include "Goomba.h"
 #include "Koopa.h"
 #include "UpMushroom.h"
+#include "Menu.h"
 #include <iostream>
 #include <fstream>
 #include <chrono>
@@ -123,10 +124,16 @@ void Level::UpdateLevel()
     int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
     
     // Check conditions to end level or reduce lives
-    if (levelFinished == 1) NextLevel();
+    if (levelFinished == 1)
+    {
+        player.SetNumberOfCoins(score);
+        //levelManager->LoadLevel(LevelName::menu);
+        NextLevel();
+    }
     if (gameOver)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        player.SetNumberOfCoins(score);
         levelManager->LoadLevel(LevelName::menu);
     }
     if (player.position.y > 200) // Player fall from the map 
@@ -170,6 +177,8 @@ void Level::UpdateLevel()
     }
     if (IsKeyPressed(KEY_N))
     {
+        player.SetNumberOfCoins(score);
+        player.GetNumberOfCoins();
         levelManager->LoadLevel(LevelName::menu);
     }
 }

@@ -16,6 +16,7 @@ public:
 	~LevelManager();
 
 	void LoadLevel(LevelName name);
+	/*void LoadMenuFromLvl(LevelName name, char* playerName);*/
 	void UpdateCurrentLevel();
 	void DrawCurrentLevel();
 

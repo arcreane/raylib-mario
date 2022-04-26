@@ -95,3 +95,13 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
 
     return levelFinished;
 }
+
+int Player::GetNumberOfCoins()
+{
+    return numberOfCoins;
+}
+
+void Player::SetNumberOfCoins(int n)
+{
+    numberOfCoins = n;
+}

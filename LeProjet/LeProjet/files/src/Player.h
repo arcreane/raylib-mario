@@ -13,9 +13,12 @@ class Player
 private:
 	float playerJumpSpeed = 350.0f;
 	float playerHorSpeed = 400.0f;
+	int numberOfCoins = 0;
 public:
 	Vector2 position;
 	float speed;
 	bool canJump = false;
 	int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
+	int GetNumberOfCoins();
+	void SetNumberOfCoins(int n);
 };
