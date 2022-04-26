@@ -1,7 +1,7 @@
 #include "StartScreen.h"
 
 StartScreen::StartScreen(LevelManager& levelManager)
-	:Level(LevelName::startScreen, levelManager)
+	:Level(LevelName::startScreen, LevelName::menu, levelManager, "")
 {
     currentScreen = GameMoment::DEBUT;
     frameHeight = (float)playButtonTexture.height;

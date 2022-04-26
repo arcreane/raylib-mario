@@ -4,14 +4,20 @@
 #include "UpMushroom.h"
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
-
-Level::Level(LevelName name, LevelManager& levelManager)
+Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager, std::string nameDisplayed)
 {
 	this->name = name;
+    this->nextLevelName = nextLevelName;
 	this->levelManager = &levelManager;
+    this->nameDisplayed = nameDisplayed;
     this->score = 0;
     this->lives = 2;
+    this->has_fallen = false;
+    this->gameOver = false;
+    
 
 	camera = { 0 };
 	camera.rotation = 0.0f;
@@ -22,7 +28,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
 	screenHeight = GetScreenHeight();
 
     //ENEMY à classer
-    enemyAmount = 1;
+    enemyAmount = 0;
     previousTime = 0.0;
     currentTime = GetTime();
     deltaTime = 0.0f;
@@ -32,7 +38,7 @@ Level::Level(LevelName name, LevelManager& levelManager)
     direction = "goings";
     direction2 = "goings";
 
-    marioTexture = LoadTexture("../LeProjet/LeProjet/files/img/mario.png");
+    marioTexture = LoadTexture("../LeProjet/LeProjet/files/img/mario50-50.png");
     goombaTexture = LoadTexture("../LeProjet/LeProjet/files/img/goomba_retour.png");
     goombaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
     koopaTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
@@ -50,28 +56,13 @@ Level::~Level()
 
 void Level::InitLevel()
 {
-	switch (name)
+    // Empty the vector of items
+    ClearItems();
+    switch (name)
 	{
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        
-        // Empty the vector of items then fill it again
-        ClearItems();
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
-        score = 0;
-        lives = 2;
-
-		camera.target = player.position;
-		camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-		camera.rotation = 0.0f;
-		camera.zoom = 1.0f;
-
-        player.position = { 120 , -10 };
-        player.speed = 0;
-        player.canJump = false;
-
-        framesCounter = 0;
-        framesMax = 300 * 60;
 
         //ENEMY à classer
         for (int i = 0; i < enemyAmount; i++)
@@ -96,30 +87,70 @@ void Level::InitLevel()
         }
 		break;
 	case LevelName::lvl2:
-		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+		map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
 		break;
 	case LevelName::lvl3:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl4:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl5:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl6:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	default:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 	}
+
+    score = 0;
+    lives = 2;
+    has_fallen = false;
+    gameOver = false;
+
+    camera.target = player.position;
+    camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+    player.position = map.startPosition;
+    player.speed = 0;
+    player.canJump = false;
+
+    framesCounter = 0;
+    framesMax = 300 * 60;
 }
 
 void Level::UpdateLevel()
 {
     framesCounter++;
     float deltaTime = GetFrameTime();
-    player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    
+    // Check conditions to end level or reduce lives
+    if (levelFinished == 1) NextLevel();
+    if (gameOver)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        levelManager->LoadLevel(LevelName::menu);
+    }
+    if (player.position.y > 200) // Player fall from the map 
+    {
+        lives -= 1;
+        has_fallen = true;
+        camera.zoom = 1.0f;
+        player.position = map.startPosition;
+    }
+    if (lives < 0) gameOver = true;
+
     cameraUpdaters[cameraOption](&camera, &player, map.mapVector.data(), map.mapVector.size(), deltaTime, screenWidth, screenHeight);
 
     // Update items in the level
@@ -128,22 +159,18 @@ void Level::UpdateLevel()
         itemVector[i]->UpdateItem(&player, this);
     }
 
+    // Check key pressed by user
     if (IsKeyPressed(KEY_I))
     {
         cameraOption++;
         if (cameraOption == 6)
             cameraOption = 0;
     }
-    if (IsKeyPressed(KEY_R))
+    if (IsKeyPressed(KEY_R)) // Respawn at start of Level
     {
         camera.zoom = 1.0f;
-        player.position = { 20, 0 };
+        player.position = map.startPosition;
     }
-    if (player.position.y > 200)
-    {
-        DrawText("LOST", 100, 100, 100, DARKGRAY);
-    }
-
     if (IsKeyPressed(KEY_B))
     {
         printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
@@ -221,7 +248,7 @@ void Level::DrawLevel()
     }
 
 
-    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 32, LIGHTGRAY); // Draw button frame
+    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 50, LIGHTGRAY); // Draw button frame
 
     EndMode2D();
 
@@ -229,16 +256,23 @@ void Level::DrawLevel()
     char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
-    std::string tmp_lives = "Lives: " + std::to_string(this->lives);
+    std::string tmp_lives = "Vies: " + std::to_string(this->lives);
     char const* Level_lives = tmp_lives.c_str();
+    char const* Level_name = this->nameDisplayed.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
     DrawText(Level_lives, 5, 40, 30, RED);
-    DrawText(Level_score, 630, 0, 30, RED);
+    DrawText(Level_name, 630, 0, 30, RED);
+    DrawText(Level_score, 630, 40, 30, RED);
     DrawText("Controls:", 20, 70, 10, BLACK);
     DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
     DrawText("- Space to jump", 40, 110, 10, DARKGRAY);
     DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 130, 10, DARKGRAY);
+
+    if (gameOver)
+    {
+        DrawText("GAME OVER", 300, 200, 100, RED);
+    }
 
     EndDrawing();
 }
@@ -328,4 +362,9 @@ void Level::ClearItems()
         delete itemVector[i];
     }
     itemVector.clear();
+}
+
+void Level::NextLevel()
+{
+    this->levelManager->LoadLevel(this->nextLevelName);
 }
