@@ -270,10 +270,13 @@
     <ClCompile Include="LeProjet\files\src\Camera.cpp" />
     <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
     <ClCompile Include="LeProjet\files\src\Coin.cpp" />
+    <ClCompile Include="LeProjet\files\src\Enemy.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\Item.cpp" />
     <ClCompile Include="LeProjet\files\src\Level.cpp" />
     <ClCompile Include="LeProjet\files\src\LevelManager.cpp" />
+    <ClCompile Include="LeProjet\files\src\Goomba.cpp" />
+    <ClCompile Include="LeProjet\files\src\Koopa.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
     <ClCompile Include="LeProjet\files\src\Map.cpp" />
     <ClCompile Include="LeProjet\files\src\Player.cpp" />
@@ -292,10 +295,13 @@
     <ClInclude Include="LeProjet\files\src\Camera.h" />
     <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
     <ClInclude Include="LeProjet\files\src\Coin.h" />
+    <ClInclude Include="LeProjet\files\src\Enemy.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
     <ClInclude Include="LeProjet\files\src\Item.h" />
     <ClInclude Include="LeProjet\files\src\Level.h" />
     <ClInclude Include="LeProjet\files\src\LevelManager.h" />
+    <ClInclude Include="LeProjet\files\src\Goomba.h" />
+    <ClInclude Include="LeProjet\files\src\Koopa.h" />
     <ClInclude Include="LeProjet\files\src\Menu.h" />
     <ClInclude Include="LeProjet\files\src\Map.h" />
     <ClInclude Include="LeProjet\files\src\Player.h" />

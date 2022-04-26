@@ -17,6 +17,7 @@ void Game::Start()
     const int screenHeight = 800;
     
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
+
     SetTargetFPS(60);
 
     // First screen

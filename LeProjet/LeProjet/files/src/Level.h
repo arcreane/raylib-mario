@@ -4,6 +4,7 @@
 #include "LevelManager.h"
 #include "Map.h"
 #include "Item.h"
+#include "Enemy.h"
 
 
 enum class LevelName { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
@@ -40,8 +41,7 @@ public:
 
 	//ENEMY à classer
 	int enemyAmount;
-	std::vector<Enemy> goomba;
-	std::vector<Enemy> koopa;
+	std::vector<Enemy*> enemies;
 	double previousTime;
 	double currentTime;
 	float deltaTime;
@@ -70,6 +70,9 @@ public:
 	void DrawItem();
 	void RemoveItem(Item *item);
 	void ClearItems();
+
+	// Enemy functions
+	void DrawEnemies();
 
 	virtual void NextLevel();
 };

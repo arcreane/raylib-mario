@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "camera.h"
 #include "Coin.h"
+#include "Goomba.h"
+#include "Koopa.h"
 #include "UpMushroom.h"
 #include <iostream>
 #include <fstream>
@@ -63,32 +65,17 @@ void Level::InitLevel()
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
-
-        //ENEMY à classer
-        for (int i = 0; i < enemyAmount; i++)
-        {
-            Enemy goombaEnemy;
-            goombaEnemy.rec.width = 70;
-            goombaEnemy.rec.height = 70;
-            goombaEnemy.active = true;
-            goombaEnemy.color = BLUE;
-            goombaEnemy.position = { 80 , -15 };
-            goomba.push_back(goombaEnemy);
-        }
-        for (int i = 0; i < enemyAmount; i++)
-        {
-            Enemy koopaEnemy;
-            koopaEnemy.rec.width = 70;
-            koopaEnemy.rec.height = 70;
-            koopaEnemy.active = true;
-            koopaEnemy.color = BLUE;
-            koopaEnemy.position = { 100 , -15 };
-            koopa.push_back(koopaEnemy);
-        }
+        
+        // Create Enemies and add them to the vector of enemies in the level
+        enemies.push_back(new Goomba(70, -15, 70, 500));
+        enemies.push_back(new Goomba(700, -15, 700, 900));
+        enemies.push_back(new Koopa(100, -15, 80, 400));
+        enemies.push_back(new Koopa(500, -15, 500, 700));
 		break;
 	case LevelName::lvl2:
 		map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
+        
 		break;
 	case LevelName::lvl3:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
@@ -153,6 +140,12 @@ void Level::UpdateLevel()
 
     cameraUpdaters[cameraOption](&camera, &player, map.mapVector.data(), map.mapVector.size(), deltaTime, screenWidth, screenHeight);
 
+    // Update enemies in the level
+    for (int i = 0; i < enemies.size(); i++)
+    {
+        enemies[i]->UpdateEnemy();
+    }
+    
     // Update items in the level
     for (int i =0;i<itemVector.size(); i++)
     {
@@ -188,67 +181,9 @@ void Level::DrawLevel()
     BeginMode2D(camera);
 
     map.DrawMap();
-    this->DrawItem();
-
-    //ENEMY à classer
-    for (int i = 0; i < enemyAmount; i++)
-    {
-        if (goomba[i].active)
-        {
-            currentTime = GetTime();
-            deltaTime = currentTime - previousTime;
-            if (goomba[i].position.x <= 70)
-                direction = "goings";
-            if (goomba[i].position.x >= 500)
-                direction = "comings";
-            if (direction == "goings")
-                goomba[i].position.x += 30 * deltaTime;
-            if (direction == "comings")
-                goomba[i].position.x -= 30 * deltaTime;
-            previousTime = currentTime;
-        }
-    }
-
-    for (int i = 0; i < enemyAmount; i++)
-    {
-        if (koopa[i].active)
-        {
-            currentTime2 = GetTime();
-            deltaTime2 = currentTime2 - previousTime2;
-            if (koopa[i].position.x <= 80)
-                direction2 = "goings";
-            if (koopa[i].position.x >= 400)
-                direction2 = "comings";
-            if (direction2 == "goings")
-                koopa[i].position.x += 40 * deltaTime2;
-            if (direction2 == "comings")
-                koopa[i].position.x -= 40 * deltaTime2;
-            previousTime2 = currentTime2;
-        }
-    }
-
-    for (int i = 0; i < enemyAmount; i++)
-    {
-        if (goomba[i].active) {
-            if (direction == "goings")
-                DrawTexture(goombaTexture2, goomba[i].position.x - 20, goomba[i].position.y - 32, LIGHTGRAY);
-            if (direction == "comings")
-                DrawTexture(goombaTexture, goomba[i].position.x - 20, goomba[i].position.y - 32, LIGHTGRAY);
-        }
-    }
-
-    for (int i = 0; i < enemyAmount; i++)
-    {
-        if (koopa[i].active) {
-            if (direction2 == "goings")
-                DrawTexture(koopaTexture, koopa[i].position.x - 20, koopa[i].position.y - 32, LIGHTGRAY);
-            if (direction2 == "comings")
-                DrawTexture(koopaTexture2, koopa[i].position.x - 20, koopa[i].position.y - 32, LIGHTGRAY);
-        }
-    }
-
-
-    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 50, LIGHTGRAY); // Draw button frame
+    DrawItem();
+    DrawEnemies();
+    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 50, LIGHTGRAY);
 
     EndMode2D();
 
@@ -367,4 +302,12 @@ void Level::ClearItems()
 void Level::NextLevel()
 {
     this->levelManager->LoadLevel(this->nextLevelName);
+}
+
+void Level::DrawEnemies()
+{
+    for (int i = 0; i < enemies.size(); i++)
+    {
+        enemies[i]->DrawEnemy();
+    }
 }

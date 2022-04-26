@@ -12,10 +12,10 @@ typedef struct EnvItem {
 } EnvItem;
 
 //ENEMY à classer
-typedef struct Enemy {
+/*typedef struct Enemy {
     Rectangle rec;
     bool active;
     Color color;
     Vector2 position;
-}Enemy;
+}Enemy;*/
 
