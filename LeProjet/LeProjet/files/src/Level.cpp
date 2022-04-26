@@ -34,7 +34,7 @@ Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager
     direction = "goings";
     direction2 = "goings";
 
-    marioTexture = LoadTexture("../LeProjet/LeProjet/files/img/mario.png");
+    marioTexture = LoadTexture("../LeProjet/LeProjet/files/img/mario50-50.png");
     goombaTexture = LoadTexture("../LeProjet/LeProjet/files/img/goomba_retour.png");
     goombaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
     koopaTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
@@ -52,10 +52,13 @@ Level::~Level()
 
 void Level::InitLevel()
 {
-	switch (name)
+    // Empty the vector of items
+    ClearItems();
+    switch (name)
 	{
 	case LevelName::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 
         //ENEMY à classer
         for (int i = 0; i < enemyAmount; i++)
@@ -80,27 +83,30 @@ void Level::InitLevel()
         }
 		break;
 	case LevelName::lvl2:
-		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+		map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
 		break;
 	case LevelName::lvl3:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl4:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl5:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	case LevelName::lvl6:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
 	default:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 	}
 
-    // Empty the vector of items then fill it again
-    ClearItems();
-    this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
     score = 0;
     lives = 2;
 
@@ -141,7 +147,7 @@ void Level::UpdateLevel()
     if (IsKeyPressed(KEY_R))
     {
         camera.zoom = 1.0f;
-        player.position = { 20, 0 };
+        player.position = map.startPosition;
     }
     if (player.position.y > 200)
     {
@@ -225,7 +231,7 @@ void Level::DrawLevel()
     }
 
 
-    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 32, LIGHTGRAY); // Draw button frame
+    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 50, LIGHTGRAY); // Draw button frame
 
     EndMode2D();
 

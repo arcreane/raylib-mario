@@ -17,6 +17,5 @@ public:
 	Vector2 position;
 	float speed;
 	bool canJump = false;
-	//int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta, void (Level::*NextLevel)(), Level& level);
 	int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
 };

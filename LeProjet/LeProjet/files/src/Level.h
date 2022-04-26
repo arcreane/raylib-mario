@@ -69,6 +69,6 @@ public:
 	void RemoveItem(Item *item);
 	void ClearItems();
 
-	void NextLevel();
+	virtual void NextLevel();
 };
 

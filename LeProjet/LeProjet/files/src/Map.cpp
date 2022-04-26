@@ -129,7 +129,7 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
             break;
         case 's':
             newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::start };
-            startPosition = { col * 100 + 32, -800 + (line * 100) -10};
+            startPosition = { col * 100 + 50, -800 + (line * 100) -10};
             break;
         case 'f':
             newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::finish };
