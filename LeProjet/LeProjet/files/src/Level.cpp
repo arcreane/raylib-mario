@@ -28,22 +28,6 @@ Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager
 
 	screenWidth = GetScreenWidth();
 	screenHeight = GetScreenHeight();
-
-    //ENEMY � classer
-    enemyAmount = 0;
-    previousTime = 0.0;
-    currentTime = GetTime();
-    deltaTime = 0.0f;
-    previousTime2 = 0.0;
-    currentTime2 = GetTime();
-    deltaTime2 = 0.0f;
-    direction = "goings";
-    direction2 = "goings";
-
-    goombaTexture = LoadTexture("../LeProjet/LeProjet/files/img/goomba_retour.png");
-    goombaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
-    koopaTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
-    koopaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/koopa_retour.png");
     
     // Item Texture
     CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
@@ -57,8 +41,9 @@ Level::~Level()
 
 void Level::InitLevel()
 {
-    // Empty the vector of items
+    // Empty the vectors of items and enemies
     ClearItems();
+    ClearEnemies();
     switch (name)
 	{
 	case LevelName::lvl1:
@@ -308,4 +293,13 @@ void Level::DrawEnemies()
     {
         enemies[i]->DrawEnemy();
     }
+}
+
+void Level::ClearEnemies()
+{
+    for (int i = 0; i < enemies.size(); i++)
+    {
+        delete enemies[i];
+    }
+    enemies.clear();
 }

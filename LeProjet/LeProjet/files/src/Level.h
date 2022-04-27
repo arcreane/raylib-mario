@@ -20,6 +20,7 @@ public:
 	LevelManager *levelManager;
 	Map map;
 	std::vector<Item*> itemVector; // vector to store each item of the level
+	std::vector<Enemy*> enemies;
 	Player player;
 	std::string nameDisplayed;
 	int score;
@@ -39,23 +40,6 @@ public:
 	int framesCounter;
 	int framesMax;
 
-	//ENEMY à classer
-	int enemyAmount;
-	std::vector<Enemy*> enemies;
-	double previousTime;
-	double currentTime;
-	float deltaTime;
-	double previousTime2;
-	double currentTime2;
-	float deltaTime2;
-	std::string direction;
-	std::string direction2;
-
-	Texture2D goombaTexture;
-	Texture2D goombaTexture2;
-	Texture2D koopaTexture;
-	Texture2D koopaTexture2;
-
 	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager, std::string nameDisplayed);
 	~Level();
 
@@ -69,9 +53,10 @@ public:
 	void DrawItem();
 	void RemoveItem(Item *item);
 	void ClearItems();
-
+protected:
 	// Enemy functions
 	void DrawEnemies();
+	void ClearEnemies();
 
 	virtual void NextLevel();
 };
