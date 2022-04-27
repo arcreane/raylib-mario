@@ -34,6 +34,8 @@ public:
 	void RemoveItem(Item* item);
 	void ClearItems();
 
+	void SaveAfterLevelFinished();
+
 	// Getter Setter
 	int GetScore();
 	int GetLives();

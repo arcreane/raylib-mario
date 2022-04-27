@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <string>
 #include <chrono>
 #include <thread>
 #include "PlayableLevel.h"
@@ -8,6 +9,8 @@
 #include "UpMushroom.h"
 #include "Goomba.h"
 #include "Koopa.h"
+
+using namespace std;
 
 PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager)
 	:Level(levelType, nextLevelType, levelManager)
@@ -87,7 +90,11 @@ void PlayableLevel::UpdateLevel()
     int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
 
     // Check conditions to end level or reduce lives
-    if (levelFinished == 1) NextLevel();
+    if (levelFinished == 1)
+    {
+        SaveAfterLevelFinished();
+        NextLevel();
+    }
     if (gameOver)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -267,6 +274,56 @@ void PlayableLevel::ClearItems()
         delete itemVector[i];
     }
     itemVector.clear();
+}
+
+void PlayableLevel::SaveAfterLevelFinished()
+{
+    //load save 
+    string line;
+    ifstream myfile("../LeProjet/LeProjet/files/sauvegarde.txt");
+    //create a tab of string
+    string tab[4];
+    int i = 0;
+    if (myfile.is_open())
+    {
+        while (getline(myfile, line))
+        {
+            tab[i] = line;
+            i++;
+        }
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+
+    //Save
+
+     // si le niveau à lancé est le nombre de unlock level, du coup on rentre dans la condition
+
+
+    if (stoi(tab[2]) == 1) {
+        int newLevel = stoi(tab[2]) + 1;
+        if (newLevel < 7)
+            tab[2] = to_string(newLevel);
+    }
+
+    int newCoin = stoi(tab[3]) + score;
+    tab[3] = to_string(newCoin);
+    printf("%d", newCoin);
+
+    fstream my_file;
+    my_file.open("../LeProjet/LeProjet/files/sauvegarde.txt", ios::out);
+    if (!my_file) {
+        cout << "File not created!";
+    }
+    else {
+        cout << "File created successfully!" << endl;
+        my_file << tab[0] << endl;
+        my_file << tab[1] << endl;
+        my_file << tab[2] << endl;
+        my_file << tab[3] << endl;
+        my_file.close();
+    }
+    //printf("\n resultat : \n %s\n", tab[3]);
 }
 
 void PlayableLevel::SetScore(int score)
