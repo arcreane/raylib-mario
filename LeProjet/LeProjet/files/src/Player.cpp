@@ -2,31 +2,17 @@
 
 
 Player::Player()
+    :Unit()
 {
-    position = { 0, 0 };
-    speed = 0;
-    canJump = false;
-    playerHDirection = Direction::none;
-    playerVDirection = Direction::none;
-    currentFrame = 0;
-    framesCounter = 0;
-    framesSpeed = 9;
-    playerTexture = LoadTexture("../LeProjet/LeProjet/files/img/marioSprites.png");
-    frameRec = { 5 * ((float)playerTexture.width / 9), 0.0f, (float)playerTexture.width / 9, (float)playerTexture.height };
+    unitTexture = LoadTexture("../LeProjet/LeProjet/files/img/marioSprites.png");
+    frameRec = { 5 * ((float)unitTexture.width / 9), 0.0f, (float)unitTexture.width / 9, (float)unitTexture.height };
 }
 
-void Player::InitPlayer()
+void Player::InitUnit()
 {
-    speed = 0;
-    canJump = false;
-    playerHDirection = Direction::none;
-    playerVDirection = Direction::none;
-    currentFrame = 0;
-    framesCounter = 0;
-    framesSpeed = 9;
 }
 
-int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
+int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 {   
     int levelFinished = 0;
     int hitTopSide = 0;
@@ -34,9 +20,9 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
     int hitLeftSide = 0;
     int hitBottomSide = 0;
     int hitAnySide = 0;
-    if (playerVDirection != Direction::up)
+    if (vUnitDirection != Direction::up)
     {
-        playerHDirection = Direction::none;
+        hUnitDirection = Direction::none;
     }
     for (int i = 0; i < envItemsLength; i++)
     {
@@ -63,7 +49,7 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
                 ei->rect.y < p->y &&
                 ei->rect.y + ei->rect.height >= p->y &&
                 ei->rect.x + ei->rect.width <= p->x &&
-                ei->rect.x + ei->rect.width > p->x - this->playerHorSpeed * delta)
+                ei->rect.x + ei->rect.width > p->x - this->hUnitSpeed * delta)
             {
                 hitRightSide = 1;
                 hitAnySide = 1;
@@ -92,7 +78,7 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
                 ei->rect.y < p->y &&
                 ei->rect.y + ei->rect.height >= p->y &&
                 ei->rect.x >= p->x &&
-                ei->rect.x < p->x + this->playerHorSpeed * delta)
+                ei->rect.x < p->x + this->hUnitSpeed * delta)
             {
                 hitLeftSide = 1;
                 hitAnySide = 1;
@@ -108,25 +94,25 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
     }
 
     if (IsKeyDown(KEY_LEFT)) {
-        playerHDirection = Direction::left;
+        hUnitDirection = Direction::left;
         if (!hitRightSide)
         {
             if (this->position.x > 20)
-                this->position.x -= playerHorSpeed * delta;
+                this->position.x -= hUnitSpeed * delta;
         }
     }
     if (IsKeyDown(KEY_RIGHT) && !hitLeftSide)
     {
-        playerHDirection = Direction::right;
+        hUnitDirection = Direction::right;
         if (!hitLeftSide)
         {
-            this->position.x += playerHorSpeed * delta;
+            this->position.x += hUnitSpeed * delta;
         }
     }
     if (IsKeyDown(KEY_SPACE) && this->canJump && !hitBottomSide)
     {
-        playerVDirection = Direction::up;
-        this->speed = -playerJumpSpeed;
+        vUnitDirection = Direction::up;
+        this->speed = -unitJumpSpeed;
         this->canJump = false;
     }
     if (!hitTopSide)
@@ -137,20 +123,20 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
     }
     else
     {
-        playerVDirection = Direction::none;
+        vUnitDirection = Direction::none;
         this->canJump = true;
     }
     return levelFinished;
 }
 
-void Player::DrawPlayer() {
-    if (playerVDirection == Direction::up) // Jumping
+void Player::DrawUnit() {
+    if (vUnitDirection == Direction::up) // Jumping
     {
-        frameRec.x = (1 + (float)currentFrame) * (float)playerTexture.width / 9;
+        frameRec.x = (1 + (float)currentFrame) * (float)unitTexture.width / 9;
     }
     else // Not Jumping
     {
-        if (playerHDirection != Direction::none) // Running
+        if (hUnitDirection != Direction::none) // Running
         {
             framesCounter++;
             if (framesCounter >= (60 / framesSpeed))
@@ -160,7 +146,7 @@ void Player::DrawPlayer() {
 
                 if (currentFrame > 3) currentFrame = 0;
 
-                frameRec.x = (5 + (float)currentFrame) * (float)playerTexture.width / 9;
+                frameRec.x = (5 + (float)currentFrame) * (float)unitTexture.width / 9;
             }
         }
         else // Idle
@@ -169,11 +155,6 @@ void Player::DrawPlayer() {
         }
         
     }
-    FlipSprite(playerHDirection != Direction::right, false);
-    DrawTextureRec(playerTexture, frameRec, Vector2({ position.x - 25, position.y - 55 }), LIGHTGRAY);
-}
-
-void Player::FlipSprite(bool hflip, bool vflip) {
-    frameRec.width = fabs(frameRec.width) * (hflip ? -1 : 1);
-    frameRec.height = fabs(frameRec.height) * (vflip ? -1 : 1);
+    FlipSprite(hUnitDirection != Direction::right, false);
+    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 25, position.y - 55 }), LIGHTGRAY);
 }

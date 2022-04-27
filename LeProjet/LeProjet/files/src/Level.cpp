@@ -50,7 +50,7 @@ void Level::InitLevel()
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
-    player.InitPlayer();
+    player.InitUnit();
 }
 
 void Level::UpdateLevel()

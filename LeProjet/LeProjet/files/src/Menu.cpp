@@ -23,7 +23,7 @@ Menu::Menu(LevelManager& levelManager)
 
 void Menu::InitLevel()
 {
-    player.InitPlayer();
+    player.InitUnit();
 
     camera.target = player.position;
     camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};

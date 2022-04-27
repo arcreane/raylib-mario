@@ -87,7 +87,7 @@ void PlayableLevel::UpdateLevel()
 {
     framesCounter++;
     float deltaTime = GetFrameTime();
-    int levelFinished = player.UpdatePlayer(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    int levelFinished = player.UpdateUnit(map.mapVector.data(), map.mapVector.size(), deltaTime);
 
     // Check conditions to end level or reduce lives
     if (levelFinished == 1)
@@ -114,7 +114,7 @@ void PlayableLevel::UpdateLevel()
     // Update enemies in the level
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i]->UpdateEnemy();
+        enemies[i]->UpdateUnit(map.mapVector.data(), map.mapVector.size(), deltaTime);
     }
 
     // Update items in the level
@@ -154,7 +154,7 @@ void PlayableLevel::DrawLevel()
     map.DrawMap();
     DrawItems();
     DrawEnemies();
-    player.DrawPlayer();
+    player.DrawUnit();
 
     EndMode2D();
 
@@ -187,7 +187,7 @@ void PlayableLevel::DrawEnemies()
 {
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i]->DrawEnemy();
+        enemies[i]->DrawUnit();
     }
 }
 

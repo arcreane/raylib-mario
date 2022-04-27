@@ -1,17 +1,17 @@
 #pragma once
-#include "Player.h"
-#include <string>
+#include "Unit.h"
+#include "structures.h"
 
-class Enemy : public Player {
+class Enemy : public Unit {
 
 protected :
-	Rectangle hitbox;
 	int dep;
 	int arr;
-	std::string direction;
 public:
 	Enemy(int x, int y, int dep, int arr);
+
+	virtual int UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta) override;
+	virtual void DrawUnit() override;
+	virtual void Walk();
 	void Kill();
-	virtual void UpdateEnemy();
-	virtual void DrawEnemy();
 };
