@@ -48,6 +48,21 @@
     <ClCompile Include="LeProjet\files\src\Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Coin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\UpMushroom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Goomba.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LeProjet\files\src\Koopa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h">
@@ -68,6 +83,15 @@
     <ClInclude Include="LeProjet\files\src\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Enemy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Goomba.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Koopa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="LeProjet\files\src\Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeProjet\files\src\Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\Coin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\UpMushroom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

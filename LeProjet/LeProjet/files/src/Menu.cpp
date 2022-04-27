@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 
 Menu::Menu(LevelManager& levelManager)
-    :Level(LevelName::menu, levelManager)
+    :Level(LevelName::menu, LevelName::lvl1, levelManager, "Menu")
 {
     currentLevel = 1;
     world = 1;
@@ -63,7 +63,7 @@ void Menu::UpdateLevel()
     }
     if (IsKeyPressed(KEY_ENTER))
     {
-        levelManager->LoadLevel(LevelName::lvl1);
+        NextLevel();
     }
 }
 
@@ -106,6 +106,34 @@ Color Menu::returnColorToPrint(int i, int unlockLevel, int actuelLevel) {
     if (i == actuelLevel) return YELLOW;
     if (i <= unlockLevel) return GREEN;
     else return RED;
+}
+
+void Menu::NextLevel()
+{
+    switch (currentLevel)
+    {
+    case 1:
+        nextLevelName = LevelName::lvl1;
+        break;
+    case 2:
+        nextLevelName = LevelName::lvl2;
+        break;
+    case 3:
+        nextLevelName = LevelName::lvl3;
+        break;
+    case 4:
+        nextLevelName = LevelName::lvl4;
+        break;
+    case 5:
+        nextLevelName = LevelName::lvl5;
+        break;
+    case 6:
+        nextLevelName = LevelName::lvl6;
+        break;
+    default:
+        nextLevelName = LevelName::lvl1;
+    }
+    levelManager->LoadLevel(nextLevelName);
 }
 
 int Menu::GetWorld()

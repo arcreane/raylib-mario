@@ -3,12 +3,12 @@
 #include <string>
 #include <vector>
 
-
 class Map
 {
 public:
 	Color backgroundColor;
 	std::vector<EnvItem> mapVector;  // vectore to store each map bloc
+	Vector2 startPosition;
 
 	Texture2D Ground;
 	Texture2D BlocInconnue;

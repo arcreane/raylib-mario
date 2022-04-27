@@ -1,9 +1,14 @@
 #pragma once
+#include <string>
+#include "Player.h"
 #include "LevelManager.h"
 #include "Map.h"
 #include "Item.h"
+#include "Enemy.h"
+
 
 enum class LevelName { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
+class Player;
 class LevelManager;
 class Item;
 
@@ -11,15 +16,20 @@ class Level
 {
 public:
 	LevelName name;
+	LevelName nextLevelName;
 	LevelManager *levelManager;
 	Map map;
-	std::vector<Item> itemVector; // vector to store each item of the level
+	std::vector<Item*> itemVector; // vector to store each item of the level
 	Player player;
+	std::string nameDisplayed;
 	int score;
+	int lives;
+	bool has_fallen;
+	bool gameOver;
 
 	// Item textures
 	Texture2D CoinTexture;
-	Texture2D ShroomTexture;
+	Texture2D UpMushroomTexture;
 
 	Camera2D camera;
 	int cameraOption;
@@ -31,8 +41,7 @@ public:
 
 	//ENEMY à classer
 	int enemyAmount;
-	std::vector<Enemy> goomba;
-	std::vector<Enemy> koopa;
+	std::vector<Enemy*> enemies;
 	double previousTime;
 	double currentTime;
 	float deltaTime;
@@ -47,7 +56,8 @@ public:
 	Texture2D koopaTexture;
 	Texture2D koopaTexture2;
 
-	Level(LevelName name, LevelManager &levelManager);
+	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager, std::string nameDisplayed);
+	~Level();
 
 	virtual void InitLevel();
 	virtual void UpdateLevel();
@@ -55,8 +65,14 @@ public:
 
 	// Item functions
 	void ReadItems(std::string filename);
-	Item CreateItem(char c, float line, float col);
+	Item* CreateItem(char c, float line, float col);
 	void DrawItem();
 	void RemoveItem(Item *item);
+	void ClearItems();
+
+	// Enemy functions
+	void DrawEnemies();
+
+	virtual void NextLevel();
 };
 

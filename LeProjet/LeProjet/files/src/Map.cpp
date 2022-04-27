@@ -9,6 +9,7 @@ using namespace std;
 Map::Map()
 {
     backgroundColor = SKYBLUE;
+    startPosition = { 120 , -10 };
     Ground = LoadTexture("../LeProjet/LeProjet/files/img/BlocTerre100-100.png");
     BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
     Start = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
@@ -18,6 +19,7 @@ Map::Map()
 void Map::CreateMap(string filename)
 {
     backgroundColor = SKYBLUE;
+    mapVector.clear();
 
     char c;   // To read each character from file
     std::vector<char> charVector;
@@ -116,7 +118,6 @@ void Map::DrawMap()
     }
 }
 
-
 EnvItem Map::CreateEnvItem(char c, float line,float col)
 {
 
@@ -128,6 +129,7 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
             break;
         case 's':
             newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::start };
+            startPosition = { col * 100 + 50, -800 + (line * 100) -10};
             break;
         case 'f':
             newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::finish };

@@ -29,8 +29,6 @@ public:
 
 	Player();
 	void InitPlayer();
-
-	void attack();
-	void UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta);
+	int UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta);
 	void DrawPlayer();
 };

@@ -19,6 +19,7 @@ public:
 	void UpdateLevel() override;
 	void DrawLevel() override;
 	Color returnColorToPrint(int i, int unlockLevel, int actuelLevel);
+	void NextLevel() override;
 
 
 	// Getter - Setter 

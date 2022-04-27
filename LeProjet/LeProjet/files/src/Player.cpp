@@ -26,12 +26,9 @@ void Player::InitPlayer()
     framesSpeed = 9;
 }
 
-void Player::attack()
-{
-}
-
-void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
+int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
 {   
+    int levelFinished = 0;
     int hitTopSide = 0;
     int hitRightSide = 0;
     int hitLeftSide = 0;
@@ -45,6 +42,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
     {
         EnvItem* ei = envItems + i;
         Vector2* p = &(this->position);
+        hitAnySide = 0;
 
         // Check if the player is in contact with the top side of a block
         if (ei->blocking[0] &&
@@ -103,7 +101,8 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
         }
         if (hitAnySide && ei->type== EnvItemType::finish)
         {
-            //finishMap(); (in map.cpp)
+            levelFinished = 1;
+            //(level.*NextLevel)(); // Call NextLevel function in Level.h
         }
         
     }
@@ -141,6 +140,7 @@ void Player::UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta)
         playerVDirection = Direction::none;
         this->canJump = true;
     }
+    return levelFinished;
 }
 
 void Player::DrawPlayer() {
