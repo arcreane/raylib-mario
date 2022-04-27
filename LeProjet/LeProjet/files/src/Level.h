@@ -17,12 +17,12 @@ class Level
 public:
 	LevelType levelType;
 	LevelType nextLevelType;
+	std::string levelName;
 	LevelManager *levelManager;
 	Map map;
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
 	Player player;
-	std::string nameDisplayed;
 	int score;
 	int lives;
 	bool has_fallen;
@@ -40,7 +40,8 @@ public:
 	int framesCounter;
 	int framesMax;
 
-	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager, std::string nameDisplayed);
+	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager);
+	std::string GetLevelName(LevelType levelType);
 	~Level();
 
 	virtual void InitLevel();

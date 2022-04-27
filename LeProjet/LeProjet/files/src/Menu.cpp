@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 
 Menu::Menu(LevelManager& levelManager)
-    :Level(LevelType::menu, LevelType::lvl1, levelManager, "Menu")
+    :Level(LevelType::menu, LevelType::lvl1, levelManager)
 {
     currentLevel = 1;
     world = 1;

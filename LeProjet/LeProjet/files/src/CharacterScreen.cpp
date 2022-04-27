@@ -1,7 +1,7 @@
 #include "CharacterScreen.h"
 
 CharacterScreen::CharacterScreen(LevelManager& levelManager)
-    :Level(LevelType::characterScreen, LevelType::menu, levelManager, "Menu")
+    :Level(LevelType::characterScreen, LevelType::menu, levelManager)
 {
     validTexture = LoadTexture("../LeProjet/LeProjet/files/img/valider.png");
 }

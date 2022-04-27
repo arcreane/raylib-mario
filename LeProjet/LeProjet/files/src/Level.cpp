@@ -9,12 +9,12 @@
 #include <chrono>
 #include <thread>
 
-Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager, std::string nameDisplayed)
+Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager)
 {
 	this->levelType = levelType;
     this->nextLevelType = nextLevelType;
+    this->levelName = GetLevelName(levelType);
 	this->levelManager = &levelManager;
-    this->nameDisplayed = nameDisplayed;
     this->score = 0;
     this->lives = 2;
     this->has_fallen = false;
@@ -32,6 +32,33 @@ Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelMa
     // Item Texture
     CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
     UpMushroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
+}
+
+std::string Level::GetLevelName(LevelType levelType)
+{
+    switch (levelType)
+    {
+    case LevelType::startScreen:
+        return "Ecran d'accueil";
+    case LevelType::characterScreen:
+        return "Ecran d'utilisateur";
+    case LevelType::menu:
+        return "Menu";
+    case LevelType::lvl1:
+        return "Niveau 1";
+    case LevelType::lvl2:
+        return "Niveau 2";
+    case LevelType::lvl3:
+        return "Niveau 3";
+    case LevelType::lvl4:
+        return "Niveau 4";
+    case LevelType::lvl5:
+        return "Niveau 5";
+    case LevelType::lvl6:
+        return "Niveau 6";
+    default:
+        return "Niveau ?";
+    }
 }
 
 Level::~Level()
@@ -176,7 +203,7 @@ void Level::DrawLevel()
     char const* Level_score = tmp_score.c_str();
     std::string tmp_lives = "Vies: " + std::to_string(this->lives);
     char const* Level_lives = tmp_lives.c_str();
-    char const* Level_name = this->nameDisplayed.c_str();
+    char const* Level_name = this->levelName.c_str();
 
     DrawText(Game3_time, 5, 0, 30, RED);
     DrawText(Level_lives, 5, 40, 30, RED);
