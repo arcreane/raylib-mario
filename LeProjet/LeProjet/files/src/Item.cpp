@@ -8,6 +8,7 @@ Item::Item(ItemType t)
         blocking[i] = 1;
     color = BLANK;
     type = t;
+    itemTexture = LoadTexture("../LeProjet/LeProjet/files/img/coin50-50.png");
 }
 
 void Item::SetRectangle(Rectangle rec)
@@ -26,6 +27,11 @@ void Item::UpdateItem(Player *p, PlayableLevel* l)
     {
         this->UseItem(l);
     }
+}
+
+void Item::DrawItem()
+{
+    DrawTexture(itemTexture,rect.x,rect.y, LIGHTGRAY);
 }
 
 

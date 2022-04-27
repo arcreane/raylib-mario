@@ -18,10 +18,6 @@ PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, Level
     this->gameOver = false;
     this->framesCounter = 0;
     this->framesMax = 300 * 60;
-
-    // Item Texture
-    CoinTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
-    UpMushroomTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
 }
 
 PlayableLevel::~PlayableLevel()
@@ -149,7 +145,7 @@ void PlayableLevel::DrawLevel()
     BeginMode2D(camera);
 
     map.DrawMap();
-    DrawItem();
+    DrawItems();
     DrawEnemies();
     player.DrawPlayer();
 
@@ -246,22 +242,11 @@ Item* PlayableLevel::CreateItem(char c, float line, float col)
     return newItem;
 }
 
-void PlayableLevel::DrawItem()
+void PlayableLevel::DrawItems()
 {
     for (int i = 0; i < itemVector.size(); i++)
     {
-        DrawRectangleRec(itemVector[i]->rect, itemVector[i]->color);
-        switch (itemVector[i]->type)
-        {
-        case ItemType::coin:
-            DrawTexture(CoinTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
-            break;
-        case ItemType::upMushroom:
-            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
-            break;
-        default:
-            DrawTexture(UpMushroomTexture, itemVector[i]->rect.x, itemVector[i]->rect.y, LIGHTGRAY);
-        }
+        itemVector[i]->DrawItem();
     }
 }
 

@@ -6,4 +6,7 @@ void Coin::UseItem(PlayableLevel* l)
     l->RemoveItem(this);
 }
 
-Coin::Coin() : Item(ItemType::coin) {}
+Coin::Coin() : Item(ItemType::coin)
+{
+    itemTexture = LoadTexture("../LeProjet/LeProjet/files/img/Coin50-50.png");
+}

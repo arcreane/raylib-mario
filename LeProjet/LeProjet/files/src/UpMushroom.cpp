@@ -7,4 +7,7 @@ void UpMushroom::UseItem(PlayableLevel* l)
 	l->RemoveItem(this);
 }
 
-UpMushroom::UpMushroom() : Item(ItemType::upMushroom) {}
+UpMushroom::UpMushroom() : Item(ItemType::upMushroom)
+{
+	itemTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
+}

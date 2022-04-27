@@ -17,9 +17,6 @@ private:
 	int framesCounter;
 	int framesMax;
 
-	Texture2D CoinTexture;
-	Texture2D UpMushroomTexture;
-
 	// Enemy functions
 	void DrawEnemies();
 	void ClearEnemies();
@@ -33,7 +30,7 @@ public:
 	// Item functions
 	void ReadItems(std::string filename);
 	Item* CreateItem(char c, float line, float col);
-	void DrawItem();
+	void DrawItems();
 	void RemoveItem(Item* item);
 	void ClearItems();
 
