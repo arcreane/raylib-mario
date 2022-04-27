@@ -1,8 +1,9 @@
 #include "UpMushroom.h"
 
-void UpMushroom::UseItem(Level* l)
+void UpMushroom::UseItem(PlayableLevel* l)
 {
-	if (l->lives < 3) l->lives += 1;
+	int lives = l->GetLives();
+	if (lives < 3) l->SetLives(lives + 1);
 	l->RemoveItem(this);
 }
 

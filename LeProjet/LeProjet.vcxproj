@@ -279,6 +279,7 @@
     <ClCompile Include="LeProjet\files\src\Koopa.cpp" />
     <ClCompile Include="LeProjet\files\src\main.cpp" />
     <ClCompile Include="LeProjet\files\src\Map.cpp" />
+    <ClCompile Include="LeProjet\files\src\PlayableLevel.cpp" />
     <ClCompile Include="LeProjet\files\src\Player.cpp" />
     <ClCompile Include="LeProjet\files\src\Menu.cpp" />
     <ClCompile Include="LeProjet\files\src\StartScreen.cpp" />
@@ -304,6 +305,7 @@
     <ClInclude Include="LeProjet\files\src\Koopa.h" />
     <ClInclude Include="LeProjet\files\src\Menu.h" />
     <ClInclude Include="LeProjet\files\src\Map.h" />
+    <ClInclude Include="LeProjet\files\src\PlayableLevel.h" />
     <ClInclude Include="LeProjet\files\src\Player.h" />
     <ClInclude Include="LeProjet\files\src\StartScreen.h" />
     <ClInclude Include="LeProjet\files\src\structures.h" />

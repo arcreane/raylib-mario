@@ -15,7 +15,7 @@ void Item::SetRectangle(Rectangle rec)
     rect = rec;
 }
 
-void Item::UpdateItem(Player *p, Level *l)
+void Item::UpdateItem(Player *p, PlayableLevel* l)
 {
     // Check if the item is in contact with the player
     if (p->position.x >= this->rect.x &&

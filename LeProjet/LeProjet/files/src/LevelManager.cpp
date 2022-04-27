@@ -2,6 +2,7 @@
 #include "Menu.h"
 #include "StartScreen.h"
 #include "CharacterScreen.h"
+#include "PlayableLevel.h"
 
 Level* LevelManager::CreateLevel(LevelType levelType)
 {
@@ -18,25 +19,25 @@ Level* LevelManager::CreateLevel(LevelType levelType)
 		newLevel = new Menu(*this);
 		break;
 	case LevelType::lvl1:
-		newLevel = new Level(levelType, LevelType::lvl2, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::lvl2, *this);
 		break;
 	case LevelType::lvl2:
-		newLevel = new Level(levelType, LevelType::lvl3, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::lvl3, *this);
 		break;
 	case LevelType::lvl3:
-		newLevel = new Level(levelType, LevelType::lvl4, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::lvl4, *this);
 		break;
 	case LevelType::lvl4:
-		newLevel = new Level(levelType, LevelType::lvl5, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::lvl5, *this);
 		break;
 	case LevelType::lvl5:
-		newLevel = new Level(levelType, LevelType::lvl6, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::lvl6, *this);
 		break;
 	case LevelType::lvl6:
-		newLevel = new Level(levelType, LevelType::menu, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::menu, *this);
 		break;
 	default:
-		newLevel = new Level(levelType, LevelType::menu, *this);
+		newLevel = new PlayableLevel(levelType, LevelType::menu, *this);
 	}
 
 	return newLevel;

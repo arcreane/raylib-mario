@@ -51,9 +51,6 @@ void Map::CreateMap(string filename)
 
 void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* currentlevel, int* unlockLevel)
 {
-    int framesCounter = 0;
-
-
     if (IsKeyPressed(KEY_LEFT))
     {
         if (*currentlevel > 1)

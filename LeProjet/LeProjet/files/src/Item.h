@@ -1,10 +1,10 @@
 #pragma once
 #include "structures.h"
 #include "Player.h"
-#include "Level.h"
+#include "PlayableLevel.h"
 
 enum class ItemType { coin, upMushroom };
-class Level;
+class PlayableLevel;
 
 class Item
 {
@@ -16,8 +16,8 @@ public:
 
     Item(ItemType t);
     void SetRectangle(Rectangle rec);
-    void UpdateItem(Player *p, Level *l);
-    virtual void UseItem(Level *l) = 0;  // pure virtual function
+    void UpdateItem(Player *p, PlayableLevel* l);
+    virtual void UseItem(PlayableLevel* l) = 0;  // pure virtual function
     bool operator==(const Item &i) const;
 };
 

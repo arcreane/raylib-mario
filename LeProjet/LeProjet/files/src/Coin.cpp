@@ -1,8 +1,8 @@
 #include "Coin.h"
 
-void Coin::UseItem(Level* l)
+void Coin::UseItem(PlayableLevel* l)
 {
-    l->score += 1;
+    l->SetScore(l->GetScore()+1);
     l->RemoveItem(this);
 }
 
