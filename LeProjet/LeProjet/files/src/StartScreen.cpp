@@ -1,7 +1,7 @@
 #include "StartScreen.h"
 
 StartScreen::StartScreen(LevelManager& levelManager)
-	:Level(LevelName::startScreen, LevelName::menu, levelManager, "")
+	:Level(LevelType::startScreen, LevelType::menu, levelManager, "")
 {
     currentScreen = GameMoment::DEBUT;
     frameHeight = (float)playButtonTexture.height;
@@ -31,12 +31,12 @@ void StartScreen::UpdateLevel()
             if (positionClick.x < 650)
             {
                 printf("\n L'utilisateur veut charger une partie");
-                levelManager->LoadLevel(LevelName::menu);
+                levelManager->LoadLevel(LevelType::menu);
             }
             else
             {
                 printf("\n L'utilisateur veut creer une partie");
-                levelManager->LoadLevel(LevelName::characterScreen);
+                levelManager->LoadLevel(LevelType::characterScreen);
             }
         }
         break;

@@ -9,10 +9,10 @@
 #include <chrono>
 #include <thread>
 
-Level::Level(LevelName name, LevelName nextLevelName, LevelManager& levelManager, std::string nameDisplayed)
+Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager, std::string nameDisplayed)
 {
-	this->name = name;
-    this->nextLevelName = nextLevelName;
+	this->levelType = levelType;
+    this->nextLevelType = nextLevelType;
 	this->levelManager = &levelManager;
     this->nameDisplayed = nameDisplayed;
     this->score = 0;
@@ -44,9 +44,9 @@ void Level::InitLevel()
     // Empty the vectors of items and enemies
     ClearItems();
     ClearEnemies();
-    switch (name)
+    switch (levelType)
 	{
-	case LevelName::lvl1:
+	case LevelType::lvl1:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
         
@@ -56,24 +56,24 @@ void Level::InitLevel()
         enemies.push_back(new Koopa(100, -15, 80, 400));
         enemies.push_back(new Koopa(500, -15, 500, 700));
 		break;
-	case LevelName::lvl2:
+	case LevelType::lvl2:
 		map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
         
 		break;
-	case LevelName::lvl3:
+	case LevelType::lvl3:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
-	case LevelName::lvl4:
+	case LevelType::lvl4:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
-	case LevelName::lvl5:
+	case LevelType::lvl5:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
-	case LevelName::lvl6:
+	case LevelType::lvl6:
 		map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 		break;
@@ -110,7 +110,7 @@ void Level::UpdateLevel()
     if (gameOver)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        levelManager->LoadLevel(LevelName::menu);
+        levelManager->LoadLevel(LevelType::menu);
     }
     if (player.position.y > 200) // Player fall from the map 
     {
@@ -153,7 +153,7 @@ void Level::UpdateLevel()
     }
     if (IsKeyPressed(KEY_N))
     {
-        levelManager->LoadLevel(LevelName::menu);
+        levelManager->LoadLevel(LevelType::menu);
     }
 }
 
@@ -284,7 +284,7 @@ void Level::ClearItems()
 
 void Level::NextLevel()
 {
-    this->levelManager->LoadLevel(this->nextLevelName);
+    this->levelManager->LoadLevel(this->nextLevelType);
 }
 
 void Level::DrawEnemies()

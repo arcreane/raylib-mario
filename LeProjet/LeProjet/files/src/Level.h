@@ -7,7 +7,7 @@
 #include "Enemy.h"
 
 
-enum class LevelName { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
+enum class LevelType { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
 class Player;
 class LevelManager;
 class Item;
@@ -15,8 +15,8 @@ class Item;
 class Level
 {
 public:
-	LevelName name;
-	LevelName nextLevelName;
+	LevelType levelType;
+	LevelType nextLevelType;
 	LevelManager *levelManager;
 	Map map;
 	std::vector<Item*> itemVector; // vector to store each item of the level
@@ -40,7 +40,7 @@ public:
 	int framesCounter;
 	int framesMax;
 
-	Level(LevelName name, LevelName nextLevelName, LevelManager &levelManager, std::string nameDisplayed);
+	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager, std::string nameDisplayed);
 	~Level();
 
 	virtual void InitLevel();

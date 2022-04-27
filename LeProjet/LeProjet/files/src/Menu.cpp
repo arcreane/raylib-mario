@@ -4,7 +4,7 @@
 #include "LevelManager.h"
 
 Menu::Menu(LevelManager& levelManager)
-    :Level(LevelName::menu, LevelName::lvl1, levelManager, "Menu")
+    :Level(LevelType::menu, LevelType::lvl1, levelManager, "Menu")
 {
     currentLevel = 1;
     world = 1;
@@ -113,27 +113,27 @@ void Menu::NextLevel()
     switch (currentLevel)
     {
     case 1:
-        nextLevelName = LevelName::lvl1;
+        nextLevelType = LevelType::lvl1;
         break;
     case 2:
-        nextLevelName = LevelName::lvl2;
+        nextLevelType = LevelType::lvl2;
         break;
     case 3:
-        nextLevelName = LevelName::lvl3;
+        nextLevelType = LevelType::lvl3;
         break;
     case 4:
-        nextLevelName = LevelName::lvl4;
+        nextLevelType = LevelType::lvl4;
         break;
     case 5:
-        nextLevelName = LevelName::lvl5;
+        nextLevelType = LevelType::lvl5;
         break;
     case 6:
-        nextLevelName = LevelName::lvl6;
+        nextLevelType = LevelType::lvl6;
         break;
     default:
-        nextLevelName = LevelName::lvl1;
+        nextLevelType = LevelType::lvl1;
     }
-    levelManager->LoadLevel(nextLevelName);
+    levelManager->LoadLevel(nextLevelType);
 }
 
 int Menu::GetWorld()

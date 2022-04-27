@@ -21,7 +21,7 @@ void Game::Start()
     SetTargetFPS(60);
 
     // First screen
-    levelManager->LoadLevel(LevelName::startScreen);
+    levelManager->LoadLevel(LevelType::startScreen);
 
     while (!WindowShouldClose())
     {
