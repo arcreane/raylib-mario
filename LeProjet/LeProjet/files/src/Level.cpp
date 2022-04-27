@@ -29,7 +29,6 @@ Level::Level(LevelName name, LevelManager& levelManager)
     direction = "goings";
     direction2 = "goings";
 
-    marioTexture = LoadTexture("../LeProjet/LeProjet/files/img/mario.png");
     goombaTexture = LoadTexture("../LeProjet/LeProjet/files/img/goomba_retour.png");
     goombaTexture2 = LoadTexture("../LeProjet/LeProjet/files/img/goomba_alle.png");
     koopaTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa_alle.png");
@@ -53,9 +52,8 @@ void Level::InitLevel()
 		camera.rotation = 0.0f;
 		camera.zoom = 1.0f;
 
+        player.InitPlayer();
         player.position = { 120 , -10 };
-        player.speed = 0;
-        player.canJump = false;
 
         framesCounter = 0;
         framesMax = 300 * 60;
@@ -207,8 +205,7 @@ void Level::DrawLevel()
         }
     }
 
-
-    DrawTexture(marioTexture, player.position.x - 20, player.position.y - 32, LIGHTGRAY); // Draw button frame
+    player.DrawPlayer();
 
     EndMode2D();
 

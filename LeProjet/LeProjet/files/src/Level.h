@@ -42,7 +42,6 @@ public:
 	std::string direction;
 	std::string direction2;
 
-	Texture2D marioTexture;
 	Texture2D goombaTexture;
 	Texture2D goombaTexture2;
 	Texture2D koopaTexture;

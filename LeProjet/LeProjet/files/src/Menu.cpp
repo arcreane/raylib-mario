@@ -18,8 +18,7 @@ Menu::Menu(LevelManager& levelManager)
 
 void Menu::InitLevel()
 {
-	player.speed = 0;
-	player.canJump = false;
+    player.InitPlayer();
 
     camera.target = player.position;
     camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};

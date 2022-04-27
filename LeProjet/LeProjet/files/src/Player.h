@@ -3,19 +3,34 @@
 #include "raymath.h"
 #include "structures.h"
 
-#define G 400
+#define G 600
 
-enum class Direction { right, left, up, down };
+enum class Direction { right, left, up, down, none };
 
 class Player
 {
 private:
 	float playerJumpSpeed = 350.0f;
 	float playerHorSpeed = 400.0f;
+	Direction playerHDirection;
+	Direction playerVDirection;
+	Rectangle frameRec;
+	int currentFrame;
+	int framesCounter;
+	int framesSpeed;
+
+	Texture2D playerTexture;
+	void FlipSprite(bool hflip, bool vflip);
+
 public:
 	Vector2 position;
 	float speed;
 	bool canJump;
+
+	Player();
+	void InitPlayer();
+
 	void attack();
 	void UpdatePlayer(EnvItem* envItems, int envItemsLength, float delta);
+	void DrawPlayer();
 };
