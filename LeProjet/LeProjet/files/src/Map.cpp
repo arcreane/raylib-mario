@@ -60,7 +60,7 @@ void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float
             *currentlevel = *currentlevel - 1;
             printf("%d \n", *currentlevel);
         }
-        else printf("\n Tamer \n");
+        else printf("\n Action Impossible \n");
     }
 
 
@@ -75,7 +75,7 @@ void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float
             *currentlevel = *currentlevel + 1;
             printf("%d \n", *currentlevel);
         }
-        else printf("\n Tamer \n");
+        else printf("\n Niveau non debloque \n");
     }
 
     /*  if (IsKeyPressed(KEY_RIGHT))

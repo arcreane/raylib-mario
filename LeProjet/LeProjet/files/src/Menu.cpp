@@ -1,6 +1,11 @@
 #include "Menu.h"
 #include "Camera.h"
 #include "LevelManager.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
 
 Menu::Menu(LevelManager& levelManager)
     :Level(LevelType::menu, LevelType::lvl1, levelManager)
@@ -11,7 +16,8 @@ Menu::Menu(LevelManager& levelManager)
     unlockLevel = 5;
     envItemsLengthMAPmonde1=0;
     player.position = { 20 , 0 };
-
+    playerName = "Non defini";
+    coins = 0;
 	youAreHereTexture = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png");
 }
 
@@ -21,6 +27,8 @@ void Menu::InitLevel()
 
     camera.target = player.position;
     camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+    
+    LoadSave();
 
     map.mapVector = {
         {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
@@ -76,10 +84,16 @@ void Menu::DrawLevel()
     std::string DispCurrentWorld = "Monde : " + std::to_string(world);
     char const* pchar = DispCurrentWorld.c_str();  // use char const* as target 
     std::string DispCurrentLevel = "Niveau : " + std::to_string(currentLevel);
-    char const* pchar2 = DispCurrentLevel.c_str();  // use char const* as target type
-
+    char const* pchar2 = DispCurrentLevel.c_str();
+    std::string tmp_playerName = "Utilisateur : " + playerName;
+    char const* pchar_playerName = tmp_playerName.c_str();
+    std::string DispCurrentCoins = "Pieces : " + std::to_string(coins);
+    char const* pcharCoins = DispCurrentCoins.c_str();
+    
     DrawText(pchar, 5, 0, 30, BLUE);
     DrawText(pchar2, 5, 40, 30, BLUE);
+    DrawText(pchar_playerName, 600, 2, 30, BLUE);
+    DrawText(pcharCoins, 5, 80, 30, BLUE);
 
     BeginMode2D(camera);
     for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.mapVector[i].rect, map.mapVector[i].color);
@@ -98,6 +112,30 @@ void Menu::DrawLevel()
     EndMode2D();
 
     EndDrawing();
+}
+
+void Menu::LoadSave()
+{
+    string line;
+    ifstream myfile("../LeProjet/LeProjet/files/sauvegarde.txt");
+    //create a tab of string
+    string tab[4];
+    int i = 0;
+    if (myfile.is_open())
+    {
+        while (getline(myfile, line))
+        {
+            tab[i] = line;
+            i++;
+        }
+        myfile.close();
+    }
+    else cout << "Unable to open file";
+
+    playerName = tab[0];
+    world = stoi(tab[1]);
+    unlockLevel = stoi(tab[2]);
+    coins = stoi(tab[3]);
 }
 
 Color Menu::returnColorToPrint(int i, int unlockLevel, int actuelLevel) {

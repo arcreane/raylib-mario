@@ -54,7 +54,7 @@ void StartScreen::DrawLevel()
     {
     case GameMoment::DEBUT:
         DrawTexture(backgroundTexture, 0, 0, LIGHTGRAY);
-        DrawTexturePro(playButtonTexture, { 0,0, (float)playButtonTexture.width, (float)playButtonTexture.height }, { 200,200, 150,50 }, { 0,0 }, 0.f, WHITE); // Draw button frame
+        DrawTexture(playButtonTexture, 500, 350, WHITE);
         break;
     case GameMoment::CREERREPRENDRE:
         DrawRectangle(0, 0, 650, 1000, RED);

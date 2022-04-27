@@ -10,7 +10,8 @@ private:
 	int totalLevel;
 	int unlockLevel;
 	int envItemsLengthMAPmonde1;
-
+	std::string playerName;
+	int coins;
 	Texture2D youAreHereTexture;
 
 public:
@@ -18,6 +19,7 @@ public:
 	void InitLevel() override;
 	void UpdateLevel() override;
 	void DrawLevel() override;
+	void LoadSave();
 	Color returnColorToPrint(int i, int unlockLevel, int actuelLevel);
 	void NextLevel() override;
 

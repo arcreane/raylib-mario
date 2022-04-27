@@ -33,7 +33,6 @@ public:
 	void DrawItems();
 	void RemoveItem(Item* item);
 	void ClearItems();
-
 	void SaveAfterLevelFinished();
 
 	// Getter Setter

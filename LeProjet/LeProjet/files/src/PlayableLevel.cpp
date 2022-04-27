@@ -298,12 +298,35 @@ void PlayableLevel::SaveAfterLevelFinished()
     //Save
 
      // si le niveau à lancé est le nombre de unlock level, du coup on rentre dans la condition
+    LevelType levelType = this->levelType;
+    int currentLevelNumber;
+    switch (levelType)
+    {
+    case LevelType::lvl1:
+        currentLevelNumber = 1;
+        break;
+    case LevelType::lvl2:
+        currentLevelNumber = 2;
+        break;
+    case LevelType::lvl3:
+        currentLevelNumber = 3;
+        break;
+    case LevelType::lvl4:
+        currentLevelNumber = 4;
+        break;
+    case LevelType::lvl5:
+        currentLevelNumber = 5;
+        break;
+    case LevelType::lvl6:
+        currentLevelNumber = 6;
+        break;
+    default:
+        currentLevelNumber = 0;
+    }
 
-
-    if (stoi(tab[2]) == 1) {
-        int newLevel = stoi(tab[2]) + 1;
-        if (newLevel < 7)
-            tab[2] = to_string(newLevel);
+    if (stoi(tab[2]) == currentLevelNumber && currentLevelNumber <6) {
+        int newUnlockLevel = stoi(tab[2]) + 1;
+        tab[2] = to_string(newUnlockLevel);
     }
 
     int newCoin = stoi(tab[3]) + score;
