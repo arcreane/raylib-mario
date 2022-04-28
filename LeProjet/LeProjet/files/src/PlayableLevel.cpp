@@ -41,9 +41,9 @@ void PlayableLevel::InitLevel()
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 
         // Create Enemies and add them to the vector of enemies in the level
-        enemies.push_back(new Goomba(70, 0, 70, 500));
+        //enemies.push_back(new Goomba(70, 0, 70, 500));
         enemies.push_back(new Goomba(700, 0, 700, 900));
-        enemies.push_back(new Koopa(100, 0, 80, 400));
+       // enemies.push_back(new Koopa(100, 0, 80, 400));
         enemies.push_back(new Koopa(500, 0, 500, 700));
         break;
     case LevelType::lvl2:

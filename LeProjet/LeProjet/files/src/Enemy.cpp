@@ -53,17 +53,20 @@ void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
     if (p->GetPosition().x >= this->position.x &&
         p->GetPosition().x <= this->position.x + this->hitbox.width &&
         p->GetPosition().y >= this->position.y - this->hitbox.height &&
-        p->GetPosition().y <= this->position.y)
-    {
-        hitOtherSide = 1;
-    }
-    else if (p->GetPosition().x >= this->position.x &&
-        p->GetPosition().x <= this->position.x + this->hitbox.width &&
-        p->GetPosition().y >= this->position.y - this->hitbox.height &&
-        p->GetPosition().y <= this->position.y - this->hitbox.height + 5 &&
-        hitOtherSide == 0)
+        p->GetPosition().y <= this->position.y - this->hitbox.height + 7)
     {
         this->Kill(l);
+        hitTopSide = 1;
         // if (is_falling == true) this->kill;
     }
+    if (p->GetPosition().x >= this->position.x &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().y >= this->position.y - this->hitbox.height &&
+        p->GetPosition().y <= this->position.y &&
+        hitTopSide != 1)
+    {
+        l->SetLives(l->GetLives()-1);
+
+    }
+    
 }
