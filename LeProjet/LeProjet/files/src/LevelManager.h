@@ -2,9 +2,8 @@
 #include "Level.h"
 #include <vector>
 
-class Level;
 enum class LevelType;
-
+class Level;
 
 class LevelManager
 {

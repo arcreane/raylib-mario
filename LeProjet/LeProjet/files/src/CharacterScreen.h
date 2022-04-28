@@ -11,8 +11,10 @@ private:
     bool mouseOnText;
     Vector2 positionClick;
     int framesCounter;
+
 public:
     CharacterScreen(LevelManager& levelManager);
+
     void InitLevel() override;
     void UpdateLevel() override;
     void DrawLevel() override;

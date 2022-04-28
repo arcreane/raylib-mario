@@ -30,39 +30,42 @@ void Menu::InitLevel()
     
     LoadSave();
 
-    map.mapVector = {
-        {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
-        {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, EnvItemType::sky },
-        {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,unlockLevel,currentLevel),EnvItemType::sky}
-    };
+    map.SetMapVector(
+        {
+            {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
+            {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, EnvItemType::sky },
+            {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,unlockLevel,currentLevel),EnvItemType::sky}
+        }
+    );
 
-    envItemsLengthMAPmonde1 = map.mapVector.size();
+    envItemsLengthMAPmonde1 = map.GetMapVector().size();
 }
 
 void Menu::UpdateLevel()
 {
     float deltaTime = GetFrameTime();
 
-    // Should be updated in a method update map instead of creating all map every loop (frame)
-    map.mapVector = {
-        {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
-        {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, EnvItemType::sky },
-        {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,unlockLevel,currentLevel),EnvItemType::sky},
-        {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,unlockLevel,currentLevel),EnvItemType::sky}
-    };
+    map.SetMapVector(
+        {
+            {{ -1000, -1000, 2000, 400 }, {0,0,0,0}, LIGHTGRAY, EnvItemType::sky},
+            {{ 0,0, 10000, 200 }, {1,1,1,1}, DARKBROWN, EnvItemType::sky },
+            {{ 0, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(1,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 300, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(2,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 600, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(3,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 900, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(4,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 1200, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(5,unlockLevel,currentLevel),EnvItemType::sky},
+            {{ 1500, 0, 40 , 40 }, {1,1,1,1}, returnColorToPrint(6,unlockLevel,currentLevel),EnvItemType::sky}
+        }
+    );
 
-    // THIS UPDATE UPDATE THE PLAYER NOT THE MAP
-    map.UpdateMAP(&player, map.mapVector.data(), envItemsLengthMAPmonde1, deltaTime, &currentLevel, &unlockLevel);
-    cameraUpdaters[2](&camera, &player, map.mapVector.data(), envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
+    // Update the player in the menu
+    map.UpdateMAP(&player, map.GetMapVector().data(), envItemsLengthMAPmonde1, deltaTime, &currentLevel, &unlockLevel);
+    cameraUpdaters[2](&camera, &player, map.GetMapVector().data(), envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
     if (IsKeyPressed(KEY_B))
     {
@@ -96,7 +99,7 @@ void Menu::DrawLevel()
     DrawText(pcharCoins, 5, 80, 30, BLUE);
 
     BeginMode2D(camera);
-    for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.mapVector[i].rect, map.mapVector[i].color);
+    for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.GetMapVector()[i].rect, map.GetMapVector()[i].color);
     // Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
     // DrawRectangleRec(playerRect, DARKBLUE);
     DrawTexture(youAreHereTexture, player.GetPosition().x - 50, player.GetPosition().y - 105, LIGHTGRAY);

@@ -21,10 +21,10 @@ void Map::CreateMap(string filename)
     backgroundColor = SKYBLUE;
     mapVector.clear();
 
-    char c;   // To read each character from file
+    char c;   // character
     std::vector<char> charVector;
-    float line = 0;    // Variable to keep count of each line
-    float col = 0;    // Variable to keep count of each colone
+    float line = 0;
+    float col = 0;
     ifstream mFile(filename);
     if (mFile.is_open())
     {
@@ -83,18 +83,6 @@ void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float
         }
         else printf("\n Niveau non debloque \n");
     }
-
-    /*  if (IsKeyPressed(KEY_RIGHT))
-    {
-
-        if (std::exp(g1->GetCurrentLevel()) < std::exp(g1->GetUnlockLevel()))
-        {
-
-            player->position.x = 20 + (g1->GetCurrentLevel() - 1) * 300 + 300;
-            g1->SetCurrentLevel(g1->GetCurrentLevel() + 1);
-            printf("%d \n", g1->GetCurrentLevel());
-        }
-    }*/
 }
 
 void Map::DrawMap()
@@ -141,4 +129,19 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
             newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, GREEN, EnvItemType::sky };
     }
     return newEnvItem;
+}
+
+Vector2 Map::GetStartPosition() const
+{
+    return startPosition;
+}
+
+std::vector<EnvItem> Map::GetMapVector() const
+{
+    return mapVector;
+}
+
+void Map::SetMapVector(std::vector<EnvItem> mapVector)
+{
+    this->mapVector = mapVector;
 }

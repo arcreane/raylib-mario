@@ -15,6 +15,7 @@ private:
 
 public:
 	StartScreen(LevelManager& levelManager);
+
 	virtual void InitLevel() override;
 	virtual void UpdateLevel() override;
 	virtual void DrawLevel() override;

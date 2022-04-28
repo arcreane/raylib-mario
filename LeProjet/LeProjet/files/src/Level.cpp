@@ -61,6 +61,11 @@ void Level::DrawLevel()
 {
 }
 
+LevelType Level::GetLevelType() const
+{
+    return levelType;
+}
+
 void Level::NextLevel()
 {
     this->levelManager->LoadLevel(this->nextLevelType);

@@ -8,14 +8,13 @@ enum class LevelType { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl
 class Player;
 class LevelManager;
 
-
 class Level
 {
-public:
+protected:
 	LevelType levelType;
 	LevelType nextLevelType;
 	std::string levelName;
-	LevelManager *levelManager;
+	LevelManager* levelManager;
 	Map map;
 	Player player;
 
@@ -24,14 +23,16 @@ public:
 	int screenWidth;
 	int screenHeight;
 
+	virtual void NextLevel();
+
+public:
 	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager);
-	std::string GetLevelName(LevelType levelType);
 
 	virtual void InitLevel();
 	virtual void UpdateLevel();
 	virtual void DrawLevel();
 
-protected:
-	virtual void NextLevel();
+	std::string GetLevelName(LevelType levelType);
+	LevelType GetLevelType() const;
 };
 

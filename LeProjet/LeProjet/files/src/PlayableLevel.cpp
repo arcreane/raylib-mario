@@ -77,7 +77,7 @@ void PlayableLevel::InitLevel()
     has_fallen = false;
     gameOver = false;
 
-    player.SetPosition(map.startPosition);
+    player.SetPosition(map.GetStartPosition());
 
     framesCounter = 0;
     framesMax = 300 * 60;
@@ -87,7 +87,7 @@ void PlayableLevel::UpdateLevel()
 {
     framesCounter++;
     float deltaTime = GetFrameTime();
-    int levelFinished = player.UpdateUnit(map.mapVector.data(), map.mapVector.size(), deltaTime);
+    int levelFinished = player.UpdateUnit(map.GetMapVector().data(), map.GetMapVector().size(), deltaTime);
 
     // Check conditions to end level or reduce lives
     if (levelFinished == 1)
@@ -108,12 +108,12 @@ void PlayableLevel::UpdateLevel()
     }
     if (lives < 0) gameOver = true;
 
-    cameraUpdaters[cameraOption](&camera, &player, map.mapVector.data(), map.mapVector.size(), deltaTime, screenWidth, screenHeight);
+    cameraUpdaters[cameraOption](&camera, &player, map.GetMapVector().data(), map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
 
     // Update enemies in the level
     for (int i = 0; i < enemies.size(); i++)
     {
-        enemies[i]->UpdateUnit(map.mapVector.data(), map.mapVector.size(), deltaTime);
+        enemies[i]->UpdateUnit(map.GetMapVector().data(), map.GetMapVector().size(), deltaTime);
         enemies[i]->DetectPlayer(&player, this);
     }
 
@@ -203,7 +203,7 @@ void PlayableLevel::RemoveEnemy(Enemy* enemy)
 {
     for (int i = 0; i < enemies.size(); i++)
     {
-        if (enemy == enemies[i]) // surcharge de l'op�rateur == dans enemy.cpp
+        if (enemy == enemies[i])
             enemies.erase(enemies.begin() + i);
     }
 }
@@ -211,15 +211,15 @@ void PlayableLevel::RemoveEnemy(Enemy* enemy)
 void PlayableLevel::RespawnPlayer()
 {
     camera.zoom = 1.0f;
-    player.SetPosition(map.startPosition);
+    player.SetPosition(map.GetStartPosition());
 }
 
 void PlayableLevel::ReadItems(std::string filename)
 {
     char c;   // To read each character from file
     std::vector<char> charVector;
-    float line = 0;    // Variable to keep count of each line
-    float col = 0;    // Variable to keep count of each colone
+    float line = 0;
+    float col = 0;
     std::ifstream mFile(filename);
     if (mFile.is_open())
     {

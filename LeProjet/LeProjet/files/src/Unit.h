@@ -28,8 +28,10 @@ protected:
 	int framesSpeed;
 
 	void FlipSprite(bool hflip, bool vflip);
+
 public:
 	Unit();
+
 	virtual void InitUnit();
 	virtual int UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta);
 	virtual void DrawUnit();

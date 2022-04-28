@@ -49,7 +49,7 @@ void LevelManager::LoadLevel(LevelType levelType)
 
 	for (int i = 0; i < levels.size(); i++)
 	{
-		if ((*levels[i]).levelType == levelType)
+		if ((*levels[i]).GetLevelType() == levelType)
 		{
 			indexCurrentLevel = i;
 			levelFound = true;

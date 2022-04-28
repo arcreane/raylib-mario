@@ -6,8 +6,6 @@
 class Item;
 class Enemy;
 
-
-
 class PlayableLevel : public Level
 {
 private:
@@ -21,6 +19,12 @@ private:
 	int framesCounter;
 	int framesMax;
 
+	// Item functions
+	void ReadItems(std::string filename);
+	Item* CreateItem(char c, float line, float col);
+	void DrawItems();
+	void ClearItems();
+
 	// Enemy functions
 	void DrawEnemies();
 	void ClearEnemies();
@@ -28,29 +32,20 @@ private:
 public:
 	PlayableLevel(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager);
 	~PlayableLevel();
+
 	void InitLevel() override;
 	void UpdateLevel() override;
 	void DrawLevel() override;
 
-	// Item functions
-	void ReadItems(std::string filename);
-	Item* CreateItem(char c, float line, float col);
-	void DrawItems();
-	void RemoveItem(Item* item);
-	void ClearItems();
 	void SaveAfterLevelFinished();
-
-	// Enemy functions
-	void RemoveEnemy(Enemy* enemy);
-
 	void RespawnPlayer();
-
+	void RemoveItem(Item* item);
+	void RemoveEnemy(Enemy* enemy);
+	
 	// Getter Setter
 	int GetScore();
 	int GetLives();
 	void SetScore(int score);
 	void SetLives(int lives);
-
-	
 };
 

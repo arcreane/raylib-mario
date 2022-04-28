@@ -6,6 +6,7 @@ class Coin : public Item
 {
 private:
 	void UseItem(PlayableLevel* l) override;
+
 public:
 	Coin();
 };
