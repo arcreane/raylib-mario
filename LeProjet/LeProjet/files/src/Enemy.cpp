@@ -24,7 +24,7 @@ int Enemy::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 void Enemy::DrawUnit()
 {
 	FlipSprite(hUnitDirection != Direction::right, false);
-    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 20, position.y - 32 }), LIGHTGRAY);
+    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x, position.y - unitTexture.height}), LIGHTGRAY);
 }
 
 void Enemy::Walk()
@@ -45,19 +45,25 @@ void Enemy::Walk()
 void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
 {
     int hitTopSide = 0;
-    int hitOtherTopSide = 0;
-    if (p->GetPosition().x >= this->position.x && //gauhe
-        p->GetPosition().x <= this->position.x + this->hitbox.width && //droite
-        p->GetPosition().y >= this->position.y && //bas
-        p->GetPosition().y <= this->position.y + this->hitbox.height //haut
-        )
+    int hitOtherSide = 0;
+    bool is_falling;
+    //std::cout << vUnitSpeed << std::endl;
+    /* if (vUnitSpeed > 0.0) is_falling = true;
+    else is_falling = false; */
+    if (p->GetPosition().x >= this->position.x &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().y >= this->position.y - this->hitbox.height &&
+        p->GetPosition().y <= this->position.y)
     {
-        this->Kill(l);
+        hitOtherSide = 1;
     }
-    /*if (p->GetPosition().y == this->position.y &&
-        p->GetPosition().x >= this->position.x && 
-        p->GetPosition().x <= this->position.x + this->hitbox.width)
+    else if (p->GetPosition().x >= this->position.x &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().y >= this->position.y - this->hitbox.height &&
+        p->GetPosition().y <= this->position.y - this->hitbox.height + 5 &&
+        hitOtherSide == 0)
     {
         this->Kill(l);
-    }*/
+        // if (is_falling == true) this->kill;
+    }
 }

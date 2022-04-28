@@ -4,7 +4,7 @@
 
 class Level;
 enum class LevelType;
-class PlayableLevel;
+
 
 class LevelManager
 {
