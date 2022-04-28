@@ -104,8 +104,7 @@ void PlayableLevel::UpdateLevel()
     {
         lives -= 1;
         has_fallen = true;
-        camera.zoom = 1.0f;
-        player.SetPosition(map.startPosition);
+        RespawnPlayer();
     }
     if (lives < 0) gameOver = true;
 
@@ -133,8 +132,7 @@ void PlayableLevel::UpdateLevel()
     }
     if (IsKeyPressed(KEY_R)) // Respawn at start of Level
     {
-        camera.zoom = 1.0f;
-        player.SetPosition(map.startPosition);
+        RespawnPlayer();
     }
     if (IsKeyPressed(KEY_B))
     {
@@ -208,6 +206,12 @@ void PlayableLevel::RemoveEnemy(Enemy* enemy)
         if (enemy == enemies[i]) // surcharge de l'op�rateur == dans enemy.cpp
             enemies.erase(enemies.begin() + i);
     }
+}
+
+void PlayableLevel::RespawnPlayer()
+{
+    camera.zoom = 1.0f;
+    player.SetPosition(map.startPosition);
 }
 
 void PlayableLevel::ReadItems(std::string filename)

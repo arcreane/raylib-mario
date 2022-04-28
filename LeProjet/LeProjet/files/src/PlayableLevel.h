@@ -43,6 +43,8 @@ public:
 	// Enemy functions
 	void RemoveEnemy(Enemy* enemy);
 
+	void RespawnPlayer();
+
 	// Getter Setter
 	int GetScore();
 	int GetLives();
