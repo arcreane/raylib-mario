@@ -10,8 +10,9 @@ Enemy::Enemy(int x, int y, int dep, int arr)
 	this->hUnitDirection = Direction::right;
 }
 
-void Enemy::Kill()
+void Enemy::Kill(PlayableLevel* l)
 {
+    l->RemoveEnemy(this);
 }
 
 int Enemy::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
@@ -23,7 +24,7 @@ int Enemy::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 void Enemy::DrawUnit()
 {
 	FlipSprite(hUnitDirection != Direction::right, false);
-    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 20, position.y - 32 }), LIGHTGRAY);
+    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x, position.y - unitTexture.height}), LIGHTGRAY);
 }
 
 void Enemy::Walk()
@@ -38,5 +39,29 @@ void Enemy::Walk()
     }
     if (hUnitDirection == Direction::left) {
         position.x -= 0.1 * hUnitSpeed;
+    }
+}
+
+void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
+{
+    int hitTopSide = 0;
+    int hitOtherSide = 0;
+    bool is_falling;
+    if (p->GetPosition().x >= this->position.x &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().y >= this->position.y - this->hitbox.height &&
+        p->GetPosition().y <= this->position.y - this->hitbox.height + 7)
+    {
+        this->Kill(l);
+        hitTopSide = 1;
+    }
+    if (p->GetPosition().x >= this->position.x &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().y >= this->position.y - this->hitbox.height &&
+        p->GetPosition().y <= this->position.y &&
+        hitTopSide != 1)
+    {
+        l->RespawnPlayer();
+        l->SetLives(l->GetLives()-1);
     }
 }

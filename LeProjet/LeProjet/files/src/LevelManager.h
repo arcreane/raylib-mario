@@ -5,6 +5,7 @@
 class Level;
 enum class LevelType;
 
+
 class LevelManager
 {
 private:
