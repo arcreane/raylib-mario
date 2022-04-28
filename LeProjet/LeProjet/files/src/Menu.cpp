@@ -15,7 +15,7 @@ Menu::Menu(LevelManager& levelManager)
     totalLevel = 6;
     unlockLevel = 5;
     envItemsLengthMAPmonde1=0;
-    player.position = { 20 , 0 };
+    player.SetPosition({ 20 , 0 });
     playerName = "Non defini";
     coins = 0;
 	youAreHereTexture = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png");
@@ -25,7 +25,7 @@ void Menu::InitLevel()
 {
     player.InitUnit();
 
-    camera.target = player.position;
+    camera.target = player.GetPosition();
     camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
     
     LoadSave();
@@ -66,7 +66,7 @@ void Menu::UpdateLevel()
 
     if (IsKeyPressed(KEY_B))
     {
-        printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+        printf("Position de X: %f \nPosition de Y: %f \n ", player.GetPosition().x, player.GetPosition().y);
     }
     if (IsKeyPressed(KEY_ENTER))
     {
@@ -99,7 +99,7 @@ void Menu::DrawLevel()
     for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.mapVector[i].rect, map.mapVector[i].color);
     // Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
     // DrawRectangleRec(playerRect, DARKBLUE);
-    DrawTexture(youAreHereTexture, player.position.x - 50, player.position.y - 105, LIGHTGRAY);
+    DrawTexture(youAreHereTexture, player.GetPosition().x - 50, player.GetPosition().y - 105, LIGHTGRAY);
 
     for (size_t i = 0; i < this->totalLevel; i++)
     {

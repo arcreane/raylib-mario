@@ -4,7 +4,6 @@
 
 class Player : public Unit
 {
-private:
 public:
 	Player();
 	void InitUnit() override;

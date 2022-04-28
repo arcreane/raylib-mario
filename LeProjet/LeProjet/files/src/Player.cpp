@@ -35,11 +35,11 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y >= p->y &&
-            ei->rect.y < p->y + this->speed * delta)
+            ei->rect.y < p->y + this->vUnitSpeed * delta)
         {
             hitTopSide = 1;
             hitAnySide = 1;
-            this->speed = 0.0f;
+            this->vUnitSpeed = 0.0f;
             p->y = ei->rect.y;
         }
 
@@ -62,11 +62,11 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y + ei->rect.height <= p->y &&
-            ei->rect.y + ei->rect.height > p->y + this->speed * delta)
+            ei->rect.y + ei->rect.height > p->y + this->vUnitSpeed * delta)
         {
             hitBottomSide = 1;
             hitAnySide = 1;
-            this->speed = 0.0f;
+            this->vUnitSpeed = 0.0f;
             p->y = ei->rect.y + ei->rect.height;
             
         }
@@ -88,7 +88,6 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
         if (hitAnySide && ei->type== EnvItemType::finish)
         {
             levelFinished = 1;
-            //(level.*NextLevel)(); // Call NextLevel function in Level.h
         }
         
     }
@@ -112,13 +111,13 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
     if (IsKeyDown(KEY_SPACE) && this->canJump && !hitBottomSide)
     {
         vUnitDirection = Direction::up;
-        this->speed = -unitJumpSpeed;
+        this->vUnitSpeed = -unitJumpSpeed;
         this->canJump = false;
     }
     if (!hitTopSide)
     {
-        this->position.y += this->speed * delta;
-        this->speed += G * delta;
+        this->position.y += this->vUnitSpeed * delta;
+        this->vUnitSpeed += G * delta;
         this->canJump = false;
     }
     else

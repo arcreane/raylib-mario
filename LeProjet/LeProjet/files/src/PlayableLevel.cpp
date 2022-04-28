@@ -77,7 +77,7 @@ void PlayableLevel::InitLevel()
     has_fallen = false;
     gameOver = false;
 
-    player.position = map.startPosition;
+    player.SetPosition(map.startPosition);
 
     framesCounter = 0;
     framesMax = 300 * 60;
@@ -100,12 +100,12 @@ void PlayableLevel::UpdateLevel()
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         levelManager->LoadLevel(LevelType::menu);
     }
-    if (player.position.y > 200) // Player fall from the map 
+    if (player.GetPosition().y > 200) // Player fall from the map 
     {
         lives -= 1;
         has_fallen = true;
         camera.zoom = 1.0f;
-        player.position = map.startPosition;
+        player.SetPosition(map.startPosition);
     }
     if (lives < 0) gameOver = true;
 
@@ -133,11 +133,11 @@ void PlayableLevel::UpdateLevel()
     if (IsKeyPressed(KEY_R)) // Respawn at start of Level
     {
         camera.zoom = 1.0f;
-        player.position = map.startPosition;
+        player.SetPosition(map.startPosition);
     }
     if (IsKeyPressed(KEY_B))
     {
-        printf("Position de X: %f \nPosition de Y: %f \n ", player.position.x, player.position.y);
+        printf("Position de X: %f \nPosition de Y: %f \n ", player.GetPosition().x, player.GetPosition().y);
     }
     if (IsKeyPressed(KEY_N))
     {

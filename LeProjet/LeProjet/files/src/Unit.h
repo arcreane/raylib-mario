@@ -11,7 +11,10 @@ class Unit
 protected:
 	float unitJumpSpeed = 350.0f;
 	float hUnitSpeed = 400.0f;
+	float vUnitSpeed;
+	bool canJump;
 
+	Vector2 position;
 	Rectangle hitbox;
 	Direction hUnitDirection;
 	Direction vUnitDirection;
@@ -26,15 +29,14 @@ protected:
 
 	void FlipSprite(bool hflip, bool vflip);
 public:
-	float speed;
-	bool canJump;
-
-	Vector2 position;
-
-
 	Unit();
 	virtual void InitUnit();
 	virtual int UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta);
 	virtual void DrawUnit();
+
+	float GetVUnitSpeed();
+	bool GetCanJump();
+	Vector2 GetPosition();
+	void SetPosition(Vector2 position);
 };
 

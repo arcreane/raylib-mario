@@ -51,12 +51,16 @@ void Map::CreateMap(string filename)
 
 void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* currentlevel, int* unlockLevel)
 {
+    float x;
+    float y;
     if (IsKeyPressed(KEY_LEFT))
     {
         if (*currentlevel > 1)
         {
 
-            player->position.x = player->position.x - 300;
+            x = player->GetPosition().x;
+            y = player->GetPosition().y;
+            player->SetPosition({ x - 300,y });
             *currentlevel = *currentlevel - 1;
             printf("%d \n", *currentlevel);
         }
@@ -70,7 +74,9 @@ void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float
         if (*currentlevel < *unlockLevel)
         {
 
-            player->position.x = 20 + (*currentlevel - 1) * 300 + 300;
+            x = 20 + (*currentlevel - 1) * 300 + 300;
+            y = player->GetPosition().y;
+            player->SetPosition({ x,y });
 
             *currentlevel = *currentlevel + 1;
             printf("%d \n", *currentlevel);

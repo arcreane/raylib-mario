@@ -45,7 +45,7 @@ std::string Level::GetLevelName(LevelType levelType)
 
 void Level::InitLevel()
 {
-    camera.target = player.position;
+    camera.target = player.GetPosition();
     camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;

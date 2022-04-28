@@ -3,7 +3,7 @@
 Unit::Unit()
 {
     position = { 0, 0 };
-    speed = 0;
+    vUnitSpeed = 0;
     canJump = false;
     hitbox = { 0,0,0,0 };
     hUnitDirection = Direction::none;
@@ -17,7 +17,7 @@ Unit::Unit()
 
 void Unit::InitUnit()
 {
-    speed = 0;
+    vUnitSpeed = 0;
     canJump = false;
     hUnitDirection = Direction::none;
     vUnitDirection = Direction::none;
@@ -33,6 +33,26 @@ int Unit::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 
 void Unit::DrawUnit()
 {
+}
+
+float Unit::GetVUnitSpeed()
+{
+    return vUnitSpeed;
+}
+
+bool Unit::GetCanJump()
+{
+    return canJump;
+}
+
+Vector2 Unit::GetPosition()
+{
+    return position;
+}
+
+void Unit::SetPosition(Vector2 position)
+{
+    this->position = position;
 }
 
 void Unit::FlipSprite(bool hflip, bool vflip) {
