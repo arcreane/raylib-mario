@@ -3,12 +3,11 @@
 #include "Player.h"
 #include "LevelManager.h"
 #include "Map.h"
-#include "Enemy.h"
-
 
 enum class LevelType { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
 class Player;
 class LevelManager;
+
 
 class Level
 {

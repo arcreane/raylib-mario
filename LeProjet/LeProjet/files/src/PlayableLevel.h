@@ -1,8 +1,12 @@
 #pragma once
 #include "Level.h"
 #include "Item.h"
+#include "Enemy.h"
 
 class Item;
+class Enemy;
+
+
 
 class PlayableLevel : public Level
 {
@@ -20,6 +24,7 @@ private:
 	// Enemy functions
 	void DrawEnemies();
 	void ClearEnemies();
+	
 public:
 	PlayableLevel(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager);
 	~PlayableLevel();
@@ -35,11 +40,15 @@ public:
 	void ClearItems();
 	void SaveAfterLevelFinished();
 
+	// Enemy functions
+	void RemoveEnemy(Enemy* enemy);
+
 	// Getter Setter
 	int GetScore();
 	int GetLives();
 	void SetScore(int score);
 	void SetLives(int lives);
 
+	
 };
 

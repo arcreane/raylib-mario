@@ -115,6 +115,7 @@ void PlayableLevel::UpdateLevel()
     for (int i = 0; i < enemies.size(); i++)
     {
         enemies[i]->UpdateUnit(map.mapVector.data(), map.mapVector.size(), deltaTime);
+        enemies[i]->DetectPlayer(&player, this);
     }
 
     // Update items in the level
@@ -198,6 +199,15 @@ void PlayableLevel::ClearEnemies()
         delete enemies[i];
     }
     enemies.clear();
+}
+
+void PlayableLevel::RemoveEnemy(Enemy* enemy)
+{
+    for (int i = 0; i < enemies.size(); i++)
+    {
+        if (enemy == enemies[i]) // surcharge de l'op�rateur == dans enemy.cpp
+            enemies.erase(enemies.begin() + i);
+    }
 }
 
 void PlayableLevel::ReadItems(std::string filename)
