@@ -25,7 +25,7 @@ void Item::UpdateItem(Player *p, PlayableLevel* l)
         p->GetPosition().y <= this->rect.y + this->rect.height
     )
     {
-        this->UseItem(l);
+        this->UseItem(p,l);
     }
 }
 

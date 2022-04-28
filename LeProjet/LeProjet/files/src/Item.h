@@ -15,7 +15,7 @@ protected:
     ItemType type;
     Texture2D itemTexture;
 
-    virtual void UseItem(PlayableLevel* l) = 0;  // pure virtual function
+    virtual void UseItem(Player* p, PlayableLevel* l) = 0;  // pure virtual function
     bool operator==(const Item& i) const;
 
 public:

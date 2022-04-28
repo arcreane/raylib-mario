@@ -10,11 +10,6 @@ Enemy::Enemy(int x, int y, int dep, int arr)
 	this->hUnitDirection = Direction::right;
 }
 
-void Enemy::Kill(PlayableLevel* l)
-{
-    l->RemoveEnemy(this);
-}
-
 int Enemy::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 {
     Walk();
@@ -52,7 +47,7 @@ void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
         p->GetPosition().y >= this->position.y - this->hitbox.height &&
         p->GetPosition().y <= this->position.y - this->hitbox.height + 7)
     {
-        this->Kill(l);
+        l->RemoveEnemy(this);
         hitTopSide = 1;
     }
     if (p->GetPosition().x >= this->position.x &&
@@ -62,6 +57,6 @@ void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
         hitTopSide != 1)
     {
         l->RespawnPlayer();
-        l->SetLives(l->GetLives()-1);
+        p->SetLives(p->GetLives()-1);
     }
 }

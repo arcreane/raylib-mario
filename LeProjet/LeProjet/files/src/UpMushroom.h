@@ -4,7 +4,7 @@
 class UpMushroom : public Item
 {
 private:
-	void UseItem(PlayableLevel* l) override;
+	void UseItem(Player* p, PlayableLevel* l) override;
 
 public:
 	UpMushroom();

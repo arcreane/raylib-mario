@@ -12,7 +12,6 @@ protected :
 	int dep;
 	int arr;
 	virtual void Walk();
-	void Kill(PlayableLevel* l);
 
 public:
 	Enemy(int x, int y, int dep, int arr);

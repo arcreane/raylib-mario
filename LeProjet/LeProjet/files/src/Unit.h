@@ -13,6 +13,7 @@ protected:
 	float hUnitSpeed = 400.0f;
 	float vUnitSpeed;
 	bool canJump;
+	int lives;
 
 	Vector2 position;
 	Rectangle hitbox;
@@ -38,7 +39,9 @@ public:
 
 	float GetVUnitSpeed();
 	bool GetCanJump();
+	int GetLives();
 	Vector2 GetPosition();
+	void SetLives(int lives);
 	void SetPosition(Vector2 position);
 };
 

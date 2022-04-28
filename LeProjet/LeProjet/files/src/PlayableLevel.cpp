@@ -16,7 +16,6 @@ PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, Level
 	:Level(levelType, nextLevelType, levelManager)
 {
     this->score = 0;
-    this->lives = 2;
     this->has_fallen = false;
     this->gameOver = false;
     this->framesCounter = 0;
@@ -73,7 +72,7 @@ void PlayableLevel::InitLevel()
     }
 
     score = 0;
-    lives = 2;
+    player.SetLives(2);
     has_fallen = false;
     gameOver = false;
 
@@ -102,11 +101,11 @@ void PlayableLevel::UpdateLevel()
     }
     if (player.GetPosition().y > 200) // Player fall from the map 
     {
-        lives -= 1;
+        player.SetLives(player.GetLives() - 1);
         has_fallen = true;
         RespawnPlayer();
     }
-    if (lives < 0) gameOver = true;
+    if (player.GetLives() < 0) gameOver = true;
 
     cameraUpdaters[cameraOption](&camera, &player, map.GetMapVector().data(), map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
 
@@ -130,9 +129,9 @@ void PlayableLevel::UpdateLevel()
         if (cameraOption == 6)
             cameraOption = 0;
     }
-    if (IsKeyPressed(KEY_R)) // Respawn at start of Level
+    if (IsKeyPressed(KEY_R))
     {
-        RespawnPlayer();
+        RespawnPlayer(); // Respawn at start bloc of the Level
     }
     if (IsKeyPressed(KEY_B))
     {
@@ -161,7 +160,7 @@ void PlayableLevel::DrawLevel()
     char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
-    std::string tmp_lives = "Vies: " + std::to_string(this->lives);
+    std::string tmp_lives = "Vies: " + std::to_string(player.GetLives());
     char const* Level_lives = tmp_lives.c_str();
     char const* Level_name = this->levelName.c_str();
 
@@ -368,17 +367,7 @@ void PlayableLevel::SetScore(int score)
     this->score = score;
 }
 
-void PlayableLevel::SetLives(int lives)
-{
-    this->lives = lives;
-}
-
 int PlayableLevel::GetScore()
 {
     return score;
-}
-
-int PlayableLevel::GetLives()
-{
-    return lives;
 }

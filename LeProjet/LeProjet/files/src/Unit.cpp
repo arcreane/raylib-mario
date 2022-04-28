@@ -2,9 +2,10 @@
 
 Unit::Unit()
 {
-    position = { 0, 0 };
     vUnitSpeed = 0;
     canJump = false;
+    lives = 0;
+    position = { 0, 0 };
     hitbox = { 0,0,0,0 };
     hUnitDirection = Direction::none;
     vUnitDirection = Direction::none;
@@ -53,6 +54,16 @@ Vector2 Unit::GetPosition()
 void Unit::SetPosition(Vector2 position)
 {
     this->position = position;
+}
+
+int Unit::GetLives()
+{
+    return lives;
+}
+
+void Unit::SetLives(int lives)
+{
+    this->lives = lives;
 }
 
 void Unit::FlipSprite(bool hflip, bool vflip) {

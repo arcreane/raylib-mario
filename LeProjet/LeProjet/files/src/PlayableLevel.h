@@ -12,7 +12,6 @@ private:
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
 	int score;
-	int lives;
 	bool has_fallen;
 	bool gameOver;
 
@@ -44,8 +43,6 @@ public:
 	
 	// Getter Setter
 	int GetScore();
-	int GetLives();
 	void SetScore(int score);
-	void SetLives(int lives);
 };
 
