@@ -1,7 +1,7 @@
 #include "StartScreen.h"
 
 StartScreen::StartScreen(LevelManager& levelManager)
-	:Level(LevelName::startScreen, LevelName::menu, levelManager, "")
+	:Level(LevelType::startScreen, LevelType::menu, levelManager)
 {
     currentScreen = GameMoment::DEBUT;
     frameHeight = (float)playButtonTexture.height;
@@ -31,12 +31,12 @@ void StartScreen::UpdateLevel()
             if (positionClick.x < 650)
             {
                 printf("\n L'utilisateur veut charger une partie");
-                levelManager->LoadLevel(LevelName::menu);
+                levelManager->LoadLevel(LevelType::menu);
             }
             else
             {
                 printf("\n L'utilisateur veut creer une partie");
-                levelManager->LoadLevel(LevelName::characterScreen);
+                levelManager->LoadLevel(LevelType::characterScreen);
             }
         }
         break;
@@ -54,7 +54,7 @@ void StartScreen::DrawLevel()
     {
     case GameMoment::DEBUT:
         DrawTexture(backgroundTexture, 0, 0, LIGHTGRAY);
-        DrawTexturePro(playButtonTexture, { 0,0, (float)playButtonTexture.width, (float)playButtonTexture.height }, { 200,200, 150,50 }, { 0,0 }, 0.f, WHITE); // Draw button frame
+        DrawTexture(playButtonTexture, 500, 350, WHITE);
         break;
     case GameMoment::CREERREPRENDRE:
         DrawRectangle(0, 0, 650, 1000, RED);

@@ -1,9 +1,13 @@
 #include "UpMushroom.h"
 
-void UpMushroom::UseItem(Level* l)
+void UpMushroom::UseItem(Player *p, PlayableLevel* l)
 {
-	if (l->lives < 3) l->lives += 1;
+	int lives = p->GetLives();
+	if (lives < 3) p->SetLives(lives + 1);
 	l->RemoveItem(this);
 }
 
-UpMushroom::UpMushroom() : Item(ItemType::upMushroom) {}
+UpMushroom::UpMushroom() : Item(ItemType::upMushroom)
+{
+	itemTexture = LoadTexture("../LeProjet/LeProjet/files/img/upMushroom50-50.png");
+}

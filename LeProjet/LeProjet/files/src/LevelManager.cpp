@@ -2,53 +2,54 @@
 #include "Menu.h"
 #include "StartScreen.h"
 #include "CharacterScreen.h"
+#include "PlayableLevel.h"
 
-Level* LevelManager::CreateLevel(LevelName name)
+Level* LevelManager::CreateLevel(LevelType levelType)
 {
 	Level* newLevel;
-	switch (name)
+	switch (levelType)
 	{
-	case LevelName::startScreen:
+	case LevelType::startScreen:
 		newLevel = new StartScreen(*this);
 		break;
-	case LevelName::characterScreen:
+	case LevelType::characterScreen:
 		newLevel = new CharacterScreen(*this);
 		break;
-	case LevelName::menu:
+	case LevelType::menu:
 		newLevel = new Menu(*this);
 		break;
-	case LevelName::lvl1:
-		newLevel = new Level(name, LevelName::lvl2, *this, "Niveau 1");
+	case LevelType::lvl1:
+		newLevel = new PlayableLevel(levelType, LevelType::lvl2, *this);
 		break;
-	case LevelName::lvl2:
-		newLevel = new Level(name, LevelName::lvl3, *this, "Niveau 2");
+	case LevelType::lvl2:
+		newLevel = new PlayableLevel(levelType, LevelType::lvl3, *this);
 		break;
-	case LevelName::lvl3:
-		newLevel = new Level(name, LevelName::lvl4, *this, "Niveau 3");
+	case LevelType::lvl3:
+		newLevel = new PlayableLevel(levelType, LevelType::lvl4, *this);
 		break;
-	case LevelName::lvl4:
-		newLevel = new Level(name, LevelName::lvl5, *this, "Niveau 4");
+	case LevelType::lvl4:
+		newLevel = new PlayableLevel(levelType, LevelType::lvl5, *this);
 		break;
-	case LevelName::lvl5:
-		newLevel = new Level(name, LevelName::lvl6, *this, "Niveau 5");
+	case LevelType::lvl5:
+		newLevel = new PlayableLevel(levelType, LevelType::lvl6, *this);
 		break;
-	case LevelName::lvl6:
-		newLevel = new Level(name, LevelName::menu, *this, "Niveau 6");
+	case LevelType::lvl6:
+		newLevel = new PlayableLevel(levelType, LevelType::menu, *this);
 		break;
 	default:
-		newLevel = new Level(name, LevelName::menu, *this, "Niveau ?");
+		newLevel = new PlayableLevel(levelType, LevelType::menu, *this);
 	}
 
 	return newLevel;
 }
 
-void LevelManager::LoadLevel(LevelName name)
+void LevelManager::LoadLevel(LevelType levelType)
 {
 	bool levelFound = false;
 
 	for (int i = 0; i < levels.size(); i++)
 	{
-		if ((*levels[i]).name == name)
+		if ((*levels[i]).GetLevelType() == levelType)
 		{
 			indexCurrentLevel = i;
 			levelFound = true;
@@ -58,7 +59,7 @@ void LevelManager::LoadLevel(LevelName name)
 	
 	if (!levelFound)
 	{
-		Level* newLevel = CreateLevel(name);
+		Level* newLevel = CreateLevel(levelType);
 		levels.push_back(newLevel);
 		indexCurrentLevel = levels.size() - 1;
 	}

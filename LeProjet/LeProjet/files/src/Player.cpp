@@ -1,6 +1,18 @@
 #include "Player.h"
 
-int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
+
+Player::Player()
+    :Unit()
+{
+    unitTexture = LoadTexture("../LeProjet/LeProjet/files/img/marioSprites.png");
+    frameRec = { 5 * ((float)unitTexture.width / 9), 0.0f, (float)unitTexture.width / 9, (float)unitTexture.height };
+}
+
+void Player::InitUnit()
+{
+}
+
+int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 {   
     int levelFinished = 0;
     int hitTopSide = 0;
@@ -8,6 +20,10 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
     int hitLeftSide = 0;
     int hitBottomSide = 0;
     int hitAnySide = 0;
+    if (vUnitDirection != Direction::up)
+    {
+        hUnitDirection = Direction::none;
+    }
     for (int i = 0; i < envItemsLength; i++)
     {
         EnvItem* ei = envItems + i;
@@ -19,25 +35,26 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y >= p->y &&
-            ei->rect.y < p->y + this->speed * delta)
+            ei->rect.y < p->y + this->vUnitSpeed * delta)
         {
             hitTopSide = 1;
             hitAnySide = 1;
-            this->speed = 0.0f;
+            this->vUnitSpeed = 0.0f;
             p->y = ei->rect.y;
         }
 
         // Check if the player is in contact with the right side of a block
-        if (IsKeyDown(KEY_LEFT) &&
-            ei->blocking[1] &&
-            ei->rect.y < p->y &&
-            ei->rect.y + ei->rect.height >= p->y &&
-            ei->rect.x + ei->rect.width <= p->x &&
-            ei->rect.x + ei->rect.width > p->x - this->playerHorSpeed * delta)
-        {
-            hitRightSide = 1;
-            hitAnySide = 1;
-            p->x = ei->rect.x + ei->rect.width;
+        if (IsKeyDown(KEY_LEFT)){
+            if (ei->blocking[1] &&
+                ei->rect.y < p->y &&
+                ei->rect.y + ei->rect.height >= p->y &&
+                ei->rect.x + ei->rect.width <= p->x &&
+                ei->rect.x + ei->rect.width > p->x - this->hUnitSpeed * delta)
+            {
+                hitRightSide = 1;
+                hitAnySide = 1;
+                p->x = ei->rect.x + ei->rect.width;
+            }
         }
 
         // Check if the player is in contact with the bottom side of a block
@@ -45,53 +62,98 @@ int Player::UpdatePlayer(EnvItem* envItems, size_t envItemsLength, float delta)
             ei->rect.x <= p->x &&
             ei->rect.x + ei->rect.width >= p->x &&
             ei->rect.y + ei->rect.height <= p->y &&
-            ei->rect.y + ei->rect.height > p->y + this->speed * delta)
+            ei->rect.y + ei->rect.height > p->y + this->vUnitSpeed * delta)
         {
             hitBottomSide = 1;
             hitAnySide = 1;
-            this->speed = 0.0f;
+            this->vUnitSpeed = 0.0f;
             p->y = ei->rect.y + ei->rect.height;
             
         }
 
         // Check if the player is in contact with the left side of a block
-        if (IsKeyDown(KEY_RIGHT) &&
-            ei->blocking[3] &&
-            ei->rect.y < p->y &&
-            ei->rect.y + ei->rect.height >= p->y &&
-            ei->rect.x >= p->x &&
-            ei->rect.x < p->x + this->playerHorSpeed * delta)
+        if (IsKeyDown(KEY_RIGHT))
         {
-            hitLeftSide = 1;
-            hitAnySide = 1;
-            p->x = ei->rect.x;
+            if (ei->blocking[3] &&
+                ei->rect.y < p->y &&
+                ei->rect.y + ei->rect.height >= p->y &&
+                ei->rect.x >= p->x &&
+                ei->rect.x < p->x + this->hUnitSpeed * delta)
+            {
+                hitLeftSide = 1;
+                hitAnySide = 1;
+                p->x = ei->rect.x;
+            }
         }
         if (hitAnySide && ei->type== EnvItemType::finish)
         {
             levelFinished = 1;
-            //(level.*NextLevel)(); // Call NextLevel function in Level.h
         }
         
     }
 
-    if (IsKeyDown(KEY_LEFT) && !hitRightSide)
-    {
-        if (this->position.x > 20)
-            this->position.x -= playerHorSpeed * delta;
+    if (IsKeyDown(KEY_LEFT)) {
+        hUnitDirection = Direction::left;
+        if (!hitRightSide)
+        {
+            if (this->position.x > 20)
+                this->position.x -= hUnitSpeed * delta;
+        }
     }
-    if (IsKeyDown(KEY_RIGHT) && !hitLeftSide) this->position.x += playerHorSpeed * delta;
+    if (IsKeyDown(KEY_RIGHT) && !hitLeftSide)
+    {
+        hUnitDirection = Direction::right;
+        if (!hitLeftSide)
+        {
+            this->position.x += hUnitSpeed * delta;
+        }
+    }
     if (IsKeyDown(KEY_SPACE) && this->canJump && !hitBottomSide)
     {
-        this->speed = -playerJumpSpeed;
+        vUnitDirection = Direction::up;
+        this->vUnitSpeed = -unitJumpSpeed;
         this->canJump = false;
     }
     if (!hitTopSide)
     {
-        this->position.y += this->speed * delta;
-        this->speed += G * delta;
+        this->position.y += this->vUnitSpeed * delta;
+        this->vUnitSpeed += G * delta;
         this->canJump = false;
     }
-    else this->canJump = true;
-
+    else
+    {
+        vUnitDirection = Direction::none;
+        this->canJump = true;
+    }
     return levelFinished;
+}
+
+void Player::DrawUnit() {
+    if (vUnitDirection == Direction::up) // Jumping
+    {
+        frameRec.x = (1 + (float)currentFrame) * (float)unitTexture.width / 9;
+    }
+    else // Not Jumping
+    {
+        if (hUnitDirection != Direction::none) // Running
+        {
+            framesCounter++;
+            if (framesCounter >= (60 / framesSpeed))
+            {
+                framesCounter = 0;
+                currentFrame++;
+
+                if (currentFrame > 3) currentFrame = 0;
+
+                frameRec.x = (5 + (float)currentFrame) * (float)unitTexture.width / 9;
+            }
+        }
+        else // Idle
+        {
+            frameRec.x = 0;
+        }
+        
+    }
+    FlipSprite(hUnitDirection != Direction::right, false);
+    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 25, position.y - 55 }), LIGHTGRAY);
 }

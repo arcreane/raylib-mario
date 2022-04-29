@@ -8,6 +8,7 @@ Item::Item(ItemType t)
         blocking[i] = 1;
     color = BLANK;
     type = t;
+    itemTexture = LoadTexture("../LeProjet/LeProjet/files/img/coin50-50.png");
 }
 
 void Item::SetRectangle(Rectangle rec)
@@ -15,17 +16,22 @@ void Item::SetRectangle(Rectangle rec)
     rect = rec;
 }
 
-void Item::UpdateItem(Player *p, Level *l)
+void Item::UpdateItem(Player *p, PlayableLevel* l)
 {
     // Check if the item is in contact with the player
-    if (p->position.x >= this->rect.x &&
-        p->position.x <= this->rect.x + this->rect.width &&
-        p->position.y >= this->rect.y &&
-        p->position.y <= this->rect.y + this->rect.height
+    if (p->GetPosition().x >= this->rect.x &&
+        p->GetPosition().x <= this->rect.x + this->rect.width &&
+        p->GetPosition().y >= this->rect.y &&
+        p->GetPosition().y <= this->rect.y + this->rect.height
     )
     {
-        this->UseItem(l);
+        this->UseItem(p,l);
     }
+}
+
+void Item::DrawItem()
+{
+    DrawTexture(itemTexture,rect.x,rect.y, LIGHTGRAY);
 }
 
 

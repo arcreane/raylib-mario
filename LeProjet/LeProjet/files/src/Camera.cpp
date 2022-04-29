@@ -3,25 +3,25 @@
 void UpdateCameraCenterGame2(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->offset = { width / 2.0f, height / 2.0f };
-    camera->target = player->position;
+    camera->target = player->GetPosition();
 }
 
 void UpdateCameraCenter(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
     camera->offset = { width / 2.0f, height / 2.0f };
-    if (player->position.x < 650)
+    if (player->GetPosition().x < 650)
     {
         camera->target = { 650,  - 250 };
     }
     else
     {
-        camera->target = { player->position.x, - 250 };
+        camera->target = { player->GetPosition().x, - 250 };
     }
 }
 
 void UpdateCameraCenterInsideMAPmonde1(Camera2D* camera, Player* player, EnvItem* envItems, int envItemsLength, float delta, int width, int height)
 {
-    camera->target = player->position;
+    camera->target = player->GetPosition();
     camera->offset = { width / 2.0f, height / 2.0f };
     float minX = 1000, minY = 1000, maxX = -1000, maxY = -1000;
 
@@ -50,7 +50,7 @@ void UpdateCameraCenterSmoothFollow(Camera2D* camera, Player* player, EnvItem* e
     static float fractionSpeed = 0.8f;
 
     camera->offset = { width / 2.0f, height / 2.0f };
-    Vector2 diff = Vector2Subtract(player->position, camera->target);
+    Vector2 diff = Vector2Subtract(player->GetPosition(), camera->target);
     float length = Vector2Length(diff);
 
     if (length > minEffectLength)
@@ -67,7 +67,7 @@ void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* env
     static float evenOutTarget;
 
     camera->offset = { width / 2.0f, height / 2.0f };
-    camera->target.x = player->position.x;
+    camera->target.x = player->GetPosition().x;
 
     if (eveningOut)
     {
@@ -94,10 +94,10 @@ void UpdateCameraEvenOutOnLanding(Camera2D* camera, Player* player, EnvItem* env
     }
     else
     {
-        if (player->canJump && (player->speed == 0) && (player->position.y != camera->target.y))
+        if (player->GetCanJump() && (player->GetVUnitSpeed() == 0) && (player->GetPosition().y != camera->target.y))
         {
             eveningOut = 1;
-            evenOutTarget = player->position.y;
+            evenOutTarget = player->GetPosition().y;
         }
     }
 }
@@ -110,10 +110,10 @@ void UpdateCameraPlayerBoundsPush(Camera2D* camera, Player* player, EnvItem* env
     Vector2 bboxWorldMax = GetScreenToWorld2D({ (1 + bbox.x) * 0.5f * width, (1 + bbox.y) * 0.5f * height }, *camera);
     camera->offset = { (1 - bbox.x) * 0.5f * width, (1 - bbox.y) * 0.5f * height };
 
-    if (player->position.x < bboxWorldMin.x) camera->target.x = player->position.x;
-    if (player->position.y < bboxWorldMin.y) camera->target.y = player->position.y;
-    if (player->position.x > bboxWorldMax.x) camera->target.x = bboxWorldMin.x + (player->position.x - bboxWorldMax.x);
-    if (player->position.y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->position.y - bboxWorldMax.y);
+    if (player->GetPosition().x < bboxWorldMin.x) camera->target.x = player->GetPosition().x;
+    if (player->GetPosition().y < bboxWorldMin.y) camera->target.y = player->GetPosition().y;
+    if (player->GetPosition().x > bboxWorldMax.x) camera->target.x = bboxWorldMin.x + (player->GetPosition().x - bboxWorldMax.x);
+    if (player->GetPosition().y > bboxWorldMax.y) camera->target.y = bboxWorldMin.y + (player->GetPosition().y - bboxWorldMax.y);
 }
 
 

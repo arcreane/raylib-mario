@@ -2,20 +2,20 @@
 #include "Level.h"
 #include <vector>
 
+enum class LevelType;
 class Level;
-enum class LevelName;
 
 class LevelManager
 {
 private:
 	int indexCurrentLevel;
 	std::vector<Level*> levels;
-	Level* CreateLevel(LevelName name);
+	Level* CreateLevel(LevelType levelType);
 
 public:
 	~LevelManager();
 
-	void LoadLevel(LevelName name);
+	void LoadLevel(LevelType levelType);
 	void UpdateCurrentLevel();
 	void DrawCurrentLevel();
 
