@@ -1,5 +1,4 @@
 #include "Menu.h"
-#include "Camera.h"
 #include "LevelManager.h"
 #include <iostream>
 #include <fstream>
@@ -25,8 +24,8 @@ void Menu::InitLevel()
 {
     player.InitUnit();
 
-    camera.target = player.GetPosition();
-    camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f};
+    levelCamera->SetCameraTarget(player.GetPosition());
+    levelCamera->SetCameraOffset({ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f });
     
     LoadSave();
 
@@ -65,7 +64,8 @@ void Menu::UpdateLevel()
 
     // Update the player in the menu
     map.UpdateMAP(&player, map.GetMapVector().data(), envItemsLengthMAPmonde1, deltaTime, &currentLevel, &unlockLevel);
-    cameraUpdaters[2](&camera, &player, map.GetMapVector().data(), envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
+    levelCamera->SetCameraOption(2);
+    levelCamera->cameraUpdaters(&player, map.GetMapVector().data(), envItemsLengthMAPmonde1, deltaTime, screenWidth, screenHeight);
 
     if (IsKeyPressed(KEY_B))
     {
@@ -98,7 +98,7 @@ void Menu::DrawLevel()
     DrawText(pchar_playerName, 600, 2, 30, BLUE);
     DrawText(pcharCoins, 5, 80, 30, BLUE);
 
-    BeginMode2D(camera);
+    BeginMode2D(levelCamera->GetCamera());
     for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.GetMapVector()[i].rect, map.GetMapVector()[i].color);
     // Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
     // DrawRectangleRec(playerRect, DARKBLUE);

@@ -1,13 +1,11 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - 2d camera platformer
+*   Projet C++ Mario raylib [core] example - 2d camera platformer
 *
-*   This example has been created using raylib 2.5 (www.raylib.com)
-*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*   This project was created using raylib library
 *
-*   Example contributed by arvyy (@arvyy) and reviewed by Ramon Santamaria (@raysan5)
-*
-*   Copyright (c) 2019 arvyy (@arvyy)
+*   Members : Fabien GRONDIN, Mathieu PAILHE, Valentin ROY, Erwan BOUVART
+*   
 *
 ********************************************************************************************/
 

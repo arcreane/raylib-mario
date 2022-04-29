@@ -21,7 +21,7 @@
     <ClCompile Include="LeProjet\files\src\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LeProjet\files\src\Camera.cpp">
+    <ClCompile Include="LeProjet\files\src\LevelCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LeProjet\files\src\Map.cpp">
@@ -77,7 +77,7 @@
     <ClInclude Include="LeProjet\files\src\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LeProjet\files\src\Camera.h">
+    <ClInclude Include="LeProjet\files\src\LevelCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeProjet\files\src\Map.h">

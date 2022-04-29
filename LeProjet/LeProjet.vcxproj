@@ -267,7 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LeProjet\files\src\Camera.cpp" />
+    <ClCompile Include="LeProjet\files\src\LevelCamera.cpp" />
     <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
     <ClCompile Include="LeProjet\files\src\Coin.cpp" />
     <ClCompile Include="LeProjet\files\src\Enemy.cpp" />
@@ -295,7 +295,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LeProjet\files\src\Camera.h" />
+    <ClInclude Include="LeProjet\files\src\LevelCamera.h" />
     <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
     <ClInclude Include="LeProjet\files\src\Coin.h" />
     <ClInclude Include="LeProjet\files\src\Enemy.h" />

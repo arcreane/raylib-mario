@@ -7,13 +7,15 @@ Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelMa
     this->levelName = GetLevelName(levelType);
 	this->levelManager = &levelManager;
 
-	camera = { 0 };
-	camera.rotation = 0.0f;
-	camera.zoom = 1.0f;
-	cameraOption = 0;
+    levelCamera = new LevelCamera();
 
 	screenWidth = GetScreenWidth();
 	screenHeight = GetScreenHeight();
+}
+
+Level::~Level()
+{
+    delete levelCamera;
 }
 
 std::string Level::GetLevelName(LevelType levelType)
@@ -45,10 +47,10 @@ std::string Level::GetLevelName(LevelType levelType)
 
 void Level::InitLevel()
 {
-    camera.target = player.GetPosition();
-    camera.offset = { screenWidth / 2.0f, screenHeight / 2.0f };
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+    levelCamera->SetCameraTarget(player.GetPosition());
+    levelCamera->SetCameraOffset({ screenWidth / 2.0f, screenHeight / 2.0f });
+    levelCamera->SetCameraRotation(0.0f);
+    levelCamera->SetCameraZoom(1.0f);
 
     player.InitUnit();
 }

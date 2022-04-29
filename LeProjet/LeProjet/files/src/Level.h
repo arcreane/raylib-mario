@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "LevelManager.h"
 #include "Map.h"
+#include "LevelCamera.h"
 
 enum class LevelType { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
 class Player;
@@ -18,8 +19,7 @@ protected:
 	Map map;
 	Player player;
 
-	Camera2D camera;
-	int cameraOption;
+	LevelCamera* levelCamera;
 	int screenWidth;
 	int screenHeight;
 
@@ -27,6 +27,7 @@ protected:
 
 public:
 	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager);
+	~Level();
 
 	virtual void InitLevel();
 	virtual void UpdateLevel();

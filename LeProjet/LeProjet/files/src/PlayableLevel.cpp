@@ -4,7 +4,6 @@
 #include <chrono>
 #include <thread>
 #include "PlayableLevel.h"
-#include "Camera.h"
 #include "Coin.h"
 #include "UpMushroom.h"
 #include "Goomba.h"
@@ -30,7 +29,7 @@ PlayableLevel::~PlayableLevel()
 }
 
 void PlayableLevel::InitLevel()
-{
+{ 
     // Empty the vectors of items and enemies
     ClearItems();
     ClearEnemies();
@@ -41,9 +40,7 @@ void PlayableLevel::InitLevel()
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 
         // Create Enemies and add them to the vector of enemies in the level
-        //enemies.push_back(new Goomba(70, 0, 70, 500));
         enemies.push_back(new Goomba(700, 0, 700, 900));
-       // enemies.push_back(new Koopa(100, 0, 80, 400));
         enemies.push_back(new Koopa(500, 0, 500, 700));
         enemies.push_back(new FlyingBomb(1000, 0, 0, -200));
         break;
@@ -79,6 +76,7 @@ void PlayableLevel::InitLevel()
     gameOver = false;
 
     player.SetPosition(map.GetStartPosition());
+    levelCamera->SetCameraOption(1);
 
     framesCounter = 0;
     framesMax = 300 * 60;
@@ -109,7 +107,7 @@ void PlayableLevel::UpdateLevel()
     }
     if (player.GetLives() < 0) gameOver = true;
 
-    cameraUpdaters[cameraOption](&camera, &player, map.GetMapVector().data(), map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
+    levelCamera->cameraUpdaters(&player, map.GetMapVector().data(), map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
 
     // Update enemies in the level
     for (int i = 0; i < enemies.size(); i++)
@@ -127,9 +125,9 @@ void PlayableLevel::UpdateLevel()
     // Check key pressed by user
     if (IsKeyPressed(KEY_I))
     {
-        cameraOption++;
-        if (cameraOption == 6)
-            cameraOption = 0;
+        levelCamera->SetCameraOption(levelCamera->GetCameraOption() +1);
+        if (levelCamera->GetCameraOption() == 6)
+            levelCamera->SetCameraOption(0);
     }
     if (IsKeyPressed(KEY_R))
     {
@@ -149,7 +147,7 @@ void PlayableLevel::DrawLevel()
 {
     BeginDrawing();
 
-    BeginMode2D(camera);
+    BeginMode2D(levelCamera->GetCamera());
 
     map.DrawMap();
     DrawItems();
@@ -211,7 +209,7 @@ void PlayableLevel::RemoveEnemy(Enemy* enemy)
 
 void PlayableLevel::RespawnPlayer()
 {
-    camera.zoom = 1.0f;
+    levelCamera->SetCameraZoom(1.0f);
     player.SetPosition(map.GetStartPosition());
 }
 
