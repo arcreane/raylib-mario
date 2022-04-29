@@ -13,7 +13,7 @@ public:
 	Texture2D Ground;
 	Texture2D BlocInconnue;
 	Texture2D Start;
-	Texture2D Finish;
+	Texture2D Finish; //commentaire
 	
 	Map();
 	void CreateMap(std::string filename);
