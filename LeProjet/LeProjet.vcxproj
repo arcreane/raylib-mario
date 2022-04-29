@@ -271,6 +271,7 @@
     <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
     <ClCompile Include="LeProjet\files\src\Coin.cpp" />
     <ClCompile Include="LeProjet\files\src\Enemy.cpp" />
+    <ClCompile Include="LeProjet\files\src\FlyingBomb.cpp" />
     <ClCompile Include="LeProjet\files\src\Game.cpp" />
     <ClCompile Include="LeProjet\files\src\Item.cpp" />
     <ClCompile Include="LeProjet\files\src\Level.cpp" />
@@ -298,6 +299,7 @@
     <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
     <ClInclude Include="LeProjet\files\src\Coin.h" />
     <ClInclude Include="LeProjet\files\src\Enemy.h" />
+    <ClInclude Include="LeProjet\files\src\FlyingBomb.h" />
     <ClInclude Include="LeProjet\files\src\Game.h" />
     <ClInclude Include="LeProjet\files\src\Item.h" />
     <ClInclude Include="LeProjet\files\src\Level.h" />

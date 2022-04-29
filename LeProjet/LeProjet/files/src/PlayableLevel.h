@@ -13,6 +13,7 @@ class PlayableLevel : public Level
 private:
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
+	std::vector<Enemy*> enemiesF;
 	int score;
 	int lives;
 	bool has_fallen;

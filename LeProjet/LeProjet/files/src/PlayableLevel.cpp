@@ -9,6 +9,7 @@
 #include "UpMushroom.h"
 #include "Goomba.h"
 #include "Koopa.h"
+#include "FlyingBomb.h"
 
 using namespace std;
 
@@ -45,6 +46,7 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Goomba(700, 0, 700, 900));
        // enemies.push_back(new Koopa(100, 0, 80, 400));
         enemies.push_back(new Koopa(500, 0, 500, 700));
+        enemies.push_back(new FlyingBomb(1000, 0, 0, -200));
         break;
     case LevelType::lvl2:
         map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
@@ -189,6 +191,8 @@ void PlayableLevel::DrawEnemies()
         enemies[i]->DrawUnit();
     }
 }
+
+
 
 void PlayableLevel::ClearEnemies()
 {
