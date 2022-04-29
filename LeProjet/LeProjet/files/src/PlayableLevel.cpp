@@ -10,6 +10,7 @@
 #include "Koopa.h"
 #include "FlyingBomb.h"
 
+
 using namespace std;
 
 PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager)
@@ -20,10 +21,14 @@ PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, Level
     this->gameOver = false;
     this->framesCounter = 0;
     this->framesMax = 300 * 60;
+    this->music = LoadMusicStream("../LeProjet/LeProjet/files/SuperMarioBros.mp3");
+    this->timePlayed = 0.0f;
+    this->pause = false;
 }
 
 PlayableLevel::~PlayableLevel()
 {
+    UnloadMusicStream(music);
     ClearItems();
     ClearEnemies();
 }
@@ -80,10 +85,30 @@ void PlayableLevel::InitLevel()
 
     framesCounter = 0;
     framesMax = 300 * 60;
+
+    PlayMusicStream(music);
+    timePlayed = 0.0f;
+    pause = false;
 }
 
 void PlayableLevel::UpdateLevel()
 {
+    UpdateMusicStream(music);
+    if (IsKeyPressed(KEY_M))    // Restart music playing (stop and play)
+    {
+        StopMusicStream(music);
+        PlayMusicStream(music);
+    }
+    if (IsKeyPressed(KEY_P))    // Pause/Resume music playing
+    {
+        pause = !pause;
+
+        if (pause) PauseMusicStream(music);
+        else ResumeMusicStream(music);
+    }
+    timePlayed = GetMusicTimePlayed(music) / GetMusicTimeLength(music)*400;
+    if (timePlayed > 400) StopMusicStream(music);
+
     framesCounter++;
     float deltaTime = GetFrameTime();
     int levelFinished = player.UpdateUnit(map.GetMapVector().data(), map.GetMapVector().size(), deltaTime);
@@ -91,12 +116,14 @@ void PlayableLevel::UpdateLevel()
     // Check conditions to end level or reduce lives
     if (levelFinished == 1)
     {
+        StopMusicStream(music);
         SaveAfterLevelFinished();
         NextLevel();
     }
     if (gameOver)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        StopMusicStream(music);
         levelManager->LoadLevel(LevelType::menu);
     }
     if (player.GetPosition().y > 200) // Player fall from the map 
@@ -139,6 +166,7 @@ void PlayableLevel::UpdateLevel()
     }
     if (IsKeyPressed(KEY_N))
     {
+        StopMusicStream(music);
         levelManager->LoadLevel(LevelType::menu);
     }
 }

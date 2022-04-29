@@ -2,6 +2,7 @@
 #include "Level.h"
 #include "Item.h"
 #include "Enemy.h"
+#include "raylib.h"
 
 class Item;
 class Enemy;
@@ -17,6 +18,10 @@ private:
 
 	int framesCounter;
 	int framesMax;
+
+	Music music;
+	float timePlayed;
+	bool pause;
 
 	// Item functions
 	void ReadItems(std::string filename);
@@ -40,7 +45,7 @@ public:
 	void RespawnPlayer();
 	void RemoveItem(Item* item);
 	void RemoveEnemy(Enemy* enemy);
-	
+
 	// Getter Setter
 	int GetScore();
 	void SetScore(int score);
