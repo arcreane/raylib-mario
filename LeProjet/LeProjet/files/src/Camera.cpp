@@ -126,3 +126,4 @@ void (*cameraUpdaters[])(Camera2D*, Player*, EnvItem*, int, float, int, int) = {
     UpdateCameraEvenOutOnLanding,
     UpdateCameraPlayerBoundsPush
 };
+
