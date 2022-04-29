@@ -10,8 +10,3 @@ Koopa::Koopa(int x, int y, int dep, int arr)
     unitTexture = LoadTexture("../LeProjet/LeProjet/files/img/koopa.png");
     frameRec = { 0.0f, 0.0f, (float)unitTexture.width, (float)unitTexture.height };
 }
-
-void Koopa::Jump()
-{
-}
-
