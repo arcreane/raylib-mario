@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 
-std::string direction2 = "goings";
+
 
 void Koopa::Walk(int dep, int arr)
 {
