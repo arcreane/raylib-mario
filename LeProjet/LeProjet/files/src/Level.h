@@ -4,6 +4,7 @@
 #include "LevelManager.h"
 #include "Map.h"
 #include "LevelCamera.h"
+#include "raylib.h"
 
 enum class LevelType { startScreen, characterScreen, menu, lvl1, lvl2, lvl3, lvl4, lvl5, lvl6 };
 class Player;
@@ -22,6 +23,9 @@ protected:
 	LevelCamera* levelCamera;
 	int screenWidth;
 	int screenHeight;
+
+	Music music;
+	bool pause;
 
 	virtual void NextLevel();
 

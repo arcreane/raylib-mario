@@ -10,6 +10,7 @@
 #include "Koopa.h"
 #include "FlyingBomb.h"
 
+
 using namespace std;
 
 PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, LevelManager& levelManager)
@@ -29,7 +30,8 @@ PlayableLevel::~PlayableLevel()
 }
 
 void PlayableLevel::InitLevel()
-{ 
+{
+    super::InitLevel();
     // Empty the vectors of items and enemies
     ClearItems();
     ClearEnemies();
@@ -84,6 +86,8 @@ void PlayableLevel::InitLevel()
 
 void PlayableLevel::UpdateLevel()
 {
+    super::UpdateLevel(); // Call UpdateLevel from class Level to update the music
+
     framesCounter++;
     float deltaTime = GetFrameTime();
     int levelFinished = player.UpdateUnit(map.GetMapVector().data(), map.GetMapVector().size(), deltaTime);
@@ -91,12 +95,14 @@ void PlayableLevel::UpdateLevel()
     // Check conditions to end level or reduce lives
     if (levelFinished == 1)
     {
+        StopMusicStream(music);
         SaveAfterLevelFinished();
         NextLevel();
     }
     if (gameOver)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        StopMusicStream(music);
         levelManager->LoadLevel(LevelType::menu);
     }
     if (player.GetPosition().y > 200) // Player fall from the map 
@@ -107,7 +113,7 @@ void PlayableLevel::UpdateLevel()
     }
     if (player.GetLives() < 0) gameOver = true;
 
-    levelCamera->cameraUpdaters(&player, map.GetMapVector().data(), map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
+    levelCamera->cameraUpdaters(&player, map.GetMapVector().data(), (int) map.GetMapVector().size(), deltaTime, screenWidth, screenHeight);
 
     // Update enemies in the level
     for (int i = 0; i < enemies.size(); i++)
@@ -123,22 +129,23 @@ void PlayableLevel::UpdateLevel()
     }
 
     // Check key pressed by user
-    if (IsKeyPressed(KEY_I))
+    if (IsKeyPressed(KEY_I)) // Change Camera type
     {
         levelCamera->SetCameraOption(levelCamera->GetCameraOption() +1);
         if (levelCamera->GetCameraOption() == 6)
             levelCamera->SetCameraOption(0);
     }
-    if (IsKeyPressed(KEY_R))
+    if (IsKeyPressed(KEY_R)) // Respawn at start bloc of the Level
     {
-        RespawnPlayer(); // Respawn at start bloc of the Level
+        RespawnPlayer();
     }
     if (IsKeyPressed(KEY_B))
     {
         printf("Position de X: %f \nPosition de Y: %f \n ", player.GetPosition().x, player.GetPosition().y);
     }
-    if (IsKeyPressed(KEY_N))
+    if (IsKeyPressed(KEY_N))    // Go back to Menu
     {
+        StopMusicStream(music);
         levelManager->LoadLevel(LevelType::menu);
     }
 }
@@ -168,10 +175,11 @@ void PlayableLevel::DrawLevel()
     DrawText(Level_lives, 5, 40, 30, RED);
     DrawText(Level_name, 630, 0, 30, RED);
     DrawText(Level_score, 630, 40, 30, RED);
-    DrawText("Controls:", 20, 70, 10, BLACK);
-    DrawText("- Right/Left to move", 40, 90, 10, DARKGRAY);
-    DrawText("- Space to jump", 40, 110, 10, DARKGRAY);
-    DrawText("- Mouse Wheel to Zoom in-out, R to reset zoom", 40, 130, 10, DARKGRAY);
+    DrawText("P stopper/reprendre la musique", 950, 0, 20, BLACK);
+    DrawText("M relancer la musique", 950, 20, 20, BLACK);
+    DrawText("Fleches/Espace bouger/sauter", 950, 40, 20, BLACK);
+    DrawText("N Menu    R reapparaitre", 950, 60, 20, BLACK);
+    DrawText("I changer la caméra", 950, 80, 20, BLACK);
 
     if (gameOver)
     {

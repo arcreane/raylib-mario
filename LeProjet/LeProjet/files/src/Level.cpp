@@ -8,13 +8,16 @@ Level::Level(LevelType levelType, LevelType nextLevelType, LevelManager& levelMa
 	this->levelManager = &levelManager;
 
     levelCamera = new LevelCamera();
-
 	screenWidth = GetScreenWidth();
 	screenHeight = GetScreenHeight();
+
+    this->music = LoadMusicStream("../LeProjet/LeProjet/files/audio/SuperMarioBros.mp3");
+    this->pause = false;
 }
 
 Level::~Level()
 {
+    UnloadMusicStream(music);
     delete levelCamera;
 }
 
@@ -47,16 +50,26 @@ std::string Level::GetLevelName(LevelType levelType)
 
 void Level::InitLevel()
 {
-    levelCamera->SetCameraTarget(player.GetPosition());
-    levelCamera->SetCameraOffset({ screenWidth / 2.0f, screenHeight / 2.0f });
-    levelCamera->SetCameraRotation(0.0f);
-    levelCamera->SetCameraZoom(1.0f);
-
-    player.InitUnit();
+    PlayMusicStream(music);
+    pause = false;
 }
 
 void Level::UpdateLevel()
 {
+    UpdateMusicStream(music);
+    if (IsKeyPressed(KEY_SEMICOLON))    // Restart music playing
+    {
+        StopMusicStream(music);
+        PlayMusicStream(music);
+        pause = false;
+    }
+    if (IsKeyPressed(KEY_P))    // Pause/Resume music playing
+    {
+        pause = !pause;
+
+        if (pause) PauseMusicStream(music);
+        else ResumeMusicStream(music);
+    }
 }
 
 void Level::DrawLevel()

@@ -9,6 +9,7 @@ class Enemy;
 class PlayableLevel : public Level
 {
 private:
+	typedef Level super;
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
 	int score;
@@ -17,7 +18,7 @@ private:
 
 	int framesCounter;
 	int framesMax;
-
+	
 	// Item functions
 	void ReadItems(std::string filename);
 	Item* CreateItem(char c, float line, float col);
@@ -40,7 +41,7 @@ public:
 	void RespawnPlayer();
 	void RemoveItem(Item* item);
 	void RemoveEnemy(Enemy* enemy);
-	
+
 	// Getter Setter
 	int GetScore();
 	void SetScore(int score);

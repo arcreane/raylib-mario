@@ -17,6 +17,7 @@ void Game::Start()
     const int screenHeight = 800;
     
     InitWindow(screenWidth, screenHeight, "Mario & DK Bros");
+    InitAudioDevice();
 
     SetTargetFPS(60);
 
@@ -29,5 +30,6 @@ void Game::Start()
         this->levelManager->DrawCurrentLevel();
     }
 
+    CloseAudioDevice();
     CloseWindow();
 }
