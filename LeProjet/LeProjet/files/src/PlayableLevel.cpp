@@ -87,6 +87,25 @@ void PlayableLevel::InitLevel()
     case LevelType::lvl4:
         map.CreateMap("../LeProjet/LeProjet/files/map4.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map4.txt");
+
+        enemies.push_back(new Goomba(700, 0, 700, 1100));
+        enemies.push_back(new Goomba(1900, 0, 1200, 1900));
+        enemies.push_back(new Koopa(2100, 0, 2100, 3500));
+        enemies.push_back(new Koopa(4000, 0, 4000, 5200));
+        enemies.push_back(new FlyingBomb(5900, -200, -200, -600));
+        enemies.push_back(new FlyingBomb(6700, -600, -200, -600));
+        enemies.push_back(new FlyingBomb(7100, -200, -200, -600));
+        enemies.push_back(new FlyingBomb(7400, -600, -200, -600));
+        enemies.push_back(new FlyingBomb(7700, -200, -200, -600));
+        enemies.push_back(new FlyingBomb(8100, -600, -200, -600));
+        enemies.push_back(new FlyingBomb(8800, -200, -200, -600));
+        enemies.push_back(new Goomba(9000, -400, 9000, 9600));
+        enemies.push_back(new FlyingBomb(11100, -100, -100, -400));
+        enemies.push_back(new FlyingBomb(12600, -600, -200, -600));
+        enemies.push_back(new Koopa(13200, -500, 13200, 14000));
+        enemies.push_back(new Koopa(15200, 0, 15200, 16200));
+        enemies.push_back(new Koopa(16300, 0, 16300, 17300));
+
         break;
     case LevelType::lvl5:
         map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
