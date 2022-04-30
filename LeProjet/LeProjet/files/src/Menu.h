@@ -5,6 +5,7 @@
 class Menu : public Level
 {
 private:
+	typedef Level super;
 	int world;
 	int currentLevel;
 	int totalLevel;

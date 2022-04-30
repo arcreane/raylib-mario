@@ -2,7 +2,6 @@
 #include "Level.h"
 #include "Item.h"
 #include "Enemy.h"
-#include "raylib.h"
 
 class Item;
 class Enemy;
@@ -10,6 +9,7 @@ class Enemy;
 class PlayableLevel : public Level
 {
 private:
+	typedef Level super;
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
 	int score;
@@ -18,11 +18,7 @@ private:
 
 	int framesCounter;
 	int framesMax;
-
-	Music music;
-	float timePlayed;
-	bool pause;
-
+	
 	// Item functions
 	void ReadItems(std::string filename);
 	Item* CreateItem(char c, float line, float col);

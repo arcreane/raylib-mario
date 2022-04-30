@@ -18,12 +18,13 @@ Menu::Menu(LevelManager& levelManager)
     playerName = "Non defini";
     coins = 0;
 	youAreHereTexture = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png");
+    this->music = LoadMusicStream("../LeProjet/LeProjet/files/audio/MainMenu.mp3");
 }
 
 void Menu::InitLevel()
 {
+    super::InitLevel();
     player.InitUnit();
-
     levelCamera->SetCameraTarget(player.GetPosition());
     levelCamera->SetCameraOffset({ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f });
     
@@ -42,11 +43,12 @@ void Menu::InitLevel()
         }
     );
 
-    envItemsLengthMAPmonde1 = map.GetMapVector().size();
+    envItemsLengthMAPmonde1 = (int) map.GetMapVector().size();
 }
 
 void Menu::UpdateLevel()
 {
+    super::UpdateLevel();
     float deltaTime = GetFrameTime();
 
     map.SetMapVector(
@@ -73,6 +75,7 @@ void Menu::UpdateLevel()
     }
     if (IsKeyPressed(KEY_ENTER))
     {
+        StopMusicStream(music);
         NextLevel();
     }
 }
@@ -80,6 +83,8 @@ void Menu::UpdateLevel()
 void Menu::DrawLevel()
 {
     BeginDrawing();
+    
+    super::DrawLevel();
 
     ClearBackground(LIGHTGRAY);
 
@@ -97,19 +102,21 @@ void Menu::DrawLevel()
     DrawText(pchar2, 5, 40, 30, BLUE);
     DrawText(pchar_playerName, 600, 2, 30, BLUE);
     DrawText(pcharCoins, 5, 80, 30, BLUE);
+    DrawText("P stopper/reprendre la musique", 950, 0, 20, BLUE);
+    DrawText("M relancer la musique", 950, 20, 20, BLUE);
 
     BeginMode2D(levelCamera->GetCamera());
+
     for (int i = 0; i < envItemsLengthMAPmonde1; i++) DrawRectangleRec(map.GetMapVector()[i].rect, map.GetMapVector()[i].color);
-    // Rectangle playerRect = { playerMENU.position.x - 20, playerMENU.position.y - 40, 40, 40 };
-    // DrawRectangleRec(playerRect, DARKBLUE);
-    DrawTexture(youAreHereTexture, player.GetPosition().x - 50, player.GetPosition().y - 105, LIGHTGRAY);
+    
+    DrawTexture(youAreHereTexture,(int) player.GetPosition().x - 50,(int) player.GetPosition().y - 105, LIGHTGRAY);
 
     for (size_t i = 0; i < this->totalLevel; i++)
     {
         std::string Dispniveauactuel = "Niveau: " + std::to_string(i + 1);
-        char const* NiveauActuel = Dispniveauactuel.c_str();  // use char const* as target type
+        char const* NiveauActuel = Dispniveauactuel.c_str();
 
-        DrawText(NiveauActuel, -30 + i * 300, 50, 40, BLUE);
+        DrawText(NiveauActuel, - 30 + (int) i * 300, 50, 40, BLUE);
     }
 
     EndMode2D();
@@ -121,9 +128,9 @@ void Menu::LoadSave()
 {
     string line;
     ifstream myfile("../LeProjet/LeProjet/files/sauvegarde.txt");
-    //create a tab of string
     string tab[4];
     int i = 0;
+
     if (myfile.is_open())
     {
         while (getline(myfile, line))
