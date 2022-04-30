@@ -89,12 +89,13 @@ void PlayableLevel::InitLevel()
         this->ReadItems("../LeProjet/LeProjet/files/items_map4.txt");
         break;
     case LevelType::lvl5:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map5.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
         break;
     case LevelType::lvl6:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map6.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        levelBottomLimit = 1200;
         break;
     default:
         map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
