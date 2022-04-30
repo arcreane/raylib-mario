@@ -17,6 +17,7 @@ PlayableLevel::PlayableLevel(LevelType levelType, LevelType nextLevelType, Level
 	:Level(levelType, nextLevelType, levelManager)
 {
     this->score = 0;
+    this->levelBottomLimit = 200;
     this->has_fallen = false;
     this->gameOver = false;
     this->framesCounter = 0;
@@ -105,7 +106,7 @@ void PlayableLevel::UpdateLevel()
         StopMusicStream(music);
         levelManager->LoadLevel(LevelType::menu);
     }
-    if (player.GetPosition().y > 200) // Player fall from the map 
+    if (player.GetPosition().y > levelBottomLimit) // Player fall from the map 
     {
         player.SetLives(player.GetLives() - 1);
         has_fallen = true;

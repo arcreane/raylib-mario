@@ -13,6 +13,7 @@ private:
 	std::vector<Item*> itemVector; // vector to store each item of the level
 	std::vector<Enemy*> enemies;
 	int score;
+	float levelBottomLimit;
 	bool has_fallen;
 	bool gameOver;
 
