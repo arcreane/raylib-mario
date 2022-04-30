@@ -44,4 +44,3 @@ public:
 	void SetLives(int lives);
 	void SetPosition(Vector2 position);
 };
-

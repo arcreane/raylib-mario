@@ -91,7 +91,6 @@ void Map::DrawMap()
 
     for (int i = 0; i < mapVector.size(); i++)
     {
-        DrawRectangleRec(mapVector[i].rect, mapVector[i].color);
         switch (mapVector[i].type)
         {
         case EnvItemType::ground:
@@ -116,17 +115,17 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
     switch (c)
     {
         case 'a':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::ground };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 +25 }, {1,1,1,1}, BLACK, EnvItemType::ground };
             break;
         case 's':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::start };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::start };
             startPosition = { col * 100 + 50, -800 + (line * 100) -10};
             break;
         case 'f':
-            newEnvItem = { { col * 100, -800 + (line * 100), 100, 100 }, {1,1,1,1}, BLACK, EnvItemType::finish };
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::finish };
             break;
         default:
-            newEnvItem = { { col * 100, -800+(line * 100), 100, 100 }, {1,1,1,1}, GREEN, EnvItemType::sky };
+            newEnvItem = { { col * 100, -800+(line * 100), 100 + 25, 100 + 25 }, {1,1,1,1}, GREEN, EnvItemType::sky };
     }
     return newEnvItem;
 }

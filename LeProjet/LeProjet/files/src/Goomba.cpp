@@ -5,10 +5,8 @@ Goomba::Goomba(int x, int y, int dep, int arr)
     :Enemy(x, y, dep, arr)
 {
     hUnitSpeed = 10;
-    hitbox.height = 50;
-    hitbox.width = 50;
-    //unitTexture = LoadTexture("../LeProjet/LeProjet/files/img/goomba.png");
-    //frameRec = { 0.0f, 0.0f, (float)unitTexture.width, (float)unitTexture.height };
+    hitbox.height = 55;
+    hitbox.width = 40;
     unitTexture = LoadTexture("../LeProjet/LeProjet/files/img/goombaSprite.png");
     frameRec = { 2 * ((float)unitTexture.width / 5), 0.0f, (float)unitTexture.width / 5, (float)unitTexture.height };
 }

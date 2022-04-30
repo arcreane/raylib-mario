@@ -43,7 +43,7 @@ void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
     int hitOtherSide = 0;
     bool is_falling;
     if (p->GetPosition().x >= this->position.x &&
-        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width + 40 &&
         p->GetPosition().y >= this->position.y - this->hitbox.height &&
         p->GetPosition().y <= this->position.y - this->hitbox.height + 7)
     {
@@ -51,9 +51,9 @@ void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
         hitTopSide = 1;
     }
     if (p->GetPosition().x >= this->position.x &&
-        p->GetPosition().x <= this->position.x + this->hitbox.width &&
+        p->GetPosition().x <= this->position.x + this->hitbox.width + 40 &&
         p->GetPosition().y >= this->position.y - this->hitbox.height &&
-        p->GetPosition().y <= this->position.y &&
+        p->GetPosition().y <= this->position.y + 40 &&
         hitTopSide != 1)
     {
         l->RespawnPlayer();

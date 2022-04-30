@@ -155,5 +155,5 @@ void Player::DrawUnit() {
         
     }
     FlipSprite(hUnitDirection != Direction::right, false);
-    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 25, position.y - 55 }), LIGHTGRAY);
+    DrawTextureRec(unitTexture, frameRec, Vector2({ position.x - 40, position.y - 55 }), LIGHTGRAY);
 }
