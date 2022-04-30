@@ -100,7 +100,7 @@ void Menu::DrawLevel()
     
     DrawText(pchar, 5, 0, 30, BLUE);
     DrawText(pchar2, 5, 40, 30, BLUE);
-    DrawText(pchar_playerName, 600, 2, 30, BLUE);
+    DrawText(pchar_playerName, 400, 2, 30, BLUE);
     DrawText(pcharCoins, 5, 80, 30, BLUE);
     DrawText("P stopper/reprendre la musique", 950, 0, 20, BLUE);
     DrawText("M relancer la musique", 950, 20, 20, BLUE);
