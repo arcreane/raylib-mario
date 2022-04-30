@@ -40,22 +40,37 @@ void PlayableLevel::InitLevel()
         this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
 
         // Create Enemies and add them to the vector of enemies in the level
-        enemies.push_back(new Goomba(700, 0, 700, 900));
-        enemies.push_back(new Koopa(500, 0, 500, 700));
-        enemies.push_back(new FlyingBomb(1000, 0, 0, -200));
+        enemies.push_back(new Goomba(700, 0, 700, 1200));
+        enemies.push_back(new Goomba(1500, 0, 1500, 2300));
+        enemies.push_back(new Goomba(2500, 0, 2500, 3400));
+        enemies.push_back(new Goomba(4600, 0, 4600, 5400));
+        enemies.push_back(new Goomba(5700, 0, 5700, 7000));
+        enemies.push_back(new Goomba(7200, 0, 7200, 8700));
+        enemies.push_back(new Goomba(9800, 0, 9800, 11200));
+        enemies.push_back(new Goomba(12600, 0, 12600, 13600));
+        enemies.push_back(new Goomba(15300, 0, 15300, 16600));
+        //enemies.push_back(new Koopa(500, 0, 500, 700));
+        //enemies.push_back(new FlyingBomb(1000, 0, 0, -200));
         break;
     case LevelType::lvl2:
         map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
 
+        enemies.push_back(new Koopa(1300, 0, 1300, 2400));
+        enemies.push_back(new Koopa(4400, 0, 4400, 5200));
+        enemies.push_back(new Koopa(5300, 0, 5300, 6300));
+        enemies.push_back(new Koopa(7600, 0, 7600, 8900));
+        enemies.push_back(new Koopa(9500, 0, 9500, 10400));
+        enemies.push_back(new Koopa(11400, 0, 11400, 11900));
+        enemies.push_back(new Koopa(16200, 0, 16200, 17200));
         break;
     case LevelType::lvl3:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map3.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map3.txt");
         break;
     case LevelType::lvl4:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map4.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map4.txt");
         break;
     case LevelType::lvl5:
         map.CreateMap("../LeProjet/LeProjet/files/map1.txt");

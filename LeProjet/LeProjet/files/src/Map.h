@@ -12,6 +12,12 @@ private:
 
 	Texture2D Ground;
 	Texture2D BlocInconnue;
+	Texture2D Bricks;
+	Texture2D Dirt;
+	Texture2D Classic;
+	Texture2D Pipe;
+	Texture2D PipeBas;
+	Texture2D Surprise;
 	Texture2D Start;
 	Texture2D Finish;
 
