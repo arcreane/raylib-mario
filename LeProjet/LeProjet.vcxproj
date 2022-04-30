@@ -267,6 +267,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\marioFinal\LeProjet\LeProjet\files\src\TombStone.cpp" />
     <ClCompile Include="LeProjet\files\src\LevelCamera.cpp" />
     <ClCompile Include="LeProjet\files\src\CharacterScreen.cpp" />
     <ClCompile Include="LeProjet\files\src\Coin.cpp" />
@@ -295,6 +296,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\marioFinal\LeProjet\LeProjet\files\src\TombStone.h" />
     <ClInclude Include="LeProjet\files\src\LevelCamera.h" />
     <ClInclude Include="LeProjet\files\src\CharacterScreen.h" />
     <ClInclude Include="LeProjet\files\src\Coin.h" />

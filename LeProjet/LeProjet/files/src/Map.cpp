@@ -20,6 +20,14 @@ Map::Map()
     BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
     Start = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
     Finish = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
+    Castle = LoadTexture("../LeProjet/LeProjet/files/img/Castel100-100.png");
+    Poteau = LoadTexture("../LeProjet/LeProjet/files/img/Poteau100-100.png");
+    Flag = LoadTexture("../LeProjet/LeProjet/files/img/Flag100-100.png");
+    Nuage = LoadTexture("../LeProjet/LeProjet/files/img/Nuage100-100.png");
+    Buisson = LoadTexture("../LeProjet/LeProjet/files/img/Buisson100-100.png");
+    Stone = LoadTexture("../LeProjet/LeProjet/files/img/Grey100-100.png");
+    Lava = LoadTexture("../LeProjet/LeProjet/files/img/Lava100-100.png");
+    Bedrock = LoadTexture("../LeProjet/LeProjet/files/img/Bedrock100-100.png");
 }
 
 void Map::CreateMap(string filename)
@@ -126,6 +134,30 @@ void Map::DrawMap()
         case EnvItemType::finish:
             DrawTexture(Finish, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
             break;
+        case EnvItemType::castle:
+            DrawTexture(Castle, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::poteau:
+            DrawTexture(Poteau, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::flag:
+            DrawTexture(Flag, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::nuage:
+            DrawTexture(Nuage, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::buisson:
+            DrawTexture(Buisson, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::stone:
+            DrawTexture(Stone, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::lava:
+            DrawTexture(Lava, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::bedrock:
+            DrawTexture(Bedrock, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
         default:
             DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
         }
@@ -166,6 +198,30 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
         case 'f':
             newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::finish };
             break;
+        case 'j':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::castle };
+            break;
+        case 'x':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::poteau };
+            break;
+        case 'g':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::flag };
+            break;
+        case 'n':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::nuage };
+            break;
+        case 'm':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::buisson };
+            break;
+        case 'o':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::stone };
+            break;
+        case 'v':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {0,0,0,0}, BLACK, EnvItemType::lava };
+            break;
+        case 'k':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::bedrock };
+            break;
         default:
             newEnvItem = { { col * 100, -800+(line * 100), 100 + 25, 100 + 25 }, {1,1,1,1}, GREEN, EnvItemType::sky };
     }
@@ -185,4 +241,9 @@ std::vector<EnvItem> Map::GetMapVector() const
 void Map::SetMapVector(std::vector<EnvItem> mapVector)
 {
     this->mapVector = mapVector;
+}
+
+void Map::SetBackGroundColor(Color backgroundColor)
+{
+    this->backgroundColor = backgroundColor;
 }

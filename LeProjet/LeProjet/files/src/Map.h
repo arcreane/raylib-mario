@@ -13,13 +13,21 @@ private:
 	Texture2D Ground;
 	Texture2D BlocInconnue;
 	Texture2D Bricks;
-	Texture2D Dirt;
+	Texture2D Dirt;  
 	Texture2D Classic;
 	Texture2D Pipe;
 	Texture2D PipeBas;
 	Texture2D Surprise;
 	Texture2D Start;
 	Texture2D Finish;
+	Texture2D Castle;
+	Texture2D Poteau;
+	Texture2D Flag;
+	Texture2D Nuage;
+	Texture2D Buisson;
+	Texture2D Stone;
+	Texture2D Lava;
+	Texture2D Bedrock;
 
 public:
 	Map();
@@ -33,5 +41,6 @@ public:
 	Vector2 GetStartPosition() const;
 	std::vector<EnvItem> GetMapVector() const;
 	void SetMapVector(std::vector<EnvItem> mapVector);
+	void SetBackGroundColor(Color backgroundColor);
 };
 

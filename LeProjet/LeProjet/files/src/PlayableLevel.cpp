@@ -9,6 +9,7 @@
 #include "Goomba.h"
 #include "Koopa.h"
 #include "FlyingBomb.h"
+#include "TombStone.h"
 
 
 using namespace std;
@@ -108,8 +109,30 @@ void PlayableLevel::InitLevel()
 
         break;
     case LevelType::lvl5:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map5.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map5.txt");
+
+        enemies.push_back(new Koopa(600, 0, 600, 1400));
+        enemies.push_back(new Goomba(1600, 0, 1600, 2000));
+        enemies.push_back(new Koopa(2600, 0, 2600, 3900));
+        enemies.push_back(new TombStone(3800, -200, -200, -600));
+        enemies.push_back(new Goomba(4100, 0, 4100, 4700));
+        enemies.push_back(new Koopa(5700, 0, 5700, 6500));
+        enemies.push_back(new TombStone(6700, 0, 0, -600));
+        enemies.push_back(new Koopa(7200, 0, 7200, 8200));
+        enemies.push_back(new Koopa(8700, 0, 8700, 9600));
+        enemies.push_back(new TombStone(9800, 0, 0, -600));
+        enemies.push_back(new TombStone(10400, -600, 0, -600));
+        enemies.push_back(new TombStone(11000, 0, 0, -600));
+        enemies.push_back(new TombStone(11600, -600, 0, -600));
+        enemies.push_back(new Koopa(11800, 0, 11800, 12600));
+        enemies.push_back(new Koopa(13200, 0, 13200, 13650));
+        enemies.push_back(new Koopa(13700, 0, 13700, 14100));
+        enemies.push_back(new TombStone(14700, 0, 0, -600));
+        enemies.push_back(new Koopa(16500, 0, 16500, 17600));
+
+        map.SetBackGroundColor(BLACK);
+
         break;
     case LevelType::lvl6:
         map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
