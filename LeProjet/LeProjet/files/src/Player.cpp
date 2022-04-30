@@ -32,8 +32,8 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 
         // Check if the player is in contact with the top side of a block
         if (ei->blocking[0] &&
-            ei->rect.x <= p->x &&
-            ei->rect.x + ei->rect.width >= p->x &&
+            ei->rect.x < p->x &&
+            ei->rect.x + ei->rect.width > p->x &&
             ei->rect.y >= p->y &&
             ei->rect.y < p->y + this->vUnitSpeed * delta)
         {
@@ -59,8 +59,8 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
 
         // Check if the player is in contact with the bottom side of a block
         if (ei->blocking[2] &&
-            ei->rect.x <= p->x &&
-            ei->rect.x + ei->rect.width >= p->x &&
+            ei->rect.x < p->x &&
+            ei->rect.x + ei->rect.width > p->x &&
             ei->rect.y + ei->rect.height <= p->y &&
             ei->rect.y + ei->rect.height > p->y + this->vUnitSpeed * delta)
         {
