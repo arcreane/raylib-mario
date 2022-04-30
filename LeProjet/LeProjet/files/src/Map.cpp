@@ -11,6 +11,12 @@ Map::Map()
     backgroundColor = SKYBLUE;
     startPosition = { 120 , -10 };
     Ground = LoadTexture("../LeProjet/LeProjet/files/img/BlocTerre100-100.png");
+    Bricks = LoadTexture("../LeProjet/LeProjet/files/img/BrickBlock100-100.png");
+    Dirt = LoadTexture("../LeProjet/LeProjet/files/img/BlockDirt100-100.png");
+    Classic = LoadTexture("../LeProjet/LeProjet/files/img/ClassicBlock100-100.png");
+    Surprise = LoadTexture("../LeProjet/LeProjet/files/img/SurpriseBloc100-100.png");
+    Pipe = LoadTexture("../LeProjet/LeProjet/files/img/pipe100-100.png");
+    PipeBas = LoadTexture("../LeProjet/LeProjet/files/img/pipeBas100-100.png");
     BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
     Start = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
     Finish = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
@@ -96,6 +102,24 @@ void Map::DrawMap()
         case EnvItemType::ground:
             DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
             break;
+        case EnvItemType::dirt:
+            DrawTexture(Dirt, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::brick:
+            DrawTexture(Bricks, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::classic:
+            DrawTexture(Classic, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::surprise:
+            DrawTexture(Surprise, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::pipe:
+            DrawTexture(Pipe, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
+        case EnvItemType::pipeB:
+            DrawTexture(PipeBas, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            break;
         case EnvItemType::start:
             DrawTexture(Start, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
             break;
@@ -116,6 +140,24 @@ EnvItem Map::CreateEnvItem(char c, float line,float col)
     {
         case 'a':
             newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 +25 }, {1,1,1,1}, BLACK, EnvItemType::ground };
+            break;
+        case 'd':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::dirt };
+            break;
+        case 'b':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::brick };
+            break;
+        case 'c':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::classic };
+            break;
+        case 't':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::surprise };
+            break;
+        case 'p':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::pipe };
+            break;
+        case 'q':
+            newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::pipeB };
             break;
         case 's':
             newEnvItem = { { col * 100, -800 + (line * 100), 100 + 25, 100 + 25}, {1,1,1,1}, BLACK, EnvItemType::start };
