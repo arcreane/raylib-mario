@@ -3,7 +3,7 @@
 void UpMushroom::UseItem(Player *p, PlayableLevel* l)
 {
 	int lives = p->GetLives();
-	if (lives < 3) p->SetLives(lives + 1);
+	p->SetLives(lives + 1);
 	l->RemoveItem(this);
 }
 

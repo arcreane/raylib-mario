@@ -113,8 +113,16 @@ void PlayableLevel::InitLevel()
         break;
     case LevelType::lvl6:
         map.CreateMap("../LeProjet/LeProjet/files/map6.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/items_map6.txt");
         levelBottomLimit = 1200;
+
+        enemies.push_back(new Goomba(5400, 0, 5400, 6300));
+        enemies.push_back(new Goomba(4100, 1000, 4100, 4600));
+        enemies.push_back(new Koopa(9600, 600, 9600, 10100));
+        enemies.push_back(new Koopa(6100, 500, 6100, 6900));
+        enemies.push_back(new Koopa(4300, 0, 4300, 5200));
+        enemies.push_back(new Koopa(8200, 0, 8200, 9100));
+        enemies.push_back(new FlyingBomb(400, 900, 900, 500));
         break;
     default:
         map.CreateMap("../LeProjet/LeProjet/files/map1.txt");

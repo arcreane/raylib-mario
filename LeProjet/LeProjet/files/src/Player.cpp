@@ -30,6 +30,13 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
         Vector2* p = &(this->position);
         hitAnySide = 0;
 
+        // Optimisation to check collision only if the player is near the environment item
+        if (fabs(p->x - ei->rect.x) > 200
+            && fabs(p->y - ei->rect.y) > 200)
+        {
+            continue;
+        }
+
         // Check if the player is in contact with the top side of a block
         if (ei->blocking[0] &&
             ei->rect.x < p->x &&

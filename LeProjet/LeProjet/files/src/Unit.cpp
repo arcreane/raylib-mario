@@ -2,6 +2,8 @@
 
 Unit::Unit()
 {
+    unitJumpSpeed = 350.0f;
+    hUnitSpeed = 400.0f;
     vUnitSpeed = 0;
     canJump = false;
     lives = 0;
