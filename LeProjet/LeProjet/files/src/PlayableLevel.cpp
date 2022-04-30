@@ -67,6 +67,19 @@ void PlayableLevel::InitLevel()
     case LevelType::lvl3:
         map.CreateMap("../LeProjet/LeProjet/files/map3.txt");
         this->ReadItems("../LeProjet/LeProjet/files/items_map3.txt");
+
+        enemies.push_back(new Goomba(700, 0, 700, 1200));
+        enemies.push_back(new Koopa(1300, 0, 1300, 2200));
+        enemies.push_back(new Koopa(3200, -200, 3200, 3800));
+        enemies.push_back(new Goomba(4000, -500, 4000, 4400));
+        enemies.push_back(new Koopa(4900, -500, 4900, 6000));
+        enemies.push_back(new Goomba(6700, -300, 6700, 7200));
+        enemies.push_back(new Koopa(7700, -500, 7700, 8400));
+        enemies.push_back(new Koopa(8900, -700, 8900, 10200));
+        enemies.push_back(new Goomba(11600, -200, 11600, 12000));
+        enemies.push_back(new Goomba(13000, -400, 13000, 13400));
+        enemies.push_back(new Goomba(13800, -400, 13800, 14200));
+        enemies.push_back(new Koopa(16200, 0, 16200, 17200));
         break;
     case LevelType::lvl4:
         map.CreateMap("../LeProjet/LeProjet/files/map4.txt");
