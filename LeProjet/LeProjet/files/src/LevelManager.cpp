@@ -63,7 +63,7 @@ void LevelManager::LoadLevel(LevelType levelType)
 	{
 		Level* newLevel = CreateLevel(levelType);
 		levels.push_back(newLevel);
-		indexCurrentLevel = levels.size() - 1;
+		indexCurrentLevel = (int) (levels.size() - 1);
 	}
 
 	(*levels[indexCurrentLevel]).InitLevel();

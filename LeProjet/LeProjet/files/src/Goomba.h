@@ -4,7 +4,7 @@
 class Goomba : public Enemy
 {
 public:
-	Goomba(int x, int y, int dep, int arr);
+	Goomba(float x, float y, float dep, float arr);
 	void DrawUnit() override;
 };
 

@@ -6,7 +6,7 @@ class TombStone : public Enemy
 private:
 	float SpeedFall;
 public:
-	TombStone(int x, int y, int dep, int arr);
+	TombStone(float x, float y, float dep, float arr);
 	
 	void DrawUnit() override;
 	int UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta) override;

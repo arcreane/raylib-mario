@@ -1,7 +1,7 @@
 #include "TombStone.h"
 #include "raylib.h"
 
-TombStone::TombStone(int x, int y, int dep, int arr)
+TombStone::TombStone(float x, float y, float dep, float arr)
     : Enemy(x, y, dep, arr)
 {
 	hUnitSpeed = 0;

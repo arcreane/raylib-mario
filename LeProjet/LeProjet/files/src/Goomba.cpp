@@ -1,7 +1,7 @@
 #include "Goomba.h"
 #include "raylib.h"
 
-Goomba::Goomba(int x, int y, int dep, int arr)
+Goomba::Goomba(float x, float y, float dep, float arr)
     :Enemy(x, y, dep, arr)
 {
     hUnitSpeed = 10;

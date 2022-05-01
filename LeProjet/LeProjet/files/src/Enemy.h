@@ -9,13 +9,13 @@ class PlayableLevel;
 class Enemy : public Unit
 {
 protected :
-	int dep;
-	int arr;
+	float dep;
+	float arr;
 	virtual void Walk();
 	virtual void UpDown();
 
 public:
-	Enemy(int x, int y, int dep, int arr);
+	Enemy(float x, float y, float dep, float arr);
 
 	virtual int UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta) override;
 	virtual void DrawUnit() override;

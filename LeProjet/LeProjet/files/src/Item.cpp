@@ -31,7 +31,7 @@ void Item::UpdateItem(Player *p, PlayableLevel* l)
 
 void Item::DrawItem()
 {
-    DrawTexture(itemTexture,rect.x,rect.y, LIGHTGRAY);
+    DrawTexture(itemTexture,(int) rect.x, (int) rect.y, LIGHTGRAY);
 }
 
 

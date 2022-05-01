@@ -1,7 +1,7 @@
 #include "Koopa.h"
 #include "raylib.h"
 
-Koopa::Koopa(int x, int y, int dep, int arr)
+Koopa::Koopa(float x, float y, float dep, float arr)
     : Enemy(x,y,dep,arr)
 {
     hUnitSpeed = 20;

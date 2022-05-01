@@ -4,7 +4,7 @@
 class Koopa : public Enemy
 {
 public:
-	Koopa(int x, int y, int dep, int arr);
+	Koopa(float x, float y, float dep, float arr);
 	void DrawUnit() override;
 };
 

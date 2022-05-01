@@ -1,7 +1,7 @@
 #include "FlyingBomb.h"
 #include "raylib.h"
 
-FlyingBomb::FlyingBomb(int x, int y, int dep, int arr)
+FlyingBomb::FlyingBomb(float x, float y, float dep, float arr)
 	: Enemy(x, y, dep, arr)
 {
 	hUnitSpeed = 0;

@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int x, int y, int dep, int arr)
+Enemy::Enemy(float x, float y, float dep, float arr)
 	:Unit()
 {
 	this->dep = dep;

@@ -88,7 +88,7 @@ void Map::UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float
         if (*currentlevel < *unlockLevel)
         {
 
-            x = 20 + (*currentlevel - 1) * 300 + 300;
+            x = (float) (20 + (*currentlevel - 1) * 300 + 300);
             y = player->GetPosition().y;
             player->SetPosition({ x,y });
 
@@ -108,58 +108,58 @@ void Map::DrawMap()
         switch (mapVector[i].type)
         {
         case EnvItemType::ground:
-            DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Ground, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::dirt:
-            DrawTexture(Dirt, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Dirt, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::brick:
-            DrawTexture(Bricks, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Bricks, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::classic:
-            DrawTexture(Classic, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Classic, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::surprise:
-            DrawTexture(Surprise, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Surprise, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::pipe:
-            DrawTexture(Pipe, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Pipe, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::pipeB:
-            DrawTexture(PipeBas, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(PipeBas, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::start:
-            DrawTexture(Start, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Start, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::finish:
-            DrawTexture(Finish, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Finish, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::castle:
-            DrawTexture(Castle, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Castle, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::poteau:
-            DrawTexture(Poteau, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Poteau, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::flag:
-            DrawTexture(Flag, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Flag, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::nuage:
-            DrawTexture(Nuage, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Nuage, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::buisson:
-            DrawTexture(Buisson, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Buisson, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::stone:
-            DrawTexture(Stone, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Stone, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::lava:
-            DrawTexture(Lava, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Lava, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         case EnvItemType::bedrock:
-            DrawTexture(Bedrock, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Bedrock, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
             break;
         default:
-            DrawTexture(Ground, mapVector[i].rect.x, mapVector[i].rect.y, LIGHTGRAY);
+            DrawTexture(Ground, (int) mapVector[i].rect.x, (int) mapVector[i].rect.y, LIGHTGRAY);
         }
     }
 }
