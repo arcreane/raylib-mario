@@ -17,7 +17,7 @@ Menu::Menu(LevelManager& levelManager)
     player.SetPosition({ 20 , 0 });
     playerName = "Non defini";
     coins = 0;
-	youAreHereTexture = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere2.png");
+	youAreHereTexture = LoadTexture("../LeProjet/LeProjet/files/img/YouAreHere.png");
     this->music = LoadMusicStream("../LeProjet/LeProjet/files/audio/MainMenu.mp3");
 }
 

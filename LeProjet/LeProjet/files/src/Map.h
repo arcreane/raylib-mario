@@ -11,7 +11,6 @@ private:
 	Vector2 startPosition; // position where the player spawn on the map
 
 	Texture2D Ground;
-	Texture2D BlocInconnue;
 	Texture2D Bricks;
 	Texture2D Dirt;  
 	Texture2D Classic;

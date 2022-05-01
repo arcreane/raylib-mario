@@ -17,7 +17,6 @@ Map::Map()
     Surprise = LoadTexture("../LeProjet/LeProjet/files/img/SurpriseBloc100-100.png");
     Pipe = LoadTexture("../LeProjet/LeProjet/files/img/pipe100-100.png");
     PipeBas = LoadTexture("../LeProjet/LeProjet/files/img/pipeBas100-100.png");
-    BlocInconnue = LoadTexture("../LeProjet/LeProjet/files/img/Ciel.png");
     Start = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
     Finish = LoadTexture("../LeProjet/LeProjet/files/img/Goldbrickblock100-100.png");
     Castle = LoadTexture("../LeProjet/LeProjet/files/img/Castel100-100.png");
