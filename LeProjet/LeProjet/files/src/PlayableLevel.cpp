@@ -42,8 +42,8 @@ void PlayableLevel::InitLevel()
     switch (levelType)
     {
     case LevelType::lvl1:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map1.txt");
 
         // Create Enemies and add them to the vector of enemies in the level
         enemies.push_back(new Goomba(700, 0, 700, 1200));
@@ -57,8 +57,8 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Goomba(15300, 0, 15300, 16600));
         break;
     case LevelType::lvl2:
-        map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map2.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map2.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map2.txt");
 
         enemies.push_back(new Koopa(1300, 0, 1300, 2400));
         enemies.push_back(new Koopa(4400, 0, 4400, 5200));
@@ -69,8 +69,8 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Koopa(16200, 0, 16200, 17200));
         break;
     case LevelType::lvl3:
-        map.CreateMap("../LeProjet/LeProjet/files/map3.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map3.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map3.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map3.txt");
 
         enemies.push_back(new Goomba(700, 0, 700, 1200));
         enemies.push_back(new Koopa(1300, 0, 1300, 2200));
@@ -86,8 +86,8 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Koopa(16200, 0, 16200, 17200));
         break;
     case LevelType::lvl4:
-        map.CreateMap("../LeProjet/LeProjet/files/map4.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map4.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map4.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map4.txt");
 
         enemies.push_back(new Goomba(700, 0, 700, 1100));
         enemies.push_back(new Goomba(1900, 0, 1200, 1900));
@@ -109,8 +109,8 @@ void PlayableLevel::InitLevel()
 
         break;
     case LevelType::lvl5:
-        map.CreateMap("../LeProjet/LeProjet/files/map5.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map5.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map5.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map5.txt");
 
         enemies.push_back(new Koopa(600, 0, 600, 1400));
         enemies.push_back(new Goomba(1600, 0, 1600, 2000));
@@ -134,8 +134,8 @@ void PlayableLevel::InitLevel()
         map.SetBackGroundColor(BLACK);
         break;
     case LevelType::lvl6:
-        map.CreateMap("../LeProjet/LeProjet/files/map6.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map6.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map6.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map6.txt");
         levelBottomLimit = 1200;
 
         enemies.push_back(new Goomba(5400, 0, 5400, 6300));
@@ -147,8 +147,8 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new FlyingBomb(400, 900, 900, 500));
         break;
     default:
-        map.CreateMap("../LeProjet/LeProjet/files/map1.txt");
-        this->ReadItems("../LeProjet/LeProjet/files/items_map1.txt");
+        map.CreateMap("../LeProjet/LeProjet/files/map_files/map1.txt");
+        this->ReadItems("../LeProjet/LeProjet/files/map_files/items_map1.txt");
     }
 
     score = 0;
