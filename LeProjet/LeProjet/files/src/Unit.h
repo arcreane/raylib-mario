@@ -9,9 +9,9 @@ enum class Direction { right, left, up, down, none };
 class Unit
 {
 protected:
-	float unitJumpSpeed;
-	float hUnitSpeed;
-	float vUnitSpeed;
+	float unitJumpSpeed; // base jump speed
+	float hUnitSpeed; // horizontal speed
+	float vUnitSpeed; // vertical speed
 	bool canJump;
 	int lives;
 

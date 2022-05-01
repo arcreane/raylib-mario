@@ -11,7 +11,7 @@ class PlayableLevel : public Level
 private:
 	typedef Level super;
 	std::vector<Item*> itemVector; // vector to store each item of the level
-	std::vector<Enemy*> enemies;
+	std::vector<Enemy*> enemies; // vector to store each enemy of the level
 	int score;
 	float levelBottomLimit;
 	bool has_fallen;
@@ -21,7 +21,7 @@ private:
 	int framesMax;
 	
 	// Item functions
-	void ReadItems(std::string filename);
+	void ReadItems(std::string filename); // Generate items from a file
 	Item* CreateItem(char c, float line, float col);
 	void DrawItems();
 	void ClearItems();
@@ -38,7 +38,7 @@ public:
 	void UpdateLevel() override;
 	void DrawLevel() override;
 
-	void SaveAfterLevelFinished();
+	void SaveAfterLevelFinished(); // Save progress of user in a file
 	void RespawnPlayer();
 	void RemoveItem(Item* item);
 	void RemoveEnemy(Enemy* enemy);

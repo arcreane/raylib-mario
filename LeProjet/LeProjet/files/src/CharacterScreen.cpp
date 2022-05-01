@@ -20,7 +20,7 @@ void CharacterScreen::InitLevel()
 }
 
 void CharacterScreen::UpdateLevel()
-{
+{   
     if (CheckCollisionPointRec(GetMousePosition(), textBox)) mouseOnText = true;
     else mouseOnText = false;
 
@@ -28,8 +28,6 @@ void CharacterScreen::UpdateLevel()
     {
         // Set the window's cursor to the I-Beam
         SetMouseCursor(MOUSE_CURSOR_IBEAM);
-
-        // Get char pressed (unicode character) on the queue
         int key = GetCharPressed();
 
         // Check if more characters have been pressed on the same frame
@@ -39,7 +37,7 @@ void CharacterScreen::UpdateLevel()
             if ((key >= 32) && (key <= 125) && (letterCount < 20))
             {
                 name[letterCount] = (char)key;
-                name[letterCount + 1] = '\0'; // Add null terminator at the end of the string.
+                name[letterCount + 1] = '\0';
                 letterCount++;
             }
 
@@ -58,6 +56,7 @@ void CharacterScreen::UpdateLevel()
     if (mouseOnText) framesCounter++;
     else framesCounter = 0;
 
+    // Store informations in a file
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         positionClick = GetMousePosition();
@@ -65,8 +64,6 @@ void CharacterScreen::UpdateLevel()
         {
             if (positionClick.y < 650 && positionClick.y > 550)
             {
-                //printf("VALIDE\n");
-
                 fstream my_file;
                 my_file.open("../LeProjet/LeProjet/files/sauvegarde.txt", ios::out);
                 if (!my_file) {
@@ -89,11 +86,6 @@ void CharacterScreen::UpdateLevel()
 
 void CharacterScreen::DrawLevel()
 {
-    /*char name[13] = "\0";
-    Rectangle textBox = { 100, 120, 40, 50 };
-    bool mouseOnText = false;*/
-
-
     BeginDrawing();
     ClearBackground(RAYWHITE);
 
@@ -115,12 +107,10 @@ void CharacterScreen::DrawLevel()
         }
         else DrawText("Nombre limite de charact�res atteint, vous pouvez en supprimer", 450, 150, 20, GRAY);
     }
-    //printf("%s \n", name);
+
     DrawRectangle(580, 400, 50, 50, RED);
-    //DrawRectangle(700, 400, 50, 50, RED);
     DrawText("Mario", 550, 300, 40, BLACK);
-    //DrawText("DK", 700, 300, 40, BLACK);
-    DrawTexture(validTexture, 550, 550, WHITE); // Draw button frame
+    DrawTexture(validTexture, 550, 550, WHITE);
 
     EndDrawing();
 }

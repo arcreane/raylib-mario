@@ -7,7 +7,7 @@ class StartScreen : public Level
 {
 private:
 	GameMoment currentScreen;
-	float frameHeight; 	// Define frame rectangle for drawing
+	float frameHeight;
 	Vector2 positionClick;
 
 	Texture2D playButtonTexture;

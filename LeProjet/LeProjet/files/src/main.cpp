@@ -5,7 +5,6 @@
 *   This project was created using raylib library
 *
 *   Members : Fabien GRONDIN, Mathieu PAILHE, Valentin ROY, Erwan BOUVART
-*   
 *
 ********************************************************************************************/
 

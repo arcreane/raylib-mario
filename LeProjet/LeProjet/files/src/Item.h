@@ -10,7 +10,7 @@ class Item
 {
 protected:
     Rectangle rect;
-    int blocking[4]; // {top, right, bottom, left}
+    int blocking[4]; // {top, right, bottom, left} 0 = player can go through, 1 = player can't go through
     Color color;
     ItemType type;
     Texture2D itemTexture;

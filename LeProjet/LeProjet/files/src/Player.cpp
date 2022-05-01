@@ -99,6 +99,7 @@ int Player::UpdateUnit(EnvItem* envItems, size_t envItemsLength, float delta)
         
     }
 
+    // Update attributes of the player (position, horizontal and vertical speed, ...)
     if (IsKeyDown(KEY_LEFT)) {
         hUnitDirection = Direction::left;
         if (!hitRightSide)

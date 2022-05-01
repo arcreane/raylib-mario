@@ -46,7 +46,8 @@ Level* LevelManager::CreateLevel(LevelType levelType)
 void LevelManager::LoadLevel(LevelType levelType)
 {
 	bool levelFound = false;
-
+	
+	// Check if the level is in the vectot of levels
 	for (int i = 0; i < levels.size(); i++)
 	{
 		if ((*levels[i]).GetLevelType() == levelType)
@@ -57,6 +58,7 @@ void LevelManager::LoadLevel(LevelType levelType)
 		}
 	}
 	
+	// If the level is not in the vector of levels we create the level and add it to the vector
 	if (!levelFound)
 	{
 		Level* newLevel = CreateLevel(levelType);

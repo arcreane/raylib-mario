@@ -25,7 +25,7 @@ protected:
 	int screenHeight;
 
 	Music music;
-	bool pause;
+	bool pause; // used to pause/play the music
 
 	virtual void NextLevel();
 
@@ -33,9 +33,9 @@ public:
 	Level(LevelType levelType, LevelType nextLevelType, LevelManager &levelManager);
 	~Level();
 
-	virtual void InitLevel();
-	virtual void UpdateLevel();
-	virtual void DrawLevel();
+	virtual void InitLevel();	// Init the level informations at beggining of level
+	virtual void UpdateLevel();	// Update informations while level is active (position, music, inputs,...)
+	virtual void DrawLevel();	// Draw the level while level is active
 
 	std::string GetLevelName(LevelType levelType);
 	LevelType GetLevelType() const;

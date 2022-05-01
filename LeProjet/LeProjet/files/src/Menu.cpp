@@ -23,7 +23,7 @@ Menu::Menu(LevelManager& levelManager)
 
 void Menu::InitLevel()
 {
-    super::InitLevel();
+    super::InitLevel(); // call Init Level of parent class Level to set audio
     player.InitUnit();
     levelCamera->SetCameraTarget(player.GetPosition());
     levelCamera->SetCameraOffset({ GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f });
@@ -90,7 +90,7 @@ void Menu::DrawLevel()
 
     // Display data on the screen
     std::string DispCurrentWorld = "Monde : " + std::to_string(world);
-    char const* pchar = DispCurrentWorld.c_str();  // use char const* as target 
+    char const* pchar = DispCurrentWorld.c_str();
     std::string DispCurrentLevel = "Niveau : " + std::to_string(currentLevel);
     char const* pchar2 = DispCurrentLevel.c_str();
     std::string tmp_playerName = "Utilisateur : " + playerName;
@@ -183,7 +183,7 @@ void Menu::NextLevel()
     levelManager->LoadLevel(nextLevelType);
 }
 
-int Menu::GetWorld()
+int Menu::GetWorld() const
 {
     return world;
 }
@@ -203,7 +203,7 @@ void Menu::SetCurrentLevel(int c_level)
     this->currentLevel = c_level;
 }
 
-int Menu::GetTotalLevel()
+int Menu::GetTotalLevel() const
 {
     return totalLevel;
 }
@@ -213,7 +213,7 @@ void Menu::SetTotalLevel(int c_totalLevel)
     this->totalLevel = c_totalLevel;
 }
 
-int Menu::GetUnlockLevel()
+int Menu::GetUnlockLevel() const
 {
     return unlockLevel;
 }

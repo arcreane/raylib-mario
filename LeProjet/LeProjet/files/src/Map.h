@@ -8,7 +8,7 @@ class Map
 private:
 	Color backgroundColor;
 	std::vector<EnvItem> mapVector;  // vector storing each bloc of the map
-	Vector2 startPosition;
+	Vector2 startPosition; // position where the player spawn on the map
 
 	Texture2D Ground;
 	Texture2D BlocInconnue;
@@ -32,11 +32,11 @@ private:
 public:
 	Map();
 
-	void CreateMap(std::string filename);
+	void CreateMap(std::string filename); // Generate map from a file
 	void UpdateMAP(Player* player, EnvItem* envItems, int envItemsLength, float delta, int* currentlevel, int* unlockLevel);
 	void DrawMap();
 
-	EnvItem CreateEnvItem(char c,float line, float col);
+	EnvItem CreateEnvItem(char c,float line, float col); // Create an environement Item (bloc) of the map
 
 	Vector2 GetStartPosition() const;
 	std::vector<EnvItem> GetMapVector() const;

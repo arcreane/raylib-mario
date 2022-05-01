@@ -5,7 +5,7 @@ class CharacterScreen : public Level
 {
 private:
     Texture2D validTexture;
-    char name[25];      // NOTE: One extra space required for null terminator char '\0'
+    char name[25];
     int letterCount;
     Rectangle textBox;
     bool mouseOnText;

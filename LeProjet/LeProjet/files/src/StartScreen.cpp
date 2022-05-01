@@ -30,12 +30,13 @@ void StartScreen::UpdateLevel()
             positionClick = GetMousePosition();
             if (positionClick.x < 650)
             {
-                printf("\n L'utilisateur veut charger une partie");
+                // Load an existing game save
                 levelManager->LoadLevel(LevelType::menu);
             }
             else
             {
-                printf("\n L'utilisateur veut creer une partie");
+                
+                // Create a new game save
                 levelManager->LoadLevel(LevelType::characterScreen);
             }
         }

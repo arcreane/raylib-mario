@@ -37,6 +37,8 @@ void PlayableLevel::InitLevel()
     // Empty the vectors of items and enemies
     ClearItems();
     ClearEnemies();
+
+    // Create level (map, items, enemies)
     switch (levelType)
     {
     case LevelType::lvl1:
@@ -53,8 +55,6 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Goomba(9800, 0, 9800, 11200));
         enemies.push_back(new Goomba(12600, 0, 12600, 13600));
         enemies.push_back(new Goomba(15300, 0, 15300, 16600));
-        //enemies.push_back(new Koopa(500, 0, 500, 700));
-        //enemies.push_back(new FlyingBomb(1000, 0, 0, -200));
         break;
     case LevelType::lvl2:
         map.CreateMap("../LeProjet/LeProjet/files/map2.txt");
@@ -132,7 +132,6 @@ void PlayableLevel::InitLevel()
         enemies.push_back(new Koopa(16500, 0, 16500, 17600));
 
         map.SetBackGroundColor(BLACK);
-
         break;
     case LevelType::lvl6:
         map.CreateMap("../LeProjet/LeProjet/files/map6.txt");
@@ -244,7 +243,7 @@ void PlayableLevel::DrawLevel()
     EndMode2D();
 
     std::string DispCurrentLevel = "Temps restant: " + std::to_string((framesMax / 60) - (framesCounter / 60));
-    char const* Game3_time = DispCurrentLevel.c_str();  //use char const* as target type
+    char const* Game3_time = DispCurrentLevel.c_str();
     std::string tmp_score = "Score: " + std::to_string(this->score);
     char const* Level_score = tmp_score.c_str();
     std::string tmp_lives = "Vies: " + std::to_string(player.GetLives());

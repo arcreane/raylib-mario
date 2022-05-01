@@ -6,7 +6,7 @@ enum class EnvItemType { ground, sky, start, finish, dirt, brick, classic, surpr
 
 typedef struct EnvItem {
     Rectangle rect;
-    int blocking[4]; // {top, right, bottom, left}
+    int blocking[4]; // blocking from {top, right, bottom, left} 0 = player can go through, 1 = player can't go through
     Color color;
     EnvItemType type;
 } EnvItem;

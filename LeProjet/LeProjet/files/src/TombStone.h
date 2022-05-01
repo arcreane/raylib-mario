@@ -3,8 +3,9 @@
 
 class TombStone : public Enemy
 {
-public:
+private:
 	float SpeedFall;
+public:
 	TombStone(int x, int y, int dep, int arr);
 	
 	void DrawUnit() override;
