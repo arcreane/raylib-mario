@@ -12,6 +12,7 @@ protected :
 	int dep;
 	int arr;
 	virtual void Walk();
+	virtual void UpDown();
 
 public:
 	Enemy(int x, int y, int dep, int arr);

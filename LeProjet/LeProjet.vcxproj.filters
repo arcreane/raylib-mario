@@ -72,6 +72,9 @@
     <ClCompile Include="LeProjet\files\src\FlyingBomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeProjet\files\src\TombStone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeProjet\files\src\Game.h">
@@ -129,6 +132,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LeProjet\files\src\FlyingBomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LeProjet\files\src\TombStone.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

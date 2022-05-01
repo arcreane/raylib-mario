@@ -37,11 +37,25 @@ void Enemy::Walk()
     }
 }
 
+void Enemy::UpDown()
+{
+    if (position.y >= dep) {
+        vUnitDirection = Direction::up;
+    }
+    if (position.y <= arr)
+        vUnitDirection = Direction::down;
+    if (vUnitDirection == Direction::down) {
+        position.y += 0.1 * vUnitSpeed;
+    }
+    if (vUnitDirection == Direction::up) {
+        position.y -= 0.1 * vUnitSpeed;
+    }
+}
+
 void Enemy::DetectPlayer(Player* p, PlayableLevel* l)
 {
     int hitTopSide = 0;
     int hitOtherSide = 0;
-    bool is_falling;
     if (p->GetPosition().x >= this->position.x &&
         p->GetPosition().x <= this->position.x + this->hitbox.width + 40 &&
         p->GetPosition().y >= this->position.y - this->hitbox.height &&
